@@ -232,6 +232,7 @@
                 <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API</p>
                 <p><strong>Update Frequency:</strong> 5 times daily at 6am, 9am, 12pm, 3pm, and 6pm UTC</p>
                 <p><strong>Measurement Interval:</strong> Environment Agency sensors record readings every 15 minutes</p>
+                <p id="data-timestamp" style="margin-top: 15px; font-style: italic; color: #888;"></p>
             </div>
 
             <div class="last-updated" id="last-updated"></div>
@@ -287,14 +288,24 @@
 
                 document.getElementById('rainfall').textContent =
                     data.rainfall_24h ? data.rainfall_24h.toFixed(1) : '0.0';
-                
+
                 // Update last updated time
                 const lastUpdated = new Date(data.last_updated);
-                document.getElementById('last-updated').textContent = 
-                    `Last updated: ${lastUpdated.toLocaleString('en-GB', { 
-                        dateStyle: 'medium', 
-                        timeStyle: 'short' 
+                document.getElementById('last-updated').textContent =
+                    `Last updated: ${lastUpdated.toLocaleString('en-GB', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
                     })}`;
+
+                // Update data timestamp (when measurements were taken)
+                if (data.godstow_lock.timestamp) {
+                    const measurementTime = new Date(data.godstow_lock.timestamp);
+                    document.getElementById('data-timestamp').textContent =
+                        `Measurements from: ${measurementTime.toLocaleString('en-GB', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                        })}`;
+                }
                 
                 // Hide loading, show content
                 document.getElementById('loading').style.display = 'none';
