@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Oxford Thames - River Levels</title>
+    <title>KCBC River Tracker</title>
     <style>
         * {
             margin: 0;
@@ -40,49 +40,69 @@
             opacity: 0.9;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+        .main-content {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 50px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            text-align: center;
             margin-bottom: 30px;
         }
 
-        .card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            text-align: center;
+        .flag-display {
+            font-size: 8em;
+            margin: 20px 0;
+            line-height: 1;
         }
 
-        .card-title {
-            font-size: 0.9em;
-            color: #666;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        .flag-text {
+            font-size: 2.5em;
+            font-weight: bold;
             margin-bottom: 15px;
         }
 
-        .card-value {
-            font-size: 3.5em;
+        .flag-description {
+            font-size: 1.3em;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .flow-section {
+            margin: 40px 0;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+        }
+
+        .flow-label {
+            font-size: 1.2em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .flow-value {
+            font-size: 3em;
             font-weight: bold;
             color: #667eea;
+        }
+
+        .rainfall-section {
+            margin-top: 30px;
+            padding: 20px;
+            background: #e8f4f8;
+            border-radius: 15px;
+        }
+
+        .rainfall-label {
+            font-size: 1.1em;
+            color: #666;
             margin-bottom: 5px;
         }
 
-        .card-unit {
-            font-size: 1.1em;
-            color: #999;
-        }
-
-        .card-timestamp {
-            font-size: 0.8em;
-            color: #aaa;
-            margin-top: 10px;
-        }
-
-        .large-card {
-            grid-column: 1 / -1;
+        .rainfall-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2c5aa0;
         }
 
         .loading {
@@ -165,8 +185,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>🌊 Oxford Thames River Levels</h1>
-            <p class="subtitle">Godstow Lock to Osney Lock</p>
+            <h1>🚣 Keble College Boat Club River Tracker</h1>
+            <p class="subtitle">Godstow Stretch Conditions</p>
         </header>
 
         <div id="loading" class="loading">
@@ -177,58 +197,40 @@
         <div id="error" class="error" style="display: none;"></div>
 
         <div id="content" style="display: none;">
-            <div class="grid">
-                <div class="card">
-                    <div class="card-title">Osney Lock</div>
-                    <div class="card-value" id="osney-level">--</div>
-                    <div class="card-unit">meters</div>
-                    <div class="card-timestamp">(upstream)</div>
+            <div class="main-content">
+                <div class="flag-display" id="flag-status">--</div>
+                <div class="flag-text" id="flag-text">--</div>
+                <div class="flag-description" id="flag-description">--</div>
+
+                <div class="flow-section">
+                    <div class="flow-label">Current Flow</div>
+                    <div class="flow-value" id="flow">--</div>
+                    <div style="color: #999; margin-top: 5px;">meters</div>
                 </div>
 
-                <div class="card">
-                    <div class="card-title">Godstow Lock</div>
-                    <div class="card-value" id="godstow-level">--</div>
-                    <div class="card-unit">meters</div>
-                    <div class="card-timestamp">(downstream)</div>
-                </div>
-
-                <div class="card large-card">
-                    <div class="card-title">Flow</div>
-                    <div class="card-value" id="flow">--</div>
-                    <div class="card-unit">meters</div>
-                    <div class="card-timestamp">Adjusted differential (raw - 1.63m)</div>
-                </div>
-
-                <div class="card large-card">
-                    <div class="card-title">Flag Status</div>
-                    <div class="card-value" id="flag-status" style="font-size: 2.5em;">--</div>
-                    <div class="card-timestamp" id="flag-description">--</div>
-                </div>
-
-                <div class="card large-card">
-                    <div class="card-title">Rainfall (Last 24 Hours)</div>
-                    <div class="card-value" id="rainfall">--</div>
-                    <div class="card-unit">millimeters</div>
+                <div class="rainfall-section">
+                    <div class="rainfall-label">Rainfall (Last 24 Hours)</div>
+                    <div class="rainfall-value"><span id="rainfall">--</span> mm</div>
                 </div>
             </div>
 
             <div class="info-box">
                 <h3>📊 About This Data</h3>
-                <p>This page displays real-time river levels from the Environment Agency monitoring stations at Osney Lock and Godstow Lock on the River Thames in Oxford.</p>
-
-                <div class="highlight">
-                    <strong>Flow:</strong> The adjusted river differential (raw differential minus 1.63m to account for the height difference between measurement points). This represents the actual flow gradient through the Godstow stretch.
-                </div>
+                <p>This page displays real-time river conditions for the Godstow stretch, using data from Environment Agency monitoring stations at Osney Lock and Godstow Lock on the River Thames.</p>
 
                 <div class="highlight">
                     <strong>Flag Status:</strong><br>
-                    🔴 Red Flag: Flow > 0.75m (high flow, challenging conditions)<br>
-                    🟠 Amber Flag: Flow 0.45m - 0.75m (moderate flow)<br>
-                    🟢 Green Flag: Flow < 0.45m (low flow, good conditions)
+                    🟢 Green Flag: No restrictions<br>
+                    🟠 Amber Flag: Experienced coxes only<br>
+                    🔴 Red Flag: No crews
+                </div>
+
+                <div class="highlight">
+                    <strong>Flow:</strong> The adjusted river differential between Godstow and Osney locks, accounting for the 1.63m height difference between measurement points. This represents the actual flow gradient through the stretch.
                 </div>
 
                 <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API</p>
-                <p><strong>Update Frequency:</strong> Every 6 hours (00:00, 06:00, 12:00, 18:00 UTC)</p>
+                <p><strong>Update Frequency:</strong> 5 times daily at 6am, 9am, 12pm, 3pm, and 6pm UTC</p>
                 <p><strong>Measurement Interval:</strong> Environment Agency sensors record readings every 15 minutes</p>
             </div>
 
@@ -247,13 +249,6 @@
                 
                 const data = await response.json();
 
-                // Update displays
-                document.getElementById('osney-level').textContent =
-                    data.osney_lock.level ? data.osney_lock.level.toFixed(3) : 'N/A';
-
-                document.getElementById('godstow-level').textContent =
-                    data.godstow_lock.level ? data.godstow_lock.level.toFixed(3) : 'N/A';
-
                 // Calculate flow (adjusted differential)
                 let flow = null;
                 if (data.differential !== null) {
@@ -261,27 +256,32 @@
                     document.getElementById('flow').textContent = flow.toFixed(3);
 
                     // Determine flag status
-                    let flagEmoji, flagText, flagColor;
+                    let flagEmoji, flagText, flagDescription, flagColor;
                     if (flow > 0.75) {
                         flagEmoji = '🔴';
                         flagText = 'Red Flag';
+                        flagDescription = 'No crews';
                         flagColor = '#dc3545';
                     } else if (flow < 0.45) {
                         flagEmoji = '🟢';
                         flagText = 'Green Flag';
+                        flagDescription = 'No restrictions';
                         flagColor = '#28a745';
                     } else {
                         flagEmoji = '🟠';
                         flagText = 'Amber Flag';
+                        flagDescription = 'Experienced coxes only';
                         flagColor = '#fd7e14';
                     }
 
                     document.getElementById('flag-status').textContent = flagEmoji;
-                    document.getElementById('flag-status').style.color = flagColor;
-                    document.getElementById('flag-description').textContent = flagText;
+                    document.getElementById('flag-text').textContent = flagText;
+                    document.getElementById('flag-text').style.color = flagColor;
+                    document.getElementById('flag-description').textContent = flagDescription;
                 } else {
                     document.getElementById('flow').textContent = 'N/A';
                     document.getElementById('flag-status').textContent = '--';
+                    document.getElementById('flag-text').textContent = '--';
                     document.getElementById('flag-description').textContent = '--';
                 }
 
