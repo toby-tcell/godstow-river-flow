@@ -261,7 +261,6 @@
 
                 <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API</p>
                 <p><strong>Update Frequency:</strong> 5 times daily at 6am, 9am, 12pm, 3pm, and 6pm UTC</p>
-                <p><strong>Measurement Interval:</strong> Environment Agency sensors record readings every 15 minutes</p>
                 <p id="data-timestamp" style="margin-top: 15px; font-style: italic; color: #888;"></p>
             </div>
 
@@ -314,8 +313,8 @@
         }
 
         function updateCountdowns() {
-            const torpids = new Date('2025-03-04T00:00:00');
-            const summerEights = new Date('2025-05-27T00:00:00');
+            const torpids = new Date('2026-03-04T00:00:00');
+            const summerEights = new Date('2026-05-27T00:00:00');
 
             const now = new Date();
             now.setHours(0, 0, 0, 0); // Reset to start of day for accurate day count
