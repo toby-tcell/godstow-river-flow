@@ -199,27 +199,32 @@
 
         <div id="content" style="display: none;">
             <div class="main-content">
-                <div class="flag-display" id="flag-status">--</div>
-                <div class="flag-text" id="flag-text">--</div>
-                <div class="flag-description" id="flag-description">--</div>
-
-                <div class="flow-section">
-                    <div class="flow-label">Current Flow</div>
-                    <div class="flow-value" id="flow">--</div>
-                    <div style="color: #999; margin-top: 5px;">meters</div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
+                    <div>
+                        <div class="flag-display" id="flag-status">--</div>
+                        <div class="flag-text" id="flag-text">--</div>
+                        <div class="flag-description" id="flag-description">--</div>
+                    </div>
+                    <div class="flow-section" style="margin: 0;">
+                        <div class="flow-label">Current Flow</div>
+                        <div class="flow-value" id="flow">--</div>
+                    </div>
                 </div>
 
-                <div class="rainfall-section">
-                    <div class="rainfall-label">Rainfall</div>
-                    <div class="rainfall-value">
-                        <span id="rainfall-24h">--</span> mm (24h) |
-                        <span id="rainfall-7d">--</span> mm (7d)
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
+                    <div class="rainfall-section" style="margin-top: 0;">
+                        <div class="rainfall-label">24h Rainfall</div>
+                        <div class="rainfall-value"><span id="rainfall-24h">--</span> mm</div>
+                    </div>
+                    <div class="rainfall-section" style="margin-top: 0;">
+                        <div class="rainfall-label">7d Rainfall</div>
+                        <div class="rainfall-value"><span id="rainfall-7d">--</span> mm</div>
                     </div>
                 </div>
             </div>
 
             <div class="info-box">
-                <h3>🌤️ 12-Hour Weather Forecast</h3>
+                <h3>🌤️ 24-Hour Weather Forecast</h3>
                 <div id="weather-forecast" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; margin-top: 15px;">
                     <!-- Weather forecast will be inserted here -->
                 </div>
@@ -288,7 +293,7 @@
             }
 
             forecast.forEach((hour, index) => {
-                if (index % 2 !== 0) return; // Show every 2 hours
+                if (index % 3 !== 0) return; // Show every 3 hours
 
                 const time = new Date(hour.time);
                 const hourDiv = document.createElement('div');
@@ -309,10 +314,12 @@
         }
 
         function updateCountdowns() {
-            const torpids = new Date('2025-03-04');
-            const summerEights = new Date('2025-05-27');
+            const torpids = new Date('2025-03-04T00:00:00');
+            const summerEights = new Date('2025-05-27T00:00:00');
 
             const now = new Date();
+            now.setHours(0, 0, 0, 0); // Reset to start of day for accurate day count
+
             const daysTorpids = Math.ceil((torpids - now) / (1000 * 60 * 60 * 24));
             const daysSummerEights = Math.ceil((summerEights - now) / (1000 * 60 * 60 * 24));
 

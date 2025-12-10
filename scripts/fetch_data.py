@@ -89,15 +89,16 @@ def fetch_rainfall(hours=24):
         return None
 
 def fetch_weather_forecast():
-    '''Fetch 12-hour weather forecast from Open-Meteo API'''
+    '''Fetch 24-hour weather forecast from Open-Meteo API for Oxford'''
     try:
+        # Oxford coordinates
         lat, lon = 51.7520, -1.2577
         url = f"https://api.open-meteo.com/v1/forecast"
         params = {
             'latitude': lat,
             'longitude': lon,
             'hourly': 'temperature_2m,precipitation_probability,weather_code',
-            'forecast_hours': 12,
+            'forecast_hours': 24,
             'timezone': 'Europe/London'
         }
 
@@ -108,14 +109,14 @@ def fetch_weather_forecast():
         data = response.json()
         hourly = data.get('hourly', {})
 
-        # Get next 12 hours of data
+        # Get next 24 hours of data
         forecast = []
-        times = hourly.get('time', [])[:12]
-        temps = hourly.get('temperature_2m', [])[:12]
-        precip_prob = hourly.get('precipitation_probability', [])[:12]
-        weather_codes = hourly.get('weather_code', [])[:12]
+        times = hourly.get('time', [])[:24]
+        temps = hourly.get('temperature_2m', [])[:24]
+        precip_prob = hourly.get('precipitation_probability', [])[:24]
+        weather_codes = hourly.get('weather_code', [])[:24]
 
-        for i in range(min(12, len(times))):
+        for i in range(min(24, len(times))):
             forecast.append({
                 'time': times[i],
                 'temperature': temps[i] if i < len(temps) else None,
