@@ -210,8 +210,32 @@
                 </div>
 
                 <div class="rainfall-section">
-                    <div class="rainfall-label">Rainfall (Last 24 Hours)</div>
-                    <div class="rainfall-value"><span id="rainfall">--</span> mm</div>
+                    <div class="rainfall-label">Rainfall</div>
+                    <div class="rainfall-value">
+                        <span id="rainfall-24h">--</span> mm (24h) |
+                        <span id="rainfall-7d">--</span> mm (7d)
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>🌤️ 12-Hour Weather Forecast</h3>
+                <div id="weather-forecast" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; margin-top: 15px;">
+                    <!-- Weather forecast will be inserted here -->
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h3>📅 Upcoming Events</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 15px;">
+                    <div style="text-align: center; padding: 15px; background: #f9f9f9; border-radius: 4px;">
+                        <div style="font-size: 2em; font-weight: bold; color: #667eea;" id="countdown-1-days">--</div>
+                        <div style="color: #666; margin-top: 5px;" id="countdown-1-label">Event 1</div>
+                    </div>
+                    <div style="text-align: center; padding: 15px; background: #f9f9f9; border-radius: 4px;">
+                        <div style="font-size: 2em; font-weight: bold; color: #667eea;" id="countdown-2-days">--</div>
+                        <div style="color: #666; margin-top: 5px;" id="countdown-2-label">Event 2</div>
+                    </div>
                 </div>
             </div>
 
@@ -241,6 +265,64 @@
     </div>
 
     <script>
+        // Weather code mapping (WMO codes)
+        function getWeatherEmoji(code) {
+            if (code === 0) return '☀️';
+            if (code <= 3) return '⛅';
+            if (code <= 48) return '🌫️';
+            if (code <= 67) return '🌧️';
+            if (code <= 77) return '🌨️';
+            if (code <= 82) return '🌧️';
+            if (code <= 86) return '🌨️';
+            if (code <= 99) return '⛈️';
+            return '☁️';
+        }
+
+        function displayWeatherForecast(forecast) {
+            const container = document.getElementById('weather-forecast');
+            container.innerHTML = '';
+
+            if (!forecast || forecast.length === 0) {
+                container.innerHTML = '<p style="color: #999;">Weather forecast unavailable</p>';
+                return;
+            }
+
+            forecast.forEach((hour, index) => {
+                if (index % 2 !== 0) return; // Show every 2 hours
+
+                const time = new Date(hour.time);
+                const hourDiv = document.createElement('div');
+                hourDiv.style.textAlign = 'center';
+                hourDiv.style.padding = '10px';
+                hourDiv.style.background = '#fafafa';
+                hourDiv.style.borderRadius = '4px';
+
+                hourDiv.innerHTML = `
+                    <div style="font-size: 0.9em; color: #666;">${time.getHours()}:00</div>
+                    <div style="font-size: 2em; margin: 5px 0;">${getWeatherEmoji(hour.weather_code)}</div>
+                    <div style="font-weight: bold; color: #333;">${hour.temperature ? Math.round(hour.temperature) + '°C' : '--'}</div>
+                    <div style="font-size: 0.85em; color: #2196F3;">${hour.precipitation_probability ? hour.precipitation_probability + '%' : '--'}</div>
+                `;
+
+                container.appendChild(hourDiv);
+            });
+        }
+
+        function updateCountdowns() {
+            const torpids = new Date('2025-03-04');
+            const summerEights = new Date('2025-05-27');
+
+            const now = new Date();
+            const daysTorpids = Math.ceil((torpids - now) / (1000 * 60 * 60 * 24));
+            const daysSummerEights = Math.ceil((summerEights - now) / (1000 * 60 * 60 * 24));
+
+            document.getElementById('countdown-1-days').textContent = daysTorpids > 0 ? daysTorpids : 0;
+            document.getElementById('countdown-1-label').textContent = 'Days until Torpids';
+
+            document.getElementById('countdown-2-days').textContent = daysSummerEights > 0 ? daysSummerEights : 0;
+            document.getElementById('countdown-2-label').textContent = 'Days until Summer Eights';
+        }
+
         async function loadData() {
             try {
                 const response = await fetch('data/current.json');
@@ -287,8 +369,16 @@
                     document.getElementById('flag-description').textContent = '--';
                 }
 
-                document.getElementById('rainfall').textContent =
+                document.getElementById('rainfall-24h').textContent =
                     data.rainfall_24h ? data.rainfall_24h.toFixed(1) : '0.0';
+                document.getElementById('rainfall-7d').textContent =
+                    data.rainfall_7d ? data.rainfall_7d.toFixed(1) : '0.0';
+
+                // Display weather forecast
+                displayWeatherForecast(data.weather_forecast || []);
+
+                // Display countdowns
+                updateCountdowns();
 
                 // Update last updated time
                 const lastUpdated = new Date(data.last_updated);

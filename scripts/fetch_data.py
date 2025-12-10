@@ -46,31 +46,31 @@ def fetch_lock_level(station_id, measurement_type):
         print(f"Error fetching {station_id}: {e}")
         return None
 
-def fetch_rainfall():
-    '''Fetch rainfall from nearby stations in last 24 hours'''
+def fetch_rainfall(hours=24):
+    '''Fetch rainfall from nearby stations for specified hours'''
     try:
         lat, lon = 51.7520, -1.2577
-        
+
         url = "https://environment.data.gov.uk/flood-monitoring/id/stations.json"
         params = {'parameter': 'rainfall', 'lat': lat, 'long': lon, 'dist': 15}
-        
+
         response = requests.get(url, params=params, timeout=30)
         if response.status_code != 200:
             return None
-        
+
         stations = response.json().get('items', [])
         total_rainfall = 0
         count = 0
-        
+
         for station in stations[:3]:
             measures = station.get('measures', [])
             for measure in measures:
                 measure_id = measure['@id'].split('/')[-1]
-                
-                since = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat().replace('+00:00', 'Z')
+
+                since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat().replace('+00:00', 'Z')
                 readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
                 params = {'since': since, '_limit': 5000}
-                
+
                 r = requests.get(readings_url, params=params, timeout=30)
                 if r.status_code == 200:
                     items = r.json().get('items', [])
@@ -79,28 +79,71 @@ def fetch_rainfall():
                         total_rainfall += station_total
                         count += 1
                         break
-        
+
         if count > 0:
             return total_rainfall / count
         return 0
-        
+
     except Exception as e:
         print(f"Error fetching rainfall: {e}")
         return None
 
+def fetch_weather_forecast():
+    '''Fetch 12-hour weather forecast from Open-Meteo API'''
+    try:
+        lat, lon = 51.7520, -1.2577
+        url = f"https://api.open-meteo.com/v1/forecast"
+        params = {
+            'latitude': lat,
+            'longitude': lon,
+            'hourly': 'temperature_2m,precipitation_probability,weather_code',
+            'forecast_hours': 12,
+            'timezone': 'Europe/London'
+        }
+
+        response = requests.get(url, params=params, timeout=30)
+        if response.status_code != 200:
+            return None
+
+        data = response.json()
+        hourly = data.get('hourly', {})
+
+        # Get next 12 hours of data
+        forecast = []
+        times = hourly.get('time', [])[:12]
+        temps = hourly.get('temperature_2m', [])[:12]
+        precip_prob = hourly.get('precipitation_probability', [])[:12]
+        weather_codes = hourly.get('weather_code', [])[:12]
+
+        for i in range(min(12, len(times))):
+            forecast.append({
+                'time': times[i],
+                'temperature': temps[i] if i < len(temps) else None,
+                'precipitation_probability': precip_prob[i] if i < len(precip_prob) else None,
+                'weather_code': weather_codes[i] if i < len(weather_codes) else None
+            })
+
+        return forecast
+
+    except Exception as e:
+        print(f"Error fetching weather forecast: {e}")
+        return None
+
 def main():
     print("Fetching river data...")
-    
+
     # Note: On the Thames, Godstow is upstream of Osney
     # We want downstage from Godstow and stage from Osney
     godstow = fetch_lock_level('1302TH', 'downstage')  # Godstow downstream side
     osney = fetch_lock_level('1303TH', 'stage')  # Osney general level
-    rainfall = fetch_rainfall()
-    
+    rainfall_24h = fetch_rainfall(24)
+    rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
+    weather_forecast = fetch_weather_forecast()
+
     differential = None
     if osney and godstow:
         differential = godstow['value'] - osney['value']  # upstream - downstream
-    
+
     data = {
         'last_updated': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
         'osney_lock': {
@@ -112,18 +155,22 @@ def main():
             'timestamp': godstow['timestamp'] if godstow else None
         },
         'differential': differential,
-        'rainfall_24h': rainfall if rainfall is not None else 0
+        'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
+        'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
+        'weather_forecast': weather_forecast if weather_forecast else []
     }
-    
+
     os.makedirs('data', exist_ok=True)
     with open('data/current.json', 'w') as f:
         json.dump(data, f, indent=2)
-    
+
     print("Data saved!")
     print(f"Osney: {osney['value'] if osney else 'N/A'}m")
     print(f"Godstow: {godstow['value'] if godstow else 'N/A'}m")
     print(f"Differential: {differential if differential else 'N/A'}m")
-    print(f"Rainfall: {rainfall if rainfall else 'N/A'}mm")
+    print(f"Rainfall 24h: {rainfall_24h if rainfall_24h else 'N/A'}mm")
+    print(f"Rainfall 7d: {rainfall_7d if rainfall_7d else 'N/A'}mm")
+    print(f"Weather forecast: {len(weather_forecast) if weather_forecast else 0} hours")
 
 if __name__ == '__main__':
     main()
