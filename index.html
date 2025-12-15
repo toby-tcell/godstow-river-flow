@@ -175,6 +175,17 @@
             font-size: 0.95em;
         }
 
+        .stale-warning {
+            background: #fff3cd;
+            color: #856404;
+            padding: 8px 15px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            text-align: center;
+            margin-bottom: 20px;
+            border-left: 4px solid #ffc107;
+        }
+
         .highlight {
             background: #f9f9f9;
             border-left: 4px solid #666;
@@ -305,6 +316,8 @@
         </div>
 
         <div id="error" class="error" style="display: none;"></div>
+
+        <div id="stale-warning" class="stale-warning" style="display: none;"></div>
 
         <div id="content" style="display: none;">
             <div class="main-content">
@@ -441,14 +454,67 @@
 
         async function loadData() {
             try {
-                const response = await fetch('data/current.json');
-                
+                const response = await fetch('data/current.json?t=' + Date.now());
+
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
                 }
-                
+
                 const data = await response.json();
 
+                // Save to localStorage on successful fetch
+                localStorage.setItem('riverData', JSON.stringify(data));
+                localStorage.setItem('riverDataTimestamp', Date.now().toString());
+
+                // Display the data
+                displayData(data);
+
+                // Hide loading, show content, hide warnings
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').style.display = 'none';
+                document.getElementById('stale-warning').style.display = 'none';
+                document.getElementById('content').style.display = 'block';
+
+            } catch (error) {
+                console.error('Error loading data:', error);
+
+                // Try to load from localStorage
+                const cachedData = localStorage.getItem('riverData');
+                const cachedTimestamp = localStorage.getItem('riverDataTimestamp');
+
+                if (cachedData && cachedTimestamp) {
+                    console.log('Using cached data');
+                    const data = JSON.parse(cachedData);
+                    const cacheAge = Date.now() - parseInt(cachedTimestamp);
+                    const hoursOld = Math.floor(cacheAge / (1000 * 60 * 60));
+                    const minutesOld = Math.floor((cacheAge % (1000 * 60 * 60)) / (1000 * 60));
+
+                    // Display the cached data
+                    displayData(data);
+
+                    // Show stale warning
+                    const warningEl = document.getElementById('stale-warning');
+                    let ageText = hoursOld > 0 ? `${hoursOld}h ${minutesOld}m` : `${minutesOld}m`;
+                    warningEl.innerHTML = `⚠️ Showing cached data (${ageText} old) - unable to fetch latest update`;
+                    warningEl.style.display = 'block';
+
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').style.display = 'none';
+                    document.getElementById('content').style.display = 'block';
+                } else {
+                    // No cached data available
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').style.display = 'block';
+                    document.getElementById('error').innerHTML = `
+                        <strong>⚠️ Unable to load river data</strong><br>
+                        ${error.message}<br>
+                        <small>No cached data available. The data file may not exist yet.</small>
+                    `;
+                }
+            }
+        }
+
+        function displayData(data) {
                 // Calculate flow (adjusted differential)
                 let flow = null;
                 if (data.differential !== null) {
@@ -485,7 +551,7 @@
                     document.getElementById('flag-description').textContent = '--';
                 }
 
-                // Display flow trend
+                // Display flow trend - ensure it shows even if null initially
                 const trendElement = document.getElementById('flow-trend');
                 if (data.flow_trend) {
                     let trendIcon, trendText, trendColor;
@@ -497,14 +563,15 @@
                         trendIcon = '↓';
                         trendText = 'Decreasing';
                         trendColor = '#28a745';
-                    } else {
+                    } else if (data.flow_trend === 'level') {
                         trendIcon = '→';
                         trendText = 'Level';
                         trendColor = '#666';
                     }
                     trendElement.innerHTML = `<span class="trend-icon" style="color: ${trendColor};">${trendIcon}</span><span style="color: ${trendColor};">${trendText}</span>`;
                 } else {
-                    trendElement.innerHTML = '';
+                    // Show a message if trend not yet available
+                    trendElement.innerHTML = '<span style="color: #999; font-size: 0.9em;">Trend available after next update</span>';
                 }
 
                 document.getElementById('rainfall-24h').textContent =
@@ -527,7 +594,7 @@
                     })}`;
 
                 // Update data timestamp (when measurements were taken)
-                if (data.godstow_lock.timestamp) {
+                if (data.godstow_lock && data.godstow_lock.timestamp) {
                     const measurementTime = new Date(data.godstow_lock.timestamp);
                     document.getElementById('data-timestamp').textContent =
                         `Measurements from: ${measurementTime.toLocaleString('en-GB', {
@@ -535,22 +602,6 @@
                             timeStyle: 'short'
                         })}`;
                 }
-                
-                // Hide loading, show content
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'none';
-                document.getElementById('content').style.display = 'block';
-                
-            } catch (error) {
-                console.error('Error loading data:', error);
-                document.getElementById('loading').style.display = 'none';
-                document.getElementById('error').style.display = 'block';
-                document.getElementById('error').innerHTML = `
-                    <strong>⚠️ Unable to load river data</strong><br>
-                    ${error.message}<br>
-                    <small>The data file may not exist yet. Try running the GitHub Action manually.</small>
-                `;
-            }
         }
 
         // Load data when page loads
