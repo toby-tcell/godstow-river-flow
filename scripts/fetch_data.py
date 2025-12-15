@@ -141,6 +141,7 @@ def main():
                 previous_data = json.load(f)
                 if previous_data.get('differential') is not None:
                     previous_flow = previous_data['differential'] - 1.63
+                    print(f"Previous flow: {previous_flow}m")
     except Exception as e:
         print(f"Could not load previous data: {e}")
 

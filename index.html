@@ -601,6 +601,13 @@
                             dateStyle: 'medium',
                             timeStyle: 'short'
                         })}`;
+                } else if (data.osney_lock && data.osney_lock.timestamp) {
+                    const measurementTime = new Date(data.osney_lock.timestamp);
+                    document.getElementById('data-timestamp').textContent =
+                        `Measurements from: ${measurementTime.toLocaleString('en-GB', {
+                            dateStyle: 'medium',
+                            timeStyle: 'short'
+                        })} (Godstow data unavailable)`;
                 }
         }
 
