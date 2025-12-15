@@ -87,6 +87,17 @@
             color: #333;
         }
 
+        .flow-trend {
+            font-size: 1.2em;
+            margin-top: 10px;
+            color: #666;
+        }
+
+        .trend-icon {
+            font-size: 1.3em;
+            margin-right: 5px;
+        }
+
         .rainfall-section {
             margin-top: 30px;
             padding: 20px;
@@ -173,12 +184,110 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
             h1 {
                 font-size: 1.8em;
             }
-            
-            .card-value {
-                font-size: 2.5em;
+
+            .subtitle {
+                font-size: 1em;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .main-content > div:first-child {
+                grid-template-columns: 1fr !important;
+                gap: 20px !important;
+            }
+
+            .flag-display {
+                font-size: 5em !important;
+                margin: 10px 0 !important;
+            }
+
+            .flag-text {
+                font-size: 2em !important;
+                margin-bottom: 10px !important;
+            }
+
+            .flag-description {
+                font-size: 1.1em !important;
+                margin-bottom: 20px !important;
+            }
+
+            .flow-section {
+                padding: 20px !important;
+            }
+
+            .flow-value {
+                font-size: 2.5em !important;
+            }
+
+            .flow-trend {
+                font-size: 1em !important;
+            }
+
+            .main-content > div:nth-child(2) {
+                grid-template-columns: 1fr !important;
+            }
+
+            .rainfall-label {
+                font-size: 1em !important;
+            }
+
+            .rainfall-value {
+                font-size: 1.5em !important;
+            }
+
+            .info-box {
+                padding: 15px;
+            }
+
+            .info-box h3 {
+                font-size: 1.2em;
+            }
+
+            .info-box p {
+                font-size: 0.95em;
+            }
+
+            .highlight {
+                font-size: 0.9em;
+                padding: 10px;
+            }
+
+            #weather-forecast {
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr)) !important;
+                gap: 5px !important;
+            }
+
+            #weather-forecast > div {
+                padding: 5px !important;
+            }
+
+            #weather-forecast > div > div:first-child {
+                font-size: 0.8em !important;
+            }
+
+            #weather-forecast > div > div:nth-child(2) {
+                font-size: 1.5em !important;
+            }
+
+            #weather-forecast > div > div:nth-child(3) {
+                font-size: 0.9em !important;
+            }
+
+            #weather-forecast > div > div:nth-child(4) {
+                font-size: 0.75em !important;
+            }
+
+            .info-box > div:last-of-type {
+                grid-template-columns: 1fr !important;
             }
         }
     </style>
@@ -208,6 +317,7 @@
                     <div class="flow-section" style="margin: 0;">
                         <div class="flow-label">Current Flow</div>
                         <div class="flow-value" id="flow">--</div>
+                        <div class="flow-trend" id="flow-trend"></div>
                     </div>
                 </div>
 
@@ -250,9 +360,9 @@
 
                 <div class="highlight">
                     <strong>Flag Status:</strong><br>
-                    🟢 Green Flag (Flow under 0.45): No restrictions<br>
-                    🟠 Amber Flag (Flow 0.45-0.75): Experienced coxes only<br>
-                    🔴 Red Flag (Flow above 0.75): No crews
+                    🟩 Green Flag (Flow under 0.45): No restrictions<br>
+                    🟧 Amber Flag (Flow 0.45-0.75): Experienced coxes only<br>
+                    🟥 Red Flag (Flow above 0.75): No crews
                 </div>
 
                 <div class="highlight">
@@ -348,17 +458,17 @@
                     // Determine flag status
                     let flagEmoji, flagText, flagDescription, flagColor;
                     if (flow > 0.75) {
-                        flagEmoji = '🔴';
+                        flagEmoji = '🟥';
                         flagText = 'Red Flag';
                         flagDescription = 'No crews';
                         flagColor = '#dc3545';
                     } else if (flow < 0.45) {
-                        flagEmoji = '🟢';
+                        flagEmoji = '🟩';
                         flagText = 'Green Flag';
                         flagDescription = 'No restrictions';
                         flagColor = '#28a745';
                     } else {
-                        flagEmoji = '🟠';
+                        flagEmoji = '🟧';
                         flagText = 'Amber Flag';
                         flagDescription = 'Experienced coxes only';
                         flagColor = '#fd7e14';
@@ -373,6 +483,28 @@
                     document.getElementById('flag-status').textContent = '--';
                     document.getElementById('flag-text').textContent = '--';
                     document.getElementById('flag-description').textContent = '--';
+                }
+
+                // Display flow trend
+                const trendElement = document.getElementById('flow-trend');
+                if (data.flow_trend) {
+                    let trendIcon, trendText, trendColor;
+                    if (data.flow_trend === 'increasing') {
+                        trendIcon = '↑';
+                        trendText = 'Increasing';
+                        trendColor = '#dc3545';
+                    } else if (data.flow_trend === 'decreasing') {
+                        trendIcon = '↓';
+                        trendText = 'Decreasing';
+                        trendColor = '#28a745';
+                    } else {
+                        trendIcon = '→';
+                        trendText = 'Level';
+                        trendColor = '#666';
+                    }
+                    trendElement.innerHTML = `<span class="trend-icon" style="color: ${trendColor};">${trendIcon}</span><span style="color: ${trendColor};">${trendText}</span>`;
+                } else {
+                    trendElement.innerHTML = '';
                 }
 
                 document.getElementById('rainfall-24h').textContent =

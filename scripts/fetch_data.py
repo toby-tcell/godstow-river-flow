@@ -133,6 +133,17 @@ def fetch_weather_forecast():
 def main():
     print("Fetching river data...")
 
+    # Load previous data to calculate flow trend
+    previous_flow = None
+    try:
+        if os.path.exists('data/current.json'):
+            with open('data/current.json', 'r') as f:
+                previous_data = json.load(f)
+                if previous_data.get('differential') is not None:
+                    previous_flow = previous_data['differential'] - 1.63
+    except Exception as e:
+        print(f"Could not load previous data: {e}")
+
     # Note: On the Thames, Godstow is upstream of Osney
     # We want downstage from Godstow and stage from Osney
     godstow = fetch_lock_level('1302TH', 'downstage')  # Godstow downstream side
@@ -142,8 +153,22 @@ def main():
     weather_forecast = fetch_weather_forecast()
 
     differential = None
+    current_flow = None
+    flow_trend = None
+
     if osney and godstow:
         differential = godstow['value'] - osney['value']  # upstream - downstream
+        current_flow = differential - 1.63
+
+        # Calculate trend
+        if previous_flow is not None:
+            flow_change = current_flow - previous_flow
+            if flow_change > 0.05:
+                flow_trend = 'increasing'
+            elif flow_change < -0.05:
+                flow_trend = 'decreasing'
+            else:
+                flow_trend = 'level'
 
     data = {
         'last_updated': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
@@ -156,6 +181,7 @@ def main():
             'timestamp': godstow['timestamp'] if godstow else None
         },
         'differential': differential,
+        'flow_trend': flow_trend,
         'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
         'weather_forecast': weather_forecast if weather_forecast else []
@@ -169,6 +195,8 @@ def main():
     print(f"Osney: {osney['value'] if osney else 'N/A'}m")
     print(f"Godstow: {godstow['value'] if godstow else 'N/A'}m")
     print(f"Differential: {differential if differential else 'N/A'}m")
+    print(f"Flow: {current_flow if current_flow is not None else 'N/A'}m")
+    print(f"Flow trend: {flow_trend if flow_trend else 'N/A'}")
     print(f"Rainfall 24h: {rainfall_24h if rainfall_24h else 'N/A'}mm")
     print(f"Rainfall 7d: {rainfall_7d if rainfall_7d else 'N/A'}mm")
     print(f"Weather forecast: {len(weather_forecast) if weather_forecast else 0} hours")
