@@ -182,6 +182,8 @@ def main():
             'timestamp': godstow['timestamp'] if godstow else None
         },
         'differential': differential,
+        'flow': current_flow,
+        'previous_flow': previous_flow,
         'flow_trend': flow_trend,
         'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
