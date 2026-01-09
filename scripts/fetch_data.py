@@ -4,7 +4,7 @@ from datetime import datetime, timedelta, timezone
 import os
 
 def fetch_lock_level(station_id, measurement_type):
-    '''Fetch current level from a lock'''
+    '''Fetch current level from a lock - tries multiple methods to get latest data'''
     try:
         url = f"https://environment.data.gov.uk/flood-monitoring/id/stations/{station_id}.json"
         response = requests.get(url, timeout=30)
@@ -21,26 +21,37 @@ def fetch_lock_level(station_id, measurement_type):
             measure_id = measure['@id'].split('/')[-1]
             # Check if measurement_type matches exactly (not as substring) and has mASD
             if (f'-{measurement_type}-' in measure_id or measure_id.endswith(f'-{measurement_type}')) and 'mASD' in measure_id:
+                print(f"Found measure: {measure_id}")
+
                 # Use latestReading from the station data if available
                 latest = measure.get('latestReading')
                 if latest and 'value' in latest and 'dateTime' in latest:
+                    print(f"Using latestReading: {latest['value']}m at {latest['dateTime']}")
                     return {
                         'value': latest['value'],
                         'timestamp': latest['dateTime']
                     }
 
-                # Fallback to fetching readings endpoint
+                # Fallback to fetching readings endpoint with more data points
+                print(f"No latestReading, trying readings endpoint...")
                 readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
-                params = {'_limit': 1}
+                params = {'_limit': 100}  # Get more readings to find recent data
 
                 r = requests.get(readings_url, params=params, timeout=30)
                 if r.status_code == 200:
                     items = r.json().get('items', [])
                     if items:
+                        print(f"Found {len(items)} readings, using most recent: {items[0]['value']}m at {items[0]['dateTime']}")
                         return {
                             'value': items[0]['value'],
                             'timestamp': items[0]['dateTime']
                         }
+                    else:
+                        print(f"Readings endpoint returned no items")
+                else:
+                    print(f"Readings endpoint error: {r.status_code}")
+
+        print(f"No suitable measure found for {station_id} {measurement_type}")
         return None
     except Exception as e:
         print(f"Error fetching {station_id}: {e}")
@@ -133,7 +144,8 @@ def fetch_weather_forecast():
 def main():
     print("Fetching river data...")
 
-    # Load previous data to calculate flow trend
+    # Load previous data to calculate flow trend AND as fallback
+    previous_data = None
     previous_flow = None
     try:
         if os.path.exists('data/current.json'):
@@ -142,13 +154,33 @@ def main():
                 if previous_data.get('differential') is not None:
                     previous_flow = previous_data['differential'] - 1.63
                     print(f"Previous flow: {previous_flow}m")
+                elif previous_data.get('flow') is not None:
+                    previous_flow = previous_data['flow']
+                    print(f"Previous flow (from flow field): {previous_flow}m")
     except Exception as e:
         print(f"Could not load previous data: {e}")
 
     # Note: On the Thames, Godstow is upstream of Osney
     # We want downstage from Godstow and stage from Osney
+    print("\n=== Fetching current data ===")
     godstow = fetch_lock_level('1302TH', 'downstage')  # Godstow downstream side
     osney = fetch_lock_level('1303TH', 'stage')  # Osney general level
+
+    # Use previous data as fallback if current fetch fails
+    if not godstow and previous_data and previous_data.get('godstow_lock', {}).get('level') is not None:
+        print("WARNING: Could not fetch Godstow data, using previous reading")
+        godstow = {
+            'value': previous_data['godstow_lock']['level'],
+            'timestamp': previous_data['godstow_lock']['timestamp']
+        }
+
+    if not osney and previous_data and previous_data.get('osney_lock', {}).get('level') is not None:
+        print("WARNING: Could not fetch Osney data, using previous reading")
+        osney = {
+            'value': previous_data['osney_lock']['level'],
+            'timestamp': previous_data['osney_lock']['timestamp']
+        }
+
     rainfall_24h = fetch_rainfall(24)
     rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
     weather_forecast = fetch_weather_forecast()
@@ -170,6 +202,8 @@ def main():
                 flow_trend = 'decreasing'
             else:
                 flow_trend = 'level'
+    else:
+        print("ERROR: Unable to calculate flow - missing lock data even after fallback attempt")
 
     data = {
         'last_updated': datetime.now(timezone.utc).isoformat().replace('+00:00', 'Z'),
