@@ -99,6 +99,23 @@ def fetch_rainfall(hours=24):
         print(f"Error fetching rainfall: {e}")
         return None
 
+def fetch_ourcs_flag(reach):
+    '''Fetch OURCS flag status for a given reach (godstow or isis)'''
+    try:
+        url = f"https://ourcs.co.uk/api/flags/status/{reach}/"
+        response = requests.get(url, timeout=30)
+
+        if response.status_code != 200:
+            print(f"Error fetching OURCS {reach} flag: {response.status_code}")
+            return None
+
+        data = response.json()
+        print(f"OURCS {reach.title()} flag: {data.get('status_text', 'Unknown')}")
+        return data
+    except Exception as e:
+        print(f"Error fetching OURCS {reach} flag: {e}")
+        return None
+
 def fetch_weather_forecast():
     '''Fetch 24-hour weather forecast from Open-Meteo API for Oxford'''
     try:
@@ -184,6 +201,8 @@ def main():
     rainfall_24h = fetch_rainfall(24)
     rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
     weather_forecast = fetch_weather_forecast()
+    ourcs_godstow = fetch_ourcs_flag('godstow')
+    ourcs_isis = fetch_ourcs_flag('isis')
 
     differential = None
     current_flow = None
@@ -221,7 +240,9 @@ def main():
         'flow_trend': flow_trend,
         'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
-        'weather_forecast': weather_forecast if weather_forecast else []
+        'weather_forecast': weather_forecast if weather_forecast else [],
+        'ourcs_godstow_flag': ourcs_godstow,
+        'ourcs_isis_flag': ourcs_isis
     }
 
     os.makedirs('data', exist_ok=True)

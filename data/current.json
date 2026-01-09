@@ -1,26 +1,20 @@
 {
-  "last_updated": "2026-01-09T14:42:13.563479Z",
+  "last_updated": "2026-01-09T15:23:21.861186Z",
   "osney_lock": {
-    "level": -0.057,
-    "timestamp": "2026-01-09T14:15:00Z"
+    "level": -0.017,
+    "timestamp": "2026-01-09T15:00:00Z"
   },
   "godstow_lock": {
-    "level": 2.272,
-    "timestamp": "2026-01-09T14:15:00Z"
+    "level": 2.268,
+    "timestamp": "2026-01-09T15:00:00Z"
   },
-  "differential": 2.3289999999999997,
-  "flow": 0.6989999999999998,
-  "previous_flow": 0.9889999999999999,
-  "flow_trend": "decreasing",
-  "rainfall_24h": 16.526666666666667,
+  "differential": 2.2849999999999997,
+  "flow": 0.6549999999999998,
+  "previous_flow": 0.6549999999999998,
+  "flow_trend": "level",
+  "rainfall_24h": 15.636666666666668,
   "rainfall_7d": 19.906666666666666,
   "weather_forecast": [
-    {
-      "time": "2026-01-09T14:00",
-      "temperature": 4.3,
-      "precipitation_probability": 3,
-      "weather_code": 3
-    },
     {
       "time": "2026-01-09T15:00",
       "temperature": 4.1,
@@ -158,6 +152,32 @@
       "temperature": 2.6,
       "precipitation_probability": 0,
       "weather_code": 0
+    },
+    {
+      "time": "2026-01-10T14:00",
+      "temperature": 3.0,
+      "precipitation_probability": 3,
+      "weather_code": 1
     }
-  ]
+  ],
+  "ourcs_godstow_flag": {
+    "reach": "godstow",
+    "status": "X",
+    "status_text": "Grey",
+    "notices": [
+      "Flag not currently being maintained."
+    ],
+    "set_date": "2025-12-13T12:00:40.216Z",
+    "set_by": "Samuel Schipper"
+  },
+  "ourcs_isis_flag": {
+    "reach": "isis",
+    "status": "X",
+    "status_text": "Grey",
+    "notices": [
+      "Flag not currently being maintained."
+    ],
+    "set_date": "2025-12-13T12:00:29.495Z",
+    "set_by": "Samuel Schipper"
+  }
 }
