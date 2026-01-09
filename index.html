@@ -186,6 +186,66 @@
             border-left: 4px solid #ffc107;
         }
 
+        .ourcs-flags {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .ourcs-flags h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            text-align: center;
+        }
+
+        .flags-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .flag-item {
+            text-align: center;
+            padding: 15px;
+            background: #fafafa;
+            border-radius: 4px;
+        }
+
+        .flag-item-label {
+            font-size: 1.1em;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .flag-item-status {
+            font-size: 3em;
+            margin: 10px 0;
+        }
+
+        .flag-item-text {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .flag-item-meta {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 10px;
+        }
+
+        .flag-notice {
+            font-size: 0.9em;
+            color: #856404;
+            background: #fff3cd;
+            padding: 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+        }
+
         .highlight {
             background: #f9f9f9;
             border-left: 4px solid #666;
@@ -300,6 +360,26 @@
             .info-box > div:last-of-type {
                 grid-template-columns: 1fr !important;
             }
+
+            .ourcs-flags {
+                padding: 15px;
+            }
+
+            .ourcs-flags h2 {
+                font-size: 1.3em;
+            }
+
+            .flags-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .flag-item-status {
+                font-size: 2.5em !important;
+            }
+
+            .flag-item-text {
+                font-size: 1.1em !important;
+            }
         }
     </style>
 </head>
@@ -320,6 +400,26 @@
         <div id="stale-warning" class="stale-warning" style="display: none;"></div>
 
         <div id="content" style="display: none;">
+            <div class="ourcs-flags">
+                <h2>OURCS Flag Status</h2>
+                <div class="flags-grid">
+                    <div class="flag-item">
+                        <div class="flag-item-label">Godstow</div>
+                        <div class="flag-item-status" id="ourcs-godstow-emoji">--</div>
+                        <div class="flag-item-text" id="ourcs-godstow-text">--</div>
+                        <div class="flag-item-meta" id="ourcs-godstow-meta"></div>
+                        <div class="flag-notice" id="ourcs-godstow-notice" style="display: none;"></div>
+                    </div>
+                    <div class="flag-item">
+                        <div class="flag-item-label">Isis</div>
+                        <div class="flag-item-status" id="ourcs-isis-emoji">--</div>
+                        <div class="flag-item-text" id="ourcs-isis-text">--</div>
+                        <div class="flag-item-meta" id="ourcs-isis-meta"></div>
+                        <div class="flag-notice" id="ourcs-isis-notice" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
             <div class="main-content">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
                     <div>
@@ -514,7 +614,63 @@
             }
         }
 
+        function getFlagEmoji(statusText) {
+                // Map OURCS flag status to emoji
+                const lower = statusText.toLowerCase();
+                if (lower.includes('green')) return '🟩';
+                if (lower.includes('amber') || lower.includes('orange')) return '🟧';
+                if (lower.includes('red')) return '🟥';
+                if (lower.includes('blue')) return '🟦';  // All blues use blue square
+                if (lower.includes('grey') || lower.includes('gray')) return '⬜';
+                return '--';
+        }
+
+        function displayOURCSFlags(data) {
+                // Display OURCS Godstow flag
+                if (data.ourcs_godstow_flag) {
+                    const godstow = data.ourcs_godstow_flag;
+                    const godstowEmoji = getFlagEmoji(godstow.status_text);
+                    document.getElementById('ourcs-godstow-emoji').textContent = godstowEmoji;
+                    document.getElementById('ourcs-godstow-text').textContent = godstow.status_text;
+
+                    if (godstow.set_date) {
+                        const setDate = new Date(godstow.set_date);
+                        document.getElementById('ourcs-godstow-meta').textContent =
+                            `Updated ${setDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})}`;
+                    }
+
+                    if (godstow.notices && godstow.notices.length > 0) {
+                        const noticeEl = document.getElementById('ourcs-godstow-notice');
+                        noticeEl.textContent = godstow.notices.join(' ');
+                        noticeEl.style.display = 'block';
+                    }
+                }
+
+                // Display OURCS Isis flag
+                if (data.ourcs_isis_flag) {
+                    const isis = data.ourcs_isis_flag;
+                    const isisEmoji = getFlagEmoji(isis.status_text);
+                    document.getElementById('ourcs-isis-emoji').textContent = isisEmoji;
+                    document.getElementById('ourcs-isis-text').textContent = isis.status_text;
+
+                    if (isis.set_date) {
+                        const setDate = new Date(isis.set_date);
+                        document.getElementById('ourcs-isis-meta').textContent =
+                            `Updated ${setDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})}`;
+                    }
+
+                    if (isis.notices && isis.notices.length > 0) {
+                        const noticeEl = document.getElementById('ourcs-isis-notice');
+                        noticeEl.textContent = isis.notices.join(' ');
+                        noticeEl.style.display = 'block';
+                    }
+                }
+        }
+
         function displayData(data) {
+                // Display OURCS flags
+                displayOURCSFlags(data);
+
                 // Calculate flow (adjusted differential)
                 let flow = null;
                 if (data.differential !== null) {
