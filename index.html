@@ -535,10 +535,8 @@
                 <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API and OpenMeteo API</p>
                 <p><strong>Update Frequency:</strong> 5 times daily at 6am, 9am, 12pm, 3pm, and 6pm UTC</p>
                 <p id="data-timestamp" style="margin-top: 15px; font-style: italic; color: #888;"></p>
+                <p class="last-updated" id="last-updated"></p>
             </div>
-
-            <div class="last-updated" id="last-updated"></div>
-        </div>
     </div>
 
     <script>
@@ -669,7 +667,7 @@
                 // Map OURCS flag status to emoji
                 const lower = statusText.toLowerCase();
                 if (lower.includes('green')) return '🟩';
-                if (lower.includes('amber') || lower.includes('orange')) return '🟧';
+                if (lower.includes('amber')) return '🟧';
                 if (lower.includes('red')) return '🟥';
                 if (lower.includes('blue')) return '🟦';  // All blues use blue square
                 if (lower.includes('grey') || lower.includes('gray')) return '⬜';
@@ -720,17 +718,17 @@
                     let flagEmoji, flagText, flagDescription, flagColor;
                     if (flow > 0.75) {
                         flagEmoji = '🟥';
-                        flagText = 'Red Flow';
+                        flagText = 'Red';
                         flagDescription = 'No crews';
                         flagColor = '#dc3545';
                     } else if (flow < 0.45) {
                         flagEmoji = '🟩';
-                        flagText = 'Green Flow';
+                        flagText = 'Green';
                         flagDescription = 'No restrictions';
                         flagColor = '#28a745';
                     } else {
                         flagEmoji = '🟧';
-                        flagText = 'Amber Flow';
+                        flagText = 'Amber';
                         flagDescription = 'X/S-Status coxes only';
                         flagColor = '#fd7e14';
                     }
