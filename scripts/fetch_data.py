@@ -125,7 +125,7 @@ def fetch_weather_forecast():
         params = {
             'latitude': lat,
             'longitude': lon,
-            'hourly': 'temperature_2m,precipitation_probability,weather_code',
+            'hourly': 'temperature_2m,precipitation_probability,precipitation,weather_code',
             'forecast_hours': 24,
             'timezone': 'Europe/London'
         }
@@ -142,6 +142,7 @@ def fetch_weather_forecast():
         times = hourly.get('time', [])[:24]
         temps = hourly.get('temperature_2m', [])[:24]
         precip_prob = hourly.get('precipitation_probability', [])[:24]
+        precip = hourly.get('precipitation', [])[:24]
         weather_codes = hourly.get('weather_code', [])[:24]
 
         for i in range(min(24, len(times))):
@@ -149,6 +150,7 @@ def fetch_weather_forecast():
                 'time': times[i],
                 'temperature': temps[i] if i < len(temps) else None,
                 'precipitation_probability': precip_prob[i] if i < len(precip_prob) else None,
+                'precipitation': precip[i] if i < len(precip) else None,
                 'weather_code': weather_codes[i] if i < len(weather_codes) else None
             })
 
