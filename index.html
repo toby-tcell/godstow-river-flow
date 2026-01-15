@@ -557,9 +557,8 @@
                 </div>
 
                 <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API and OpenMeteo API</p>
-                <p><strong>Update Frequency:</strong> 5 times daily at 6am, 9am, 12pm, 3pm, and 6pm UTC</p>
+                <p><strong>Update Frequency:</strong> Every 15 minutes during daylight hours (6am-9pm UTC), hourly overnight</p>
                 <p id="data-timestamp" style="margin-top: 15px; font-style: italic; color: #888;"></p>
-                <p class="last-updated" id="last-updated"></p>
             </div>
     </div>
 
@@ -820,11 +819,6 @@
                 // Update last updated time in header
                 const lastUpdated = new Date(data.last_updated);
                 document.getElementById('header-last-updated').textContent =
-                    `Last updated: ${lastUpdated.toLocaleString('en-GB', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short'
-                    })}`;
-                document.getElementById('last-updated').textContent =
                     `Last updated: ${lastUpdated.toLocaleString('en-GB', {
                         dateStyle: 'medium',
                         timeStyle: 'short'
