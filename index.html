@@ -44,6 +44,13 @@
             letter-spacing: 0.5px;
         }
 
+        .header-updated {
+            font-size: 0.9em;
+            color: #6b7280;
+            margin-top: 15px;
+            font-weight: 500;
+        }
+
         .main-content {
             background: white;
             border-radius: 20px;
@@ -303,6 +310,10 @@
                 font-size: 1.1em;
             }
 
+            .header-updated {
+                font-size: 0.8em;
+            }
+
             .main-content {
                 padding: 30px 20px;
                 border-radius: 16px;
@@ -443,6 +454,7 @@
         <header>
             <h1>Keble College Boat Club River Tracker</h1>
             <p class="subtitle">Godstow Stretch Conditions</p>
+            <p class="header-updated" id="header-last-updated"></p>
         </header>
 
         <div id="loading" class="loading">
@@ -805,8 +817,13 @@
                 // Display countdowns
                 updateCountdowns();
 
-                // Update last updated time
+                // Update last updated time in header
                 const lastUpdated = new Date(data.last_updated);
+                document.getElementById('header-last-updated').textContent =
+                    `Last updated: ${lastUpdated.toLocaleString('en-GB', {
+                        dateStyle: 'medium',
+                        timeStyle: 'short'
+                    })}`;
                 document.getElementById('last-updated').textContent =
                     `Last updated: ${lastUpdated.toLocaleString('en-GB', {
                         dateStyle: 'medium',
