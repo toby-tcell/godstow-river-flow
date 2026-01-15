@@ -1,27 +1,20 @@
 {
-  "last_updated": "2026-01-15T13:54:20.542085Z",
+  "last_updated": "2026-01-15T14:33:54.925334Z",
   "osney_lock": {
-    "level": -0.067,
-    "timestamp": "2026-01-15T13:30:00Z"
+    "level": -0.038,
+    "timestamp": "2026-01-15T14:00:00Z"
   },
   "godstow_lock": {
-    "level": 2.248,
-    "timestamp": "2026-01-15T13:30:00Z"
+    "level": 2.253,
+    "timestamp": "2026-01-15T14:00:00Z"
   },
-  "differential": 2.3150000000000004,
-  "flow": 0.6850000000000005,
-  "previous_flow": 0.629,
-  "flow_trend": "increasing",
-  "rainfall_24h": 5.916666666666667,
-  "rainfall_7d": 32.10666666666675,
+  "differential": 2.291,
+  "flow": 0.661,
+  "previous_flow": 0.6850000000000005,
+  "flow_trend": "level",
+  "rainfall_24h": 7.346666666666667,
+  "rainfall_7d": 32.83000000000007,
   "weather_forecast": [
-    {
-      "time": "2026-01-15T13:00",
-      "temperature": 8.3,
-      "precipitation_probability": 100,
-      "precipitation": 6.1,
-      "weather_code": 63
-    },
     {
       "time": "2026-01-15T14:00",
       "temperature": 8.1,
@@ -182,8 +175,37 @@
       "precipitation_probability": 0,
       "precipitation": 0.0,
       "weather_code": 2
+    },
+    {
+      "time": "2026-01-16T13:00",
+      "temperature": 8.9,
+      "precipitation_probability": 8,
+      "precipitation": 0.0,
+      "weather_code": 2
     }
   ],
-  "ourcs_godstow_flag": null,
-  "ourcs_isis_flag": null
+  "ourcs_godstow_flag": {
+    "reach": "godstow",
+    "status": "A",
+    "status_text": "Amber",
+    "notices": [
+      "Only experienced coxes with senior crews - at least 4 rowers with three full terms water rowing experience, no rowers with less than one term.",
+      "All crews must be accompanied by a launch with safety equipment.",
+      "Crews may not go below the Medley Footbridge.",
+      "Crews must not turn below Medley Sailing Club, except to land at Keble rafts.",
+      "Navigation of locks is prohibited."
+    ],
+    "set_date": "2026-01-12T15:52:54.645Z",
+    "set_by": "Samuel Schipper"
+  },
+  "ourcs_isis_flag": {
+    "reach": "isis",
+    "status": "R",
+    "status_text": "Red",
+    "notices": [
+      "No crews are allowed out."
+    ],
+    "set_date": "2026-01-10T14:59:14.063Z",
+    "set_by": "Jack Davies"
+  }
 }
