@@ -606,9 +606,14 @@
                 hourDiv.style.borderRadius = '12px';
                 hourDiv.style.border = '2px solid #e0e0e0';
 
-                const precipitation = hour.precipitation !== null && hour.precipitation !== undefined
-                    ? hour.precipitation.toFixed(1) + 'mm'
-                    : '--';
+                // Sum precipitation for the 3-hour period starting from this hour
+                let precipSum = 0;
+                for (let i = index; i < Math.min(index + 3, forecast.length); i++) {
+                    if (forecast[i].precipitation !== null && forecast[i].precipitation !== undefined) {
+                        precipSum += forecast[i].precipitation;
+                    }
+                }
+                const precipitation = precipSum > 0 ? precipSum.toFixed(1) + 'mm' : '0.0mm';
 
                 hourDiv.innerHTML = `
                     <div style="font-size: 0.95em; color: #6b7280; font-weight: 600; margin-bottom: 5px;">${time.getHours()}:00</div>
