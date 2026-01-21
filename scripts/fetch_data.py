@@ -3,6 +3,60 @@ import json
 from datetime import datetime, timedelta, timezone
 import os
 
+# Hardcoded measure IDs (these don't change)
+MEASURE_IDS = {
+    'godstow': '1302TH-level-downstage-i-15_min-mASD',
+    'osney': '1303TH-level-stage-i-15_min-mASD',
+    'farmoor': '1100TH-flow--Mean-15_min-m3_s'
+}
+
+def fetch_all_readings_for_period(measure_id, since_timestamp):
+    '''Fetch all readings for a measure since a given timestamp'''
+    try:
+        readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
+        params = {'since': since_timestamp, '_limit': 10000, '_sorted': ''}
+
+        r = requests.get(readings_url, params=params, timeout=60)
+        if r.status_code == 200:
+            items = r.json().get('items', [])
+            return [{'timestamp': item['dateTime'], 'value': item['value']} for item in items]
+        return []
+    except Exception as e:
+        print(f"Error fetching readings: {e}")
+        return []
+
+def update_history(measure_id, existing_history, days=14):
+    '''
+    Update history by:
+    1. Checking what data we already have
+    2. Fetching all data for the last 14 days from the API
+    3. Merging with existing data (API data fills gaps, existing data preserved)
+    4. Trimming to 14 days
+    '''
+    # Calculate 14 days ago
+    cutoff = (datetime.now(timezone.utc) - timedelta(days=days)).isoformat().replace('+00:00', 'Z')
+
+    # Fetch all available data for the last 14 days
+    print(f"Fetching {days}-day history for {measure_id}")
+    api_readings = fetch_all_readings_for_period(measure_id, cutoff)
+    print(f"  API returned {len(api_readings)} readings")
+
+    # Create dict from existing history
+    history_dict = {r['timestamp']: r['value'] for r in existing_history}
+    existing_count = len(history_dict)
+
+    # Merge API readings (will add new timestamps, update existing)
+    for r in api_readings:
+        history_dict[r['timestamp']] = r['value']
+
+    # Filter to last 14 days and sort (newest first)
+    filtered = [{'timestamp': ts, 'value': val} for ts, val in history_dict.items() if ts >= cutoff]
+    filtered.sort(key=lambda x: x['timestamp'], reverse=True)
+
+    print(f"  History: {existing_count} existing + {len(api_readings)} from API = {len(filtered)} total (after dedup/trim)")
+
+    return filtered
+
 def fetch_lock_level(station_id, measurement_type):
     '''Fetch current level from a lock - tries multiple methods to get latest data'''
     try:
@@ -206,6 +260,30 @@ def main():
     ourcs_godstow = fetch_ourcs_flag('godstow')
     ourcs_isis = fetch_ourcs_flag('isis')
 
+    # Update 14-day history for each measure
+    print("\n=== Updating 14-day history ===")
+    godstow_history = update_history(
+        MEASURE_IDS['godstow'],
+        previous_data.get('godstow_history', []) if previous_data else []
+    )
+    osney_history = update_history(
+        MEASURE_IDS['osney'],
+        previous_data.get('osney_history', []) if previous_data else []
+    )
+    farmoor_history = update_history(
+        MEASURE_IDS['farmoor'],
+        previous_data.get('farmoor_history', []) if previous_data else []
+    )
+
+    # Get current Farmoor flow from history (most recent reading)
+    farmoor_current = None
+    if farmoor_history:
+        farmoor_current = {
+            'value': farmoor_history[0]['value'],
+            'timestamp': farmoor_history[0]['timestamp']
+        }
+        print(f"Farmoor flow: {farmoor_current['value']} m³/s")
+
     differential = None
     current_flow = None
     flow_trend = None
@@ -236,6 +314,10 @@ def main():
             'level': godstow['value'] if godstow else None,
             'timestamp': godstow['timestamp'] if godstow else None
         },
+        'farmoor': {
+            'flow': farmoor_current['value'] if farmoor_current else None,
+            'timestamp': farmoor_current['timestamp'] if farmoor_current else None
+        },
         'differential': differential,
         'flow': current_flow,
         'previous_flow': previous_flow,
@@ -244,22 +326,27 @@ def main():
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
         'weather_forecast': weather_forecast if weather_forecast else [],
         'ourcs_godstow_flag': ourcs_godstow,
-        'ourcs_isis_flag': ourcs_isis
+        'ourcs_isis_flag': ourcs_isis,
+        'godstow_history': godstow_history,
+        'osney_history': osney_history,
+        'farmoor_history': farmoor_history
     }
 
     os.makedirs('data', exist_ok=True)
     with open('data/current.json', 'w') as f:
         json.dump(data, f, indent=2)
 
-    print("Data saved!")
+    print("\n=== Data saved! ===")
     print(f"Osney: {osney['value'] if osney else 'N/A'}m")
     print(f"Godstow: {godstow['value'] if godstow else 'N/A'}m")
+    print(f"Farmoor: {farmoor_current['value'] if farmoor_current else 'N/A'} m³/s")
     print(f"Differential: {differential if differential else 'N/A'}m")
     print(f"Flow: {current_flow if current_flow is not None else 'N/A'}m")
     print(f"Flow trend: {flow_trend if flow_trend else 'N/A'}")
     print(f"Rainfall 24h: {rainfall_24h if rainfall_24h else 'N/A'}mm")
     print(f"Rainfall 7d: {rainfall_7d if rainfall_7d else 'N/A'}mm")
     print(f"Weather forecast: {len(weather_forecast) if weather_forecast else 0} hours")
+    print(f"History: Godstow={len(godstow_history)}, Osney={len(osney_history)}, Farmoor={len(farmoor_history)} readings")
 
 if __name__ == '__main__':
     main()
