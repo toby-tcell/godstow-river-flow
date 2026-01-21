@@ -287,20 +287,41 @@ def main():
     differential = None
     current_flow = None
     flow_trend = None
+    flow_2h_ago = None
 
     if osney and godstow:
         differential = godstow['value'] - osney['value']  # upstream - downstream
         current_flow = differential - 1.63
 
-        # Calculate trend
-        if previous_flow is not None:
-            flow_change = current_flow - previous_flow
-            if flow_change > 0.05:
+        # Calculate trend by comparing to flow from ~2 hours ago
+        # Use history data to find reading closest to 2 hours ago
+        two_hours_ago = (datetime.now(timezone.utc) - timedelta(hours=2)).isoformat().replace('+00:00', 'Z')
+
+        # Create map of osney values by timestamp for flow calculation
+        osney_map = {r['timestamp']: r['value'] for r in osney_history}
+
+        # Find godstow reading closest to 2 hours ago and calculate its flow
+        for reading in godstow_history:
+            if reading['timestamp'] <= two_hours_ago:
+                osney_val = osney_map.get(reading['timestamp'])
+                if osney_val is not None:
+                    flow_2h_ago = (reading['value'] - osney_val) - 1.63
+                    print(f"Flow 2h ago ({reading['timestamp']}): {flow_2h_ago:.3f}m")
+                    break
+
+        # Calculate trend with 0.1 threshold
+        if flow_2h_ago is not None:
+            flow_change = current_flow - flow_2h_ago
+            if flow_change > 0.1:
                 flow_trend = 'increasing'
-            elif flow_change < -0.05:
+            elif flow_change < -0.1:
                 flow_trend = 'decreasing'
             else:
                 flow_trend = 'level'
+            print(f"Flow change over 2h: {flow_change:+.3f}m -> {flow_trend}")
+        else:
+            flow_trend = 'level'
+            print("No 2h-ago data available for trend calculation")
     else:
         print("ERROR: Unable to calculate flow - missing lock data even after fallback attempt")
 
@@ -320,7 +341,7 @@ def main():
         },
         'differential': differential,
         'flow': current_flow,
-        'previous_flow': previous_flow,
+        'flow_2h_ago': flow_2h_ago,
         'flow_trend': flow_trend,
         'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
