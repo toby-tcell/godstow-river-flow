@@ -1,23 +1,23 @@
 {
-  "last_updated": "2026-01-22T11:31:09.096017Z",
+  "last_updated": "2026-01-22T11:50:43.990646Z",
   "osney_lock": {
-    "level": -0.083,
-    "timestamp": "2026-01-22T11:00:00Z"
+    "level": -0.09,
+    "timestamp": "2026-01-22T11:30:00Z"
   },
   "godstow_lock": {
-    "level": 2.551,
-    "timestamp": "2026-01-22T11:00:00Z"
+    "level": 2.549,
+    "timestamp": "2026-01-22T11:30:00Z"
   },
   "farmoor": {
-    "flow": 48.653,
-    "timestamp": "2026-01-22T11:00:00Z"
+    "flow": 49.621,
+    "timestamp": "2026-01-22T11:30:00Z"
   },
-  "differential": 2.6340000000000003,
-  "flow": 1.0040000000000004,
-  "flow_2h_ago": 1.016,
+  "differential": 2.639,
+  "flow": 1.009,
+  "flow_2h_ago": 0.9870000000000001,
   "flow_trend": "level",
-  "rainfall_24h": 9.569999999999995,
-  "rainfall_7d": 39.78333333333338,
+  "rainfall_24h": 9.313333333333327,
+  "rainfall_7d": 39.420000000000044,
   "weather_forecast": [
     {
       "time": "2026-01-22T11:00",
@@ -209,6 +209,14 @@
     "set_by": "Jack Davies"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-01-22T11:30:00Z",
+      "value": 2.549
+    },
+    {
+      "timestamp": "2026-01-22T11:15:00Z",
+      "value": 2.554
+    },
     {
       "timestamp": "2026-01-22T11:00:00Z",
       "value": 2.551
@@ -5572,13 +5580,17 @@
     {
       "timestamp": "2026-01-08T12:00:00Z",
       "value": 1.968
-    },
-    {
-      "timestamp": "2026-01-08T11:45:00Z",
-      "value": 1.963
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-01-22T11:30:00Z",
+      "value": -0.09
+    },
+    {
+      "timestamp": "2026-01-22T11:15:00Z",
+      "value": -0.076
+    },
     {
       "timestamp": "2026-01-22T11:00:00Z",
       "value": -0.083
@@ -10942,13 +10954,17 @@
     {
       "timestamp": "2026-01-08T12:00:00Z",
       "value": -0.044
-    },
-    {
-      "timestamp": "2026-01-08T11:45:00Z",
-      "value": -0.049
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-01-22T11:30:00Z",
+      "value": 49.621
+    },
+    {
+      "timestamp": "2026-01-22T11:15:00Z",
+      "value": 48.407
+    },
     {
       "timestamp": "2026-01-22T11:00:00Z",
       "value": 48.653
@@ -16312,10 +16328,6 @@
     {
       "timestamp": "2026-01-08T12:00:00Z",
       "value": 26.174
-    },
-    {
-      "timestamp": "2026-01-08T11:45:00Z",
-      "value": 26.351
     }
   ]
 }
