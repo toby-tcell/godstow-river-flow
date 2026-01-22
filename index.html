@@ -712,16 +712,12 @@
         // Hash-based navigation
         function handleHashChange() {
             const hash = window.location.hash;
-            const mainContent = document.querySelector('.main-content');
-            const ourcsFlags = document.querySelector('.ourcs-flags');
-            const infoBoxes = document.querySelectorAll('.info-box:not(#flow-data-section .info-box)');
+            const mainCards = document.querySelectorAll('#content > .card:not(#flow-data-section .card)');
             const flowDataSection = document.getElementById('flow-data-section');
 
             if (hash === '#flow-data') {
                 // Show flow data section, hide main content
-                mainContent.style.display = 'none';
-                ourcsFlags.style.display = 'none';
-                infoBoxes.forEach(box => box.style.display = 'none');
+                mainCards.forEach(card => card.style.display = 'none');
                 flowDataSection.classList.add('active');
 
                 // Create charts if we have data
@@ -730,9 +726,7 @@
                 }
             } else {
                 // Show main content, hide flow data section
-                mainContent.style.display = 'block';
-                ourcsFlags.style.display = 'block';
-                infoBoxes.forEach(box => box.style.display = 'block');
+                mainCards.forEach(card => card.style.display = 'block');
                 flowDataSection.classList.remove('active');
             }
         }
