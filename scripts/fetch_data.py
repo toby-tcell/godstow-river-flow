@@ -214,6 +214,42 @@ def fetch_weather_forecast():
         print(f"Error fetching weather forecast: {e}")
         return None
 
+def fetch_7day_rainfall_forecast():
+    '''Fetch 7-day precipitation forecast from Open-Meteo API for Oxford'''
+    try:
+        lat, lon = 51.7520, -1.2577
+        url = "https://api.open-meteo.com/v1/forecast"
+        params = {
+            'latitude': lat,
+            'longitude': lon,
+            'daily': 'precipitation_sum',
+            'forecast_days': 7,
+            'timezone': 'Europe/London'
+        }
+
+        response = requests.get(url, params=params, timeout=30)
+        if response.status_code != 200:
+            return None
+
+        data = response.json()
+        daily = data.get('daily', {})
+
+        dates = daily.get('time', [])
+        precip = daily.get('precipitation_sum', [])
+
+        forecast = []
+        for i in range(min(7, len(dates))):
+            forecast.append({
+                'date': dates[i],
+                'precipitation': precip[i] if i < len(precip) else 0
+            })
+
+        return forecast
+
+    except Exception as e:
+        print(f"Error fetching 7-day rainfall forecast: {e}")
+        return None
+
 def main():
     print("Fetching river data...")
 
@@ -257,6 +293,7 @@ def main():
     rainfall_24h = fetch_rainfall(24)
     rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
     weather_forecast = fetch_weather_forecast()
+    rainfall_forecast_7d = fetch_7day_rainfall_forecast()
     ourcs_godstow = fetch_ourcs_flag('godstow')
     ourcs_isis = fetch_ourcs_flag('isis')
 
@@ -346,6 +383,7 @@ def main():
         'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
         'weather_forecast': weather_forecast if weather_forecast else [],
+        'rainfall_forecast_7d': rainfall_forecast_7d if rainfall_forecast_7d else [],
         'ourcs_godstow_flag': ourcs_godstow,
         'ourcs_isis_flag': ourcs_isis,
         'godstow_history': godstow_history,
