@@ -312,9 +312,9 @@ def main():
         # Calculate trend with 0.1 threshold
         if flow_2h_ago is not None:
             flow_change = current_flow - flow_2h_ago
-            if flow_change > 0.1:
+            if flow_change > 0.05:
                 flow_trend = 'increasing'
-            elif flow_change < -0.1:
+            elif flow_change < -0.05:
                 flow_trend = 'decreasing'
             else:
                 flow_trend = 'level'

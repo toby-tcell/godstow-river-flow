@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KCBC River Tracker</title>
+    <title>Godstow River Tracker</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <style>
@@ -548,8 +548,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>Keble College Boat Club River Tracker</h1>
-            <p class="subtitle">Godstow Stretch Conditions</p>
+            <h1>Godstow River Tracker</h1>
+            <p class="subtitle">Real-time River Conditions</p>
             <p class="header-updated" id="header-last-updated"></p>
         </header>
 
@@ -582,7 +582,7 @@
             </div>
 
             <div class="main-content">
-                <h2>Current Godstow Flow</h2>
+                <h2>Current Godstow Differential</h2>
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
                     <div>
                         <div class="flag-display" id="flag-status">--</div>
@@ -593,7 +593,7 @@
                         </div>
                     </div>
                     <div class="flow-section" style="margin: 0;">
-                        <div class="flow-label">Godstow Flow Rate</div>
+                        <div class="flow-label">Godstow Differential</div>
                         <div class="flow-value" id="flow">--</div>
                         <div class="flow-trend" id="flow-trend"></div>
                     </div>
@@ -663,7 +663,7 @@
                 <div class="info-box" style="margin-top: 20px;">
                     <h3>Current Farmoor Flow</h3>
                     <div class="current-flow-value">
-                        <div class="label">Thames Flow at Farmoor</div>
+                        <div class="label">Thames Flow at Farmoor (10k Upstream)</div>
                         <div><span class="value" id="farmoor-value">--</span> <span class="unit">m³/s</span></div>
                         <div class="timestamp" id="farmoor-timestamp"></div>
                     </div>
@@ -680,7 +680,7 @@
                 </div>
 
                 <div class="info-box">
-                    <h3>Godstow Flow (Lock Differential) - Past 14 Days</h3>
+                    <h3>Godstow Differential - Past 14 Days</h3>
                     <div class="flag-thresholds">
                         <div class="threshold-item">
                             <div class="threshold-dot" style="background: #28a745;"></div>
@@ -867,10 +867,19 @@
                             const {ctx, chartArea} = chart;
                             if (!chartArea) return null;
 
-                            // Create gradient based on thresholds
+                            // Create gradient with sharp threshold boundaries
                             const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                            const {min, max} = chart.scales.y;
+                            const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
+
+                            const greenPos = toPos(0.45);
+                            const redPos = toPos(0.75);
+
                             gradient.addColorStop(0, 'rgba(40, 167, 69, 0.3)');
-                            gradient.addColorStop(0.5, 'rgba(253, 126, 20, 0.3)');
+                            gradient.addColorStop(greenPos, 'rgba(40, 167, 69, 0.3)');
+                            gradient.addColorStop(greenPos, 'rgba(253, 126, 20, 0.3)');
+                            gradient.addColorStop(redPos, 'rgba(253, 126, 20, 0.3)');
+                            gradient.addColorStop(redPos, 'rgba(220, 53, 69, 0.3)');
                             gradient.addColorStop(1, 'rgba(220, 53, 69, 0.3)');
                             return gradient;
                         },
