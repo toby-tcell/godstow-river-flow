@@ -53,16 +53,6 @@
             font-weight: 500;
         }
 
-        .main-content {
-            background: white;
-            border-radius: 20px;
-            padding: 50px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            text-align: center;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-
         .flag-display {
             font-size: 6em;
             margin: 20px 0;
@@ -84,29 +74,6 @@
             font-weight: 500;
         }
 
-        .flow-section {
-            margin: 40px 0;
-            padding: 40px;
-            background: #ffffff;
-            border-radius: 16px;
-            border: 2px solid #e0e0e0;
-        }
-
-        .flow-label {
-            font-size: 1.1em;
-            color: #6b7280;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .flow-value {
-            font-size: 3.5em;
-            font-weight: 800;
-            color: #1a1a2e;
-        }
-
         .flow-trend {
             font-size: 1.3em;
             margin-top: 15px;
@@ -116,29 +83,6 @@
         .trend-icon {
             font-size: 1.4em;
             margin-right: 8px;
-        }
-
-        .rainfall-section {
-            margin-top: 30px;
-            padding: 30px;
-            background: #ffffff;
-            border-radius: 16px;
-            border: 2px solid #e0e0e0;
-        }
-
-        .rainfall-label {
-            font-size: 1em;
-            color: #6b7280;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-
-        .rainfall-value {
-            font-size: 2.2em;
-            font-weight: 700;
-            color: #1f2937;
         }
 
         .loading {
@@ -175,30 +119,6 @@
             font-weight: 500;
         }
 
-        .info-box {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-top: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-
-        .info-box h3 {
-            color: #1f2937;
-            margin-bottom: 25px;
-            font-size: 1.8em;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .info-box p {
-            color: #4b5563;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            font-size: 1.05em;
-        }
-
         .last-updated {
             text-align: center;
             color: #6b7280;
@@ -217,47 +137,6 @@
             margin-bottom: 25px;
             border: 2px solid #fbbf24;
             font-weight: 600;
-        }
-
-        .ourcs-flags {
-            background: white;
-            border-radius: 20px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-
-        .ourcs-flags h2 {
-            color: #1f2937;
-            margin-bottom: 30px;
-            font-size: 2em;
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .flags-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        .flag-item {
-            text-align: center;
-            padding: 30px;
-            background: #ffffff;
-            border-radius: 16px;
-            border: 2px solid #e0e0e0;
-        }
-
-        .flag-item-label {
-            font-size: 1.2em;
-            color: #6b7280;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            font-weight: 700;
-            letter-spacing: 1px;
         }
 
         .flag-item-status {
@@ -297,6 +176,167 @@
             padding: 20px;
             margin: 20px 0;
             border-radius: 8px;
+        }
+
+        /* ========================================
+           STANDARDISED CARD SYSTEM
+           ======================================== */
+
+        /* Primary card - main content boxes with shadow */
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #1f2937;
+            margin-bottom: 25px;
+            font-size: 1.8em;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            text-align: center;
+        }
+
+        .card p {
+            color: #4b5563;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            font-size: 1.05em;
+        }
+
+        /* Secondary card - nested boxes with border (no shadow) */
+        .card-secondary {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            border: 2px solid #e0e0e0;
+        }
+
+        /* Compact secondary card for smaller nested items */
+        .card-secondary--compact {
+            padding: 20px;
+        }
+
+        /* Card label - uppercase label text */
+        .card-label {
+            font-size: 1em;
+            color: #6b7280;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Card value - large numeric display */
+        .card-value {
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #1f2937;
+        }
+
+        .card-value--large {
+            font-size: 3.5em;
+            font-weight: 800;
+            color: #1a1a2e;
+        }
+
+        .card-value--accent {
+            color: #3b82f6;
+        }
+
+        /* Grid layouts for cards */
+        .card-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .card-grid--2col {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        /* Event card - dark themed for countdowns */
+        .card-event {
+            text-align: center;
+            padding: 30px 20px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+        }
+
+        .card-event--dark {
+            background: #1a1a2e;
+            border-color: #1a1a2e;
+        }
+
+        .card-event--red {
+            background: #dc2626;
+            border-color: #dc2626;
+        }
+
+        .card-event__value {
+            font-size: 3em;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .card-event__label {
+            color: rgba(255,255,255,0.9);
+            margin-top: 8px;
+            font-weight: 500;
+            font-size: 1.05em;
+        }
+
+        /* Weather forecast card */
+        .card-weather {
+            text-align: center;
+            padding: 15px 10px;
+            background: #ffffff;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+        }
+
+        .card-weather__time {
+            font-size: 0.95em;
+            color: #6b7280;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .card-weather__icon {
+            font-size: 2.2em;
+            margin: 8px 0;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
+
+        .card-weather__temp {
+            font-weight: 700;
+            color: #1f2937;
+            font-size: 1.1em;
+        }
+
+        .card-weather__chance {
+            font-size: 0.9em;
+            color: #3b82f6;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .card-weather__precip {
+            font-size: 0.85em;
+            color: #10b981;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+
+        /* Weather forecast grid */
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
+            margin-top: 15px;
         }
 
         .nav-link {
@@ -402,16 +442,6 @@
                 font-size: 0.8em;
             }
 
-            .main-content {
-                padding: 30px 20px;
-                border-radius: 16px;
-            }
-
-            .main-content > div:first-child {
-                grid-template-columns: 1fr !important;
-                gap: 20px !important;
-            }
-
             .flag-display {
                 font-size: 4.5em !important;
                 margin: 15px 0 !important;
@@ -427,112 +457,9 @@
                 margin-bottom: 20px !important;
             }
 
-            .flow-section {
-                padding: 25px !important;
-                border-radius: 12px !important;
-            }
-
-            .flow-value {
-                font-size: 2.8em !important;
-            }
-
-            .flow-trend {
-                font-size: 1.1em !important;
-            }
-
-            .main-content > div:nth-child(2) {
-                grid-template-columns: 1fr !important;
-            }
-
-            .rainfall-section {
-                border-radius: 12px !important;
-                padding: 20px !important;
-            }
-
-            .rainfall-label {
-                font-size: 0.9em !important;
-            }
-
-            .rainfall-value {
-                font-size: 1.8em !important;
-            }
-
-            .info-box {
-                padding: 25px 20px;
-                border-radius: 16px;
-            }
-
-            .info-box h3 {
-                font-size: 1.5em;
-            }
-
-            .info-box p {
-                font-size: 1em;
-            }
-
             .highlight {
                 font-size: 0.95em;
                 padding: 15px;
-            }
-
-            #weather-forecast {
-                grid-template-columns: repeat(auto-fit, minmax(65px, 1fr)) !important;
-                gap: 8px !important;
-            }
-
-            #weather-forecast > div {
-                padding: 8px !important;
-                border-radius: 8px !important;
-            }
-
-            #weather-forecast > div > div:first-child {
-                font-size: 0.85em !important;
-            }
-
-            #weather-forecast > div > div:nth-child(2) {
-                font-size: 1.6em !important;
-            }
-
-            #weather-forecast > div > div:nth-child(3) {
-                font-size: 0.95em !important;
-            }
-
-            #weather-forecast > div > div:nth-child(4) {
-                font-size: 0.8em !important;
-            }
-
-            #weather-forecast > div > div:nth-child(5) {
-                font-size: 0.75em !important;
-            }
-
-            .info-box > div:last-of-type {
-                grid-template-columns: 1fr !important;
-            }
-
-            .ourcs-flags {
-                padding: 25px 20px;
-                border-radius: 16px;
-            }
-
-            .ourcs-flags h2 {
-                font-size: 1.6em;
-            }
-
-            .flags-grid {
-                grid-template-columns: 1fr !important;
-            }
-
-            .flag-item {
-                border-radius: 12px !important;
-                padding: 25px !important;
-            }
-
-            .flag-item-status {
-                font-size: 3em !important;
-            }
-
-            .flag-item-text {
-                font-size: 1.3em !important;
             }
 
             .chart-container {
@@ -541,6 +468,75 @@
 
             .current-flow-value .value {
                 font-size: 2.5em;
+            }
+
+            /* Card system mobile overrides */
+            .card {
+                padding: 25px 20px;
+                border-radius: 16px;
+            }
+
+            .card h3 {
+                font-size: 1.5em;
+            }
+
+            .card p {
+                font-size: 1em;
+            }
+
+            .card-secondary {
+                padding: 20px;
+                border-radius: 12px;
+            }
+
+            .card-secondary--compact {
+                padding: 15px;
+            }
+
+            .card-grid--2col {
+                grid-template-columns: 1fr;
+            }
+
+            .card-value {
+                font-size: 1.8em;
+            }
+
+            .card-value--large {
+                font-size: 2.8em;
+            }
+
+            .card-event__value {
+                font-size: 2.5em;
+            }
+
+            .weather-grid {
+                grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+                gap: 8px;
+            }
+
+            .card-weather {
+                padding: 8px;
+                border-radius: 8px;
+            }
+
+            .card-weather__time {
+                font-size: 0.85em;
+            }
+
+            .card-weather__icon {
+                font-size: 1.6em;
+            }
+
+            .card-weather__temp {
+                font-size: 0.95em;
+            }
+
+            .card-weather__chance {
+                font-size: 0.8em;
+            }
+
+            .card-weather__precip {
+                font-size: 0.75em;
             }
         }
     </style>
@@ -563,17 +559,17 @@
         <div id="stale-warning" class="stale-warning" style="display: none;"></div>
 
         <div id="content" style="display: none;">
-            <div class="ourcs-flags">
-                <h2>OURCS Flag Status</h2>
-                <div class="flags-grid">
-                    <div class="flag-item">
-                        <div class="flag-item-label">Godstow</div>
+            <div class="card">
+                <h3>OURCS Flag Status</h3>
+                <div class="card-grid card-grid--2col">
+                    <div class="card-secondary" style="text-align: center;">
+                        <div class="card-label">Godstow</div>
                         <div class="flag-item-status" id="ourcs-godstow-emoji">--</div>
                         <div class="flag-item-text" id="ourcs-godstow-text">--</div>
                         <div class="flag-item-meta" id="ourcs-godstow-meta"></div>
                     </div>
-                    <div class="flag-item">
-                        <div class="flag-item-label">Isis</div>
+                    <div class="card-secondary" style="text-align: center;">
+                        <div class="card-label">Isis</div>
                         <div class="flag-item-status" id="ourcs-isis-emoji">--</div>
                         <div class="flag-item-text" id="ourcs-isis-text">--</div>
                         <div class="flag-item-meta" id="ourcs-isis-meta"></div>
@@ -581,9 +577,9 @@
                 </div>
             </div>
 
-            <div class="main-content">
-                <h2>Current Godstow Differential</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; align-items: center;">
+            <div class="card" style="text-align: center;">
+                <h3>Current Godstow Differential</h3>
+                <div class="card-grid card-grid--2col" style="align-items: center;">
                     <div>
                         <div class="flag-display" id="flag-status">--</div>
                         <div class="flag-text" id="flag-text">--</div>
@@ -592,57 +588,57 @@
                             <a href="#flow-data" class="nav-link">View detailed flow data →</a>
                         </div>
                     </div>
-                    <div class="flow-section" style="margin: 0;">
-                        <div class="flow-label">Godstow Differential</div>
-                        <div class="flow-value" id="flow">--</div>
+                    <div class="card-secondary" style="text-align: center;">
+                        <div class="card-label">Godstow Differential</div>
+                        <div class="card-value card-value--large" id="flow">--</div>
                         <div class="flow-trend" id="flow-trend"></div>
                     </div>
                 </div>
 
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px;">
-                    <div class="rainfall-section" style="margin-top: 0;">
-                        <div class="rainfall-label">24h Rainfall</div>
-                        <div class="rainfall-value"><span id="rainfall-24h">--</span> mm</div>
+                <div class="card-grid card-grid--2col" style="margin-top: 30px;">
+                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
+                        <div class="card-label">24h Rainfall</div>
+                        <div class="card-value"><span id="rainfall-24h">--</span> mm</div>
                     </div>
-                    <div class="rainfall-section" style="margin-top: 0;">
-                        <div class="rainfall-label">7d Rainfall</div>
-                        <div class="rainfall-value"><span id="rainfall-7d">--</span> mm</div>
+                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
+                        <div class="card-label">7d Rainfall</div>
+                        <div class="card-value"><span id="rainfall-7d">--</span> mm</div>
                     </div>
                 </div>
             </div>
 
-            <div class="info-box">
+            <div class="card">
                 <h3>Weather Forecast</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
-                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 12px;">
-                        <div style="font-size: 1em; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Predicted 24h Rainfall</div>
-                        <div style="font-size: 2.2em; font-weight: 700; color: #3b82f6;" id="predicted-rainfall-24h">--</div>
+                <div class="card-grid card-grid--2col" style="margin-bottom: 25px;">
+                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
+                        <div class="card-label">Predicted 24h Rainfall</div>
+                        <div class="card-value card-value--accent" id="predicted-rainfall-24h">--</div>
                     </div>
-                    <div style="text-align: center; padding: 20px; background: #f8f9fa; border-radius: 12px;">
-                        <div style="font-size: 1em; color: #6b7280; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">Predicted 7d Rainfall</div>
-                        <div style="font-size: 2.2em; font-weight: 700; color: #3b82f6;" id="predicted-rainfall-7d">--</div>
+                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
+                        <div class="card-label">Predicted 7d Rainfall</div>
+                        <div class="card-value card-value--accent" id="predicted-rainfall-7d">--</div>
                     </div>
                 </div>
-                <div id="weather-forecast" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); gap: 10px; margin-top: 15px;">
+                <div id="weather-forecast" class="weather-grid">
                     <!-- Weather forecast will be inserted here -->
                 </div>
             </div>
 
-            <div class="info-box">
+            <div class="card">
                 <h3>Upcoming Events</h3>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 25px; margin-top: 20px;">
-                    <div style="text-align: center; padding: 30px 20px; background: #1a1a2e; border-radius: 16px; border: 2px solid #1a1a2e;">
-                        <div style="font-size: 3em; font-weight: 800; color: white; margin-bottom: 10px;" id="countdown-1-days">--</div>
-                        <div style="color: rgba(255,255,255,0.9); margin-top: 8px; font-weight: 500; font-size: 1.05em;" id="countdown-1-label">Event 1</div>
+                <div class="card-grid card-grid--2col" style="margin-top: 20px;">
+                    <div class="card-event card-event--dark">
+                        <div class="card-event__value" id="countdown-1-days">--</div>
+                        <div class="card-event__label" id="countdown-1-label">Event 1</div>
                     </div>
-                    <div style="text-align: center; padding: 30px 20px; background: #dc2626; border-radius: 16px; border: 2px solid #dc2626;">
-                        <div style="font-size: 3em; font-weight: 800; color: white; margin-bottom: 10px;" id="countdown-2-days">--</div>
-                        <div style="color: rgba(255,255,255,0.9); margin-top: 8px; font-weight: 500; font-size: 1.05em;" id="countdown-2-label">Event 2</div>
+                    <div class="card-event card-event--red">
+                        <div class="card-event__value" id="countdown-2-days">--</div>
+                        <div class="card-event__label" id="countdown-2-label">Event 2</div>
                     </div>
                 </div>
             </div>
 
-            <div class="info-box">
+            <div class="card">
                 <h3>Info</h3>
                 <div>
                     <strong>Flag Status:</strong><br>
@@ -661,16 +657,16 @@
             <div id="flow-data-section" class="page-section">
                 <a href="#" class="nav-link" style="margin-bottom: 20px;">&larr; Back to River Tracker</a>
 
-                <div class="info-box" style="margin-top: 20px;">
+                <div class="card" style="margin-top: 20px;">
                     <h3>Current Farmoor Flow</h3>
-                    <div class="current-flow-value">
-                        <div class="label">Thames Flow at Farmoor (10k Upstream)</div>
-                        <div><span class="value" id="farmoor-value">--</span> <span class="unit">m³/s</span></div>
-                        <div class="timestamp" id="farmoor-timestamp"></div>
+                    <div class="card-secondary" style="text-align: center;">
+                        <div class="card-label">Thames Flow at Farmoor (10k Upstream)</div>
+                        <div><span class="card-value card-value--large" id="farmoor-value">--</span> <span style="font-size: 1.2em; color: #6b7280; font-weight: 500;">m³/s</span></div>
+                        <div class="timestamp" id="farmoor-timestamp" style="font-size: 0.9em; color: #9ca3af; margin-top: 10px;"></div>
                     </div>
                 </div>
 
-                <div class="info-box">
+                <div class="card">
                     <h3>Farmoor Flow - Past 14 Days</h3>
                     <div class="chart-container">
                         <canvas id="farmoor-chart"></canvas>
@@ -680,7 +676,7 @@
                     </div>
                 </div>
 
-                <div class="info-box">
+                <div class="card">
                     <h3>Godstow Differential - Past 14 Days</h3>
                     <div class="flag-thresholds">
                         <div class="threshold-item">
@@ -1001,11 +997,7 @@
 
                 const time = new Date(hour.time);
                 const hourDiv = document.createElement('div');
-                hourDiv.style.textAlign = 'center';
-                hourDiv.style.padding = '15px 10px';
-                hourDiv.style.background = '#ffffff';
-                hourDiv.style.borderRadius = '12px';
-                hourDiv.style.border = '2px solid #e0e0e0';
+                hourDiv.className = 'card-weather';
 
                 // Sum precipitation for the 3-hour period starting from this hour
                 let precipSum = 0;
@@ -1017,11 +1009,11 @@
                 const precipitation = precipSum > 0 ? precipSum.toFixed(1) + 'mm' : '0.0mm';
 
                 hourDiv.innerHTML = `
-                    <div style="font-size: 0.95em; color: #6b7280; font-weight: 600; margin-bottom: 5px;">${time.getHours()}:00</div>
-                    <div style="font-size: 2.2em; margin: 8px 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));">${getWeatherEmoji(hour.weather_code)}</div>
-                    <div style="font-weight: 700; color: #1f2937; font-size: 1.1em;">${hour.temperature ? Math.round(hour.temperature) + '°C' : '--'}</div>
-                    <div style="font-size: 0.9em; color: #3b82f6; font-weight: 600; margin-top: 4px;">${hour.precipitation_probability ? hour.precipitation_probability + '%' : '--'}</div>
-                    <div style="font-size: 0.85em; color: #10b981; font-weight: 700; margin-top: 4px;">${precipitation}</div>
+                    <div class="card-weather__time">${time.getHours()}:00</div>
+                    <div class="card-weather__icon">${getWeatherEmoji(hour.weather_code)}</div>
+                    <div class="card-weather__temp">${hour.temperature ? Math.round(hour.temperature) + '°C' : '--'}</div>
+                    <div class="card-weather__chance">${hour.precipitation_probability ? hour.precipitation_probability + '%' : '--'}</div>
+                    <div class="card-weather__precip">${precipitation}</div>
                 `;
 
                 container.appendChild(hourDiv);
