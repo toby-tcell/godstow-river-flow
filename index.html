@@ -615,8 +615,8 @@
                         <div class="card-value card-value--accent" id="predicted-rainfall-24h">--</div>
                     </div>
                     <div class="card-secondary card-secondary--compact" style="text-align: center;">
-                        <div class="card-label">Predicted 7d Rainfall</div>
-                        <div class="card-value card-value--accent" id="predicted-rainfall-7d">--</div>
+                        <div class="card-label">Predicted 3d Rainfall</div>
+                        <div class="card-value card-value--accent" id="predicted-rainfall-3d">--</div>
                     </div>
                 </div>
                 <div id="weather-forecast" class="weather-grid">
@@ -1213,13 +1213,13 @@
                 // Display weather forecast
                 displayWeatherForecast(data.weather_forecast || []);
 
-                // Display 7-day rainfall forecast
-                const forecast7d = data.rainfall_forecast_7d || [];
-                if (forecast7d.length > 0) {
-                    const total7d = forecast7d.reduce((sum, day) => sum + (day.precipitation || 0), 0);
-                    document.getElementById('predicted-rainfall-7d').textContent = total7d.toFixed(1) + ' mm';
+                // Display 3-day rainfall forecast
+                const forecast3d = data.rainfall_forecast_3d || [];
+                if (forecast3d.length > 0) {
+                    const total3d = forecast3d.reduce((sum, day) => sum + (day.precipitation || 0), 0);
+                    document.getElementById('predicted-rainfall-3d').textContent = total3d.toFixed(1) + ' mm';
                 } else {
-                    document.getElementById('predicted-rainfall-7d').textContent = '--';
+                    document.getElementById('predicted-rainfall-3d').textContent = '--';
                 }
 
                 // Display countdowns
