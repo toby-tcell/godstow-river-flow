@@ -648,7 +648,8 @@
                     <strong>Flow:</strong> The adjusted river differential between Godstow and Osney locks, accounting for the 1.63m height difference between measurement points. This represents the actual flow gradient through the stretch.
                 </div>
 
-                <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API and OpenMeteo API</p>
+                <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API and OpenMeteo Ensemble API (DWD ICON Seamless model)</p>
+                <p><strong>Weather Forecast:</strong> Precipitation predictions use ensemble forecasts from 40 model members for improved accuracy</p>
                 <p><strong>Update Frequency:</strong> Every 15 minutes during daylight hours (6am-9pm UTC), hourly overnight</p>
                 <p id="data-timestamp" style="margin-top: 15px; font-style: italic; color: #888;"></p>
             </div>
@@ -658,15 +659,6 @@
                 <a href="#" class="nav-link" style="margin-bottom: 20px;">&larr; Back to River Tracker</a>
 
                 <div class="card" style="margin-top: 20px;">
-                    <h3>Current Farmoor Flow</h3>
-                    <div class="card-secondary" style="text-align: center;">
-                        <div class="card-label">Thames Flow at Farmoor (10k Upstream)</div>
-                        <div><span class="card-value card-value--large" id="farmoor-value">--</span> <span style="font-size: 1.2em; color: #6b7280; font-weight: 500;">m³/s</span></div>
-                        <div class="timestamp" id="farmoor-timestamp" style="font-size: 0.9em; color: #9ca3af; margin-top: 10px;"></div>
-                    </div>
-                </div>
-
-                <div class="card">
                     <h3>Farmoor Flow - Past 14 Days</h3>
                     <div class="chart-container">
                         <canvas id="farmoor-chart"></canvas>
@@ -698,6 +690,28 @@
                     <div style="text-align: center; margin-top: 20px;">
                         <a href="https://flags.jamesonlee.com/godstow" target="_blank" style="color: #1a1a2e; text-decoration: none; font-weight: 600;">Godstow flow data →</a>
                     </div>
+                    <div style="text-align: center; margin-top: 15px;">
+                        <a href="#lock-levels" class="nav-link">View lock level data →</a>
+                    </div>
+                </div>
+
+                <!-- Lock Levels Section (shown when #lock-levels hash is active) -->
+                <div id="lock-levels-section" class="page-section">
+                    <a href="#flow-data" class="nav-link" style="margin-bottom: 20px;">&larr; Back to Flow Data</a>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <h3>Godstow Lock - Downstage Level</h3>
+                        <div class="chart-container">
+                            <canvas id="godstow-lock-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <h3>Osney Lock - Upstage Level</h3>
+                        <div class="chart-container">
+                            <canvas id="osney-lock-chart"></canvas>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -707,27 +721,42 @@
         // Chart instances
         let farmoorChart = null;
         let flowChart = null;
+        let godstowLockChart = null;
+        let osneyLockChart = null;
         let currentData = null;
 
         // Hash-based navigation
         function handleHashChange() {
             const hash = window.location.hash;
-            const mainCards = document.querySelectorAll('#content > .card:not(#flow-data-section .card)');
+            const mainCards = document.querySelectorAll('#content > .card:not(#flow-data-section .card):not(#lock-levels-section .card)');
             const flowDataSection = document.getElementById('flow-data-section');
+            const lockLevelsSection = document.getElementById('lock-levels-section');
 
             if (hash === '#flow-data') {
-                // Show flow data section, hide main content
+                // Show flow data section, hide others
                 mainCards.forEach(card => card.style.display = 'none');
                 flowDataSection.classList.add('active');
+                lockLevelsSection.classList.remove('active');
 
                 // Create charts if we have data
                 if (currentData) {
                     displayFlowDataSection(currentData);
                 }
+            } else if (hash === '#lock-levels') {
+                // Show lock levels section, hide others
+                mainCards.forEach(card => card.style.display = 'none');
+                flowDataSection.classList.remove('active');
+                lockLevelsSection.classList.add('active');
+
+                // Create lock level charts if we have data
+                if (currentData) {
+                    displayLockLevelsSection(currentData);
+                }
             } else {
-                // Show main content, hide flow data section
+                // Show main content, hide other sections
                 mainCards.forEach(card => card.style.display = 'block');
                 flowDataSection.classList.remove('active');
+                lockLevelsSection.classList.remove('active');
             }
         }
 
@@ -935,14 +964,174 @@
             });
         }
 
-        function displayFlowDataSection(data) {
-            // Display current Farmoor value
-            if (data.farmoor && data.farmoor.flow !== null) {
-                document.getElementById('farmoor-value').textContent = data.farmoor.flow.toFixed(2);
-                document.getElementById('farmoor-timestamp').textContent =
-                    'Last reading: ' + formatTimestamp(data.farmoor.timestamp);
+        function createGodstowLockChart(history) {
+            const ctx = document.getElementById('godstow-lock-chart').getContext('2d');
+
+            // Prepare data (history is newest first, so reverse for chart)
+            const data = history.slice().reverse().map(r => ({
+                x: new Date(r.timestamp),
+                y: r.value
+            }));
+
+            if (godstowLockChart) {
+                godstowLockChart.destroy();
             }
 
+            godstowLockChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Level (m)',
+                        data: data,
+                        borderColor: '#3b82f6',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 0,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                displayFormats: {
+                                    day: 'dd MMM'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Level (m)'
+                            },
+                            beginAtZero: false
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
+                                        dateStyle: 'medium',
+                                        timeStyle: 'short'
+                                    });
+                                },
+                                label: function(context) {
+                                    return `Level: ${context.parsed.y.toFixed(3)} m`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createOsneyLockChart(history) {
+            const ctx = document.getElementById('osney-lock-chart').getContext('2d');
+
+            // Prepare data (history is newest first, so reverse for chart)
+            const data = history.slice().reverse().map(r => ({
+                x: new Date(r.timestamp),
+                y: r.value
+            }));
+
+            if (osneyLockChart) {
+                osneyLockChart.destroy();
+            }
+
+            osneyLockChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Level (m)',
+                        data: data,
+                        borderColor: '#10b981',
+                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                        fill: true,
+                        tension: 0.3,
+                        pointRadius: 0,
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            time: {
+                                unit: 'day',
+                                displayFormats: {
+                                    day: 'dd MMM'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Level (m)'
+                            },
+                            beginAtZero: false
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
+                                        dateStyle: 'medium',
+                                        timeStyle: 'short'
+                                    });
+                                },
+                                label: function(context) {
+                                    return `Level: ${context.parsed.y.toFixed(3)} m`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function displayLockLevelsSection(data) {
+            // Create lock level charts
+            if (data.godstow_history && data.godstow_history.length > 0) {
+                createGodstowLockChart(data.godstow_history);
+            }
+
+            if (data.osney_history && data.osney_history.length > 0) {
+                createOsneyLockChart(data.osney_history);
+            }
+        }
+
+        function displayFlowDataSection(data) {
             // Create charts
             if (data.farmoor_history && data.farmoor_history.length > 0) {
                 createFarmoorChart(data.farmoor_history);
@@ -967,24 +1156,33 @@
             return '☁️';
         }
 
-        function displayWeatherForecast(forecast) {
+        function displayWeatherForecast(forecast, ensembleStats) {
             const container = document.getElementById('weather-forecast');
             container.innerHTML = '';
 
-            if (!forecast || forecast.length === 0) {
-                container.innerHTML = '<p style="color: #999;">Weather forecast unavailable</p>';
+            // Use ensemble rainfall statistics if available
+            if (ensembleStats && ensembleStats.mean !== null && ensembleStats.mean !== undefined) {
+                const meanText = ensembleStats.mean.toFixed(1);
+                const rangeText = `${ensembleStats.p10.toFixed(1)}-${ensembleStats.p90.toFixed(1)}`;
+                document.getElementById('predicted-rainfall-24h').innerHTML =
+                    `${meanText} mm <span style="font-size: 0.8em; color: #6b7280;">(${rangeText}mm)</span>`;
+            } else if (forecast && forecast.length > 0) {
+                // Fallback: Calculate total predicted rainfall for 24 hours
+                let totalPrecipitation = 0;
+                forecast.forEach(hour => {
+                    if (hour.precipitation !== null && hour.precipitation !== undefined) {
+                        totalPrecipitation += hour.precipitation;
+                    }
+                });
+                document.getElementById('predicted-rainfall-24h').textContent = totalPrecipitation.toFixed(1) + ' mm';
+            } else {
                 document.getElementById('predicted-rainfall-24h').textContent = '--';
-                return;
             }
 
-            // Calculate total predicted rainfall for 24 hours
-            let totalPrecipitation = 0;
-            forecast.forEach(hour => {
-                if (hour.precipitation !== null && hour.precipitation !== undefined) {
-                    totalPrecipitation += hour.precipitation;
-                }
-            });
-            document.getElementById('predicted-rainfall-24h').textContent = totalPrecipitation.toFixed(1) + ' mm';
+            if (!forecast || forecast.length === 0) {
+                container.innerHTML = '<p style="color: #999;">Weather forecast unavailable</p>';
+                return;
+            }
 
             forecast.forEach((hour, index) => {
                 if (index % 3 !== 0) return; // Show every 3 hours
@@ -1210,16 +1408,28 @@
                 document.getElementById('rainfall-7d').textContent =
                     data.rainfall_7d ? data.rainfall_7d.toFixed(1) : '0.0';
 
-                // Display weather forecast
-                displayWeatherForecast(data.weather_forecast || []);
+                // Display weather forecast with ensemble rainfall if available
+                const ensemble24h = (data.ensemble_rainfall_24h_mean !== null && data.ensemble_rainfall_24h_mean !== undefined) ? {
+                    mean: data.ensemble_rainfall_24h_mean,
+                    p10: data.ensemble_rainfall_24h_p10,
+                    p90: data.ensemble_rainfall_24h_p90
+                } : null;
+                displayWeatherForecast(data.weather_forecast || [], ensemble24h);
 
-                // Display 3-day rainfall forecast
-                const forecast3d = data.rainfall_forecast_3d || [];
-                if (forecast3d.length > 0) {
-                    const total3d = forecast3d.reduce((sum, day) => sum + (day.precipitation || 0), 0);
-                    document.getElementById('predicted-rainfall-3d').textContent = total3d.toFixed(1) + ' mm';
+                // Display 3-day rainfall forecast - use ensemble if available
+                if (data.ensemble_rainfall_72h_mean !== null && data.ensemble_rainfall_72h_mean !== undefined) {
+                    const meanText = data.ensemble_rainfall_72h_mean.toFixed(1);
+                    const rangeText = `${data.ensemble_rainfall_72h_p10.toFixed(1)}-${data.ensemble_rainfall_72h_p90.toFixed(1)}`;
+                    document.getElementById('predicted-rainfall-3d').innerHTML =
+                        `${meanText} mm <span style="font-size: 0.8em; color: #6b7280;">(${rangeText}mm)</span>`;
                 } else {
-                    document.getElementById('predicted-rainfall-3d').textContent = '--';
+                    const forecast3d = data.rainfall_forecast_3d || [];
+                    if (forecast3d.length > 0) {
+                        const total3d = forecast3d.reduce((sum, day) => sum + (day.precipitation || 0), 0);
+                        document.getElementById('predicted-rainfall-3d').textContent = total3d.toFixed(1) + ' mm';
+                    } else {
+                        document.getElementById('predicted-rainfall-3d').textContent = '--';
+                    }
                 }
 
                 // Display countdowns

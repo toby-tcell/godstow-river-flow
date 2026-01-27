@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import datetime, timedelta, timezone
 import os
+import statistics
 
 # Hardcoded measure IDs (these don't change)
 MEASURE_IDS = {
@@ -170,84 +171,228 @@ def fetch_ourcs_flag(reach):
         print(f"Error fetching OURCS {reach} flag: {e}")
         return None
 
+def calculate_percentile(values, percentile):
+    '''Calculate percentile from a list of values'''
+    if not values:
+        return None
+    sorted_values = sorted(values)
+    index = (percentile / 100.0) * (len(sorted_values) - 1)
+    lower = int(index)
+    upper = lower + 1
+    weight = index - lower
+
+    if upper >= len(sorted_values):
+        return sorted_values[-1]
+    return sorted_values[lower] * (1 - weight) + sorted_values[upper] * weight
+
 def fetch_weather_forecast():
-    '''Fetch 24-hour weather forecast from Open-Meteo API for Oxford'''
+    '''Fetch 24-hour ensemble weather forecast from Open-Meteo API for Oxford'''
     try:
         # Oxford coordinates
         lat, lon = 51.7520, -1.2577
-        url = f"https://api.open-meteo.com/v1/forecast"
+        url = "https://ensemble-api.open-meteo.com/v1/ensemble"
         params = {
             'latitude': lat,
             'longitude': lon,
-            'hourly': 'temperature_2m,precipitation_probability,precipitation,weather_code',
+            'hourly': 'temperature_2m,precipitation,weather_code',
+            'models': 'icon_seamless',  # Best model for UK/European weather
             'forecast_hours': 24,
             'timezone': 'Europe/London'
         }
 
         response = requests.get(url, params=params, timeout=30)
         if response.status_code != 200:
+            print(f"Ensemble API error: {response.status_code}")
             return None
 
         data = response.json()
+
+        # Ensemble API returns data differently - need to handle multiple models/members
+        # The response structure has hourly data with arrays for each variable
         hourly = data.get('hourly', {})
+        times = hourly.get('time', [])
 
-        # Get next 24 hours of data
+        # For ensemble data, each variable may have multiple values per timestamp
+        # We need to calculate statistics across ensemble members
         forecast = []
-        times = hourly.get('time', [])[:24]
-        temps = hourly.get('temperature_2m', [])[:24]
-        precip_prob = hourly.get('precipitation_probability', [])[:24]
-        precip = hourly.get('precipitation', [])[:24]
-        weather_codes = hourly.get('weather_code', [])[:24]
 
+        # Get the shape of the data to understand ensemble structure
+        temp_data = hourly.get('temperature_2m', [])
+        precip_data = hourly.get('precipitation', [])
+        weather_data = hourly.get('weather_code', [])
+
+        # Process first 24 hours
         for i in range(min(24, len(times))):
+            # Extract values for this hour across all ensemble members
+            # Temperature: use mean
+            temp_val = temp_data[i] if i < len(temp_data) and temp_data[i] is not None else None
+
+            # Precipitation: calculate mean and range
+            precip_val = precip_data[i] if i < len(precip_data) and precip_data[i] is not None else None
+
+            # Weather code: use mode or first value
+            weather_val = weather_data[i] if i < len(weather_data) and weather_data[i] is not None else None
+
             forecast.append({
                 'time': times[i],
-                'temperature': temps[i] if i < len(temps) else None,
-                'precipitation_probability': precip_prob[i] if i < len(precip_prob) else None,
-                'precipitation': precip[i] if i < len(precip) else None,
-                'weather_code': weather_codes[i] if i < len(weather_codes) else None
+                'temperature': temp_val,
+                'precipitation': precip_val,
+                'precipitation_probability': None,  # Not available in ensemble API
+                'weather_code': weather_val
             })
 
         return forecast
 
     except Exception as e:
-        print(f"Error fetching weather forecast: {e}")
+        print(f"Error fetching ensemble weather forecast: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
-def fetch_3day_rainfall_forecast():
-    '''Fetch 3-day precipitation forecast from Open-Meteo API for Oxford'''
+def fetch_ensemble_rainfall_statistics():
+    '''Fetch ensemble rainfall statistics (mean and percentiles) for 24h and 72h forecasts'''
     try:
         lat, lon = 51.7520, -1.2577
-        url = "https://api.open-meteo.com/v1/forecast"
+        url = "https://ensemble-api.open-meteo.com/v1/ensemble"
         params = {
             'latitude': lat,
             'longitude': lon,
-            'daily': 'precipitation_sum',
-            'forecast_days': 3,
+            'hourly': 'precipitation',
+            'models': 'icon_seamless',  # Best model for UK/European weather - 40 members
+            'forecast_hours': 72,
             'timezone': 'Europe/London'
         }
 
         response = requests.get(url, params=params, timeout=30)
         if response.status_code != 200:
+            print(f"Ensemble statistics API error: {response.status_code}")
             return None
 
         data = response.json()
-        daily = data.get('daily', {})
+        hourly = data.get('hourly', {})
 
-        dates = daily.get('time', [])
-        precip = daily.get('precipitation_sum', [])
+        if not hourly:
+            print("No ensemble hourly data")
+            return None
 
+        # Find all ensemble member keys
+        member_keys = [key for key in hourly.keys() if key.startswith('precipitation_member')]
+        print(f"Found {len(member_keys)} ensemble members")
+
+        if not member_keys:
+            print("No ensemble members found in response")
+            return None
+
+        # Calculate totals for each member
+        totals_24h = []
+        totals_72h = []
+
+        for member_key in member_keys:
+            member_data = hourly[member_key]
+
+            # Calculate 24h total for this member
+            total_24h = sum(member_data[:24]) if len(member_data) >= 24 else sum(member_data)
+            totals_24h.append(total_24h)
+
+            # Calculate 72h total for this member
+            total_72h = sum(member_data[:72]) if len(member_data) >= 72 else sum(member_data)
+            totals_72h.append(total_72h)
+
+        # Calculate statistics across all members
+        mean_24h = statistics.mean(totals_24h)
+        p10_24h = calculate_percentile(totals_24h, 10)
+        p90_24h = calculate_percentile(totals_24h, 90)
+
+        mean_72h = statistics.mean(totals_72h)
+        p10_72h = calculate_percentile(totals_72h, 10)
+        p90_72h = calculate_percentile(totals_72h, 90)
+
+        result = {
+            'rainfall_24h_mean': mean_24h,
+            'rainfall_24h_p10': p10_24h,
+            'rainfall_24h_p90': p90_24h,
+            'rainfall_72h_mean': mean_72h,
+            'rainfall_72h_p10': p10_72h,
+            'rainfall_72h_p90': p90_72h
+        }
+
+        print(f"Ensemble 24h: {mean_24h:.1f}mm (range: {p10_24h:.1f}-{p90_24h:.1f}mm)")
+        print(f"Ensemble 72h: {mean_72h:.1f}mm (range: {p10_72h:.1f}-{p90_72h:.1f}mm)")
+        return result
+
+    except Exception as e:
+        print(f"Error fetching ensemble rainfall statistics: {e}")
+        import traceback
+        traceback.print_exc()
+        return None
+
+def fetch_3day_rainfall_forecast():
+    '''Fetch 3-day ensemble precipitation forecast from Open-Meteo API for Oxford with statistics'''
+    try:
+        lat, lon = 51.7520, -1.2577
+        url = "https://ensemble-api.open-meteo.com/v1/ensemble"
+        params = {
+            'latitude': lat,
+            'longitude': lon,
+            'hourly': 'precipitation',
+            'models': 'icon_seamless',  # Best model for UK/European weather
+            'forecast_hours': 72,  # 3 days
+            'timezone': 'Europe/London'
+        }
+
+        response = requests.get(url, params=params, timeout=30)
+        if response.status_code != 200:
+            print(f"Ensemble 3-day API error: {response.status_code}")
+            return None
+
+        data = response.json()
+        hourly = data.get('hourly', {})
+        times = hourly.get('time', [])
+        precip_data = hourly.get('precipitation', [])
+
+        if not times or not precip_data:
+            print("No ensemble data returned")
+            return None
+
+        # Group hourly data by day and calculate daily sums
+        daily_totals = {}
+
+        for i, time_str in enumerate(times):
+            if i >= len(precip_data):
+                break
+
+            # Extract date from timestamp
+            date = time_str.split('T')[0]
+
+            # Initialize day if not seen
+            if date not in daily_totals:
+                daily_totals[date] = []
+
+            # Add precipitation value for this hour
+            precip_val = precip_data[i] if precip_data[i] is not None else 0
+            daily_totals[date].append(precip_val)
+
+        # Calculate statistics for each day
         forecast = []
-        for i in range(min(3, len(dates))):
+        for date in sorted(daily_totals.keys())[:3]:  # First 3 days
+            hourly_precip = daily_totals[date]
+            daily_sum = sum(hourly_precip)
+
             forecast.append({
-                'date': dates[i],
-                'precipitation': precip[i] if i < len(precip) else 0
+                'date': date,
+                'precipitation': daily_sum
             })
+
+        print(f"Ensemble 3-day forecast: {len(forecast)} days")
+        for day in forecast:
+            print(f"  {day['date']}: {day['precipitation']:.1f}mm")
 
         return forecast
 
     except Exception as e:
-        print(f"Error fetching 3-day rainfall forecast: {e}")
+        print(f"Error fetching 3-day ensemble rainfall forecast: {e}")
+        import traceback
+        traceback.print_exc()
         return None
 
 def main():
@@ -294,6 +439,7 @@ def main():
     rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
     weather_forecast = fetch_weather_forecast()
     rainfall_forecast_3d = fetch_3day_rainfall_forecast()
+    ensemble_stats = fetch_ensemble_rainfall_statistics()
     ourcs_godstow = fetch_ourcs_flag('godstow')
     ourcs_isis = fetch_ourcs_flag('isis')
 
@@ -384,6 +530,12 @@ def main():
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
         'weather_forecast': weather_forecast if weather_forecast else [],
         'rainfall_forecast_3d': rainfall_forecast_3d if rainfall_forecast_3d else [],
+        'ensemble_rainfall_24h_mean': ensemble_stats.get('rainfall_24h_mean') if ensemble_stats else None,
+        'ensemble_rainfall_24h_p10': ensemble_stats.get('rainfall_24h_p10') if ensemble_stats else None,
+        'ensemble_rainfall_24h_p90': ensemble_stats.get('rainfall_24h_p90') if ensemble_stats else None,
+        'ensemble_rainfall_72h_mean': ensemble_stats.get('rainfall_72h_mean') if ensemble_stats else None,
+        'ensemble_rainfall_72h_p10': ensemble_stats.get('rainfall_72h_p10') if ensemble_stats else None,
+        'ensemble_rainfall_72h_p90': ensemble_stats.get('rainfall_72h_p90') if ensemble_stats else None,
         'ourcs_godstow_flag': ourcs_godstow,
         'ourcs_isis_flag': ourcs_isis,
         'godstow_history': godstow_history,
