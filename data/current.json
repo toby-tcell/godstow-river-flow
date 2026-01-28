@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-01-28T13:58:33.806960Z",
+  "last_updated": "2026-01-28T14:44:19.240802Z",
   "osney_lock": {
-    "level": -0.017,
-    "timestamp": "2026-01-28T13:30:00Z"
+    "level": -0.028,
+    "timestamp": "2026-01-28T14:15:00Z"
   },
   "godstow_lock": {
-    "level": 2.731,
-    "timestamp": "2026-01-28T13:30:00Z"
+    "level": 2.733,
+    "timestamp": "2026-01-28T14:15:00Z"
   },
   "farmoor": {
-    "flow": 61.137,
-    "timestamp": "2026-01-28T13:30:00Z"
+    "flow": 61.006,
+    "timestamp": "2026-01-28T14:15:00Z"
   },
-  "differential": 2.7479999999999998,
-  "flow": 1.1179999999999999,
-  "flow_2h_ago": 1.1360000000000001,
+  "differential": 2.761,
+  "flow": 1.1310000000000002,
+  "flow_2h_ago": 1.174,
   "flow_trend": "level",
   "rainfall_24h": 1.0666666666666667,
-  "rainfall_7d": 28.006666666666675,
+  "rainfall_7d": 27.110000000000003,
   "weather_forecast": [
-    {
-      "time": "2026-01-28T13:00",
-      "temperature": 5.2,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 3
-    },
     {
       "time": "2026-01-28T14:00",
       "temperature": 6.4,
@@ -186,6 +179,13 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 3
+    },
+    {
+      "time": "2026-01-29T13:00",
+      "temperature": 7.4,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 3
     }
   ],
   "rainfall_forecast_3d": [
@@ -205,9 +205,9 @@
   "ensemble_rainfall_24h_mean": 0.007692307692307692,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 0.0,
-  "ensemble_rainfall_72h_mean": 6.612820512820512,
+  "ensemble_rainfall_72h_mean": 6.676923076923077,
   "ensemble_rainfall_72h_p10": 2.98,
-  "ensemble_rainfall_72h_p90": 9.66,
+  "ensemble_rainfall_72h_p90": 9.899999999999999,
   "ourcs_godstow_flag": {
     "reach": "godstow",
     "status": "R",
@@ -229,6 +229,18 @@
     "set_by": "Jack Davies"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-01-28T14:15:00Z",
+      "value": 2.733
+    },
+    {
+      "timestamp": "2026-01-28T14:00:00Z",
+      "value": 2.732
+    },
+    {
+      "timestamp": "2026-01-28T13:45:00Z",
+      "value": 2.731
+    },
     {
       "timestamp": "2026-01-28T13:30:00Z",
       "value": 2.731
@@ -5588,21 +5600,21 @@
     {
       "timestamp": "2026-01-14T14:45:00Z",
       "value": 2.173
-    },
-    {
-      "timestamp": "2026-01-14T14:30:00Z",
-      "value": 2.171
-    },
-    {
-      "timestamp": "2026-01-14T14:15:00Z",
-      "value": 2.166
-    },
-    {
-      "timestamp": "2026-01-14T14:00:00Z",
-      "value": 2.172
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-01-28T14:15:00Z",
+      "value": -0.028
+    },
+    {
+      "timestamp": "2026-01-28T14:00:00Z",
+      "value": -0.014
+    },
+    {
+      "timestamp": "2026-01-28T13:45:00Z",
+      "value": -0.019
+    },
     {
       "timestamp": "2026-01-28T13:30:00Z",
       "value": -0.017
@@ -10962,21 +10974,21 @@
     {
       "timestamp": "2026-01-14T14:45:00Z",
       "value": 0.009
-    },
-    {
-      "timestamp": "2026-01-14T14:30:00Z",
-      "value": 0.001
-    },
-    {
-      "timestamp": "2026-01-14T14:15:00Z",
-      "value": -0.002
-    },
-    {
-      "timestamp": "2026-01-14T14:00:00Z",
-      "value": -0.034
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-01-28T14:15:00Z",
+      "value": 61.006
+    },
+    {
+      "timestamp": "2026-01-28T14:00:00Z",
+      "value": 61.215
+    },
+    {
+      "timestamp": "2026-01-28T13:45:00Z",
+      "value": 60.925
+    },
     {
       "timestamp": "2026-01-28T13:30:00Z",
       "value": 61.137
@@ -16336,18 +16348,6 @@
     {
       "timestamp": "2026-01-14T14:45:00Z",
       "value": 33.175
-    },
-    {
-      "timestamp": "2026-01-14T14:30:00Z",
-      "value": 33.127
-    },
-    {
-      "timestamp": "2026-01-14T14:15:00Z",
-      "value": 32.986
-    },
-    {
-      "timestamp": "2026-01-14T14:00:00Z",
-      "value": 33.133
     }
   ]
 }
