@@ -495,15 +495,15 @@ def main():
         # Calculate trend with 0.1 threshold
         if flow_2h_ago is not None:
             flow_change = current_flow - flow_2h_ago
-            if flow_change > 0.05:
-                flow_trend = 'increasing'
-            elif flow_change < -0.05:
-                flow_trend = 'decreasing'
+            if flow_change > 0.1:
+                flow_trend = 'Rising'
+            elif flow_change < -0.1:
+                flow_trend = 'Falling'
             else:
-                flow_trend = 'level'
+                flow_trend = 'Stable'
             print(f"Flow change over 2h: {flow_change:+.3f}m -> {flow_trend}")
         else:
-            flow_trend = 'level'
+            flow_trend = 'Stable'
             print("No 2h-ago data available for trend calculation")
     else:
         print("ERROR: Unable to calculate flow - missing lock data even after fallback attempt")
