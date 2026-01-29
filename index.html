@@ -707,7 +707,7 @@
                     <div class="flag-thresholds" style="margin-bottom: 15px;">
                         <div class="threshold-item">
                             <div class="threshold-dot" style="background: #3b82f6;"></div>
-                            <span>Meadow flood level (~2.50m)</span>
+                            <span>Meadow flood level (~2.57m)</span>
                         </div>
                     </div>
                     <div class="chart-container">
@@ -725,11 +725,7 @@
 
                 <div class="card" style="margin-top: 20px;">
                     <h3>Flow Predictions</h3>
-                    <p style="text-align: center; color: #92400e; background: #fffbeb; padding: 15px; border-radius: 8px; border: 1px solid #fbbf24; margin-bottom: 25px;">
-                        <strong>Important:</strong> These predictions assume <em>no additional rainfall</em>. Actual conditions may vary significantly if rain is forecast.
-                    </p>
-
-                    <div class="card-grid card-grid--2col" style="margin-bottom: 30px;">
+<div class="card-grid card-grid--2col" style="margin-bottom: 30px;">
                         <div class="card-secondary" style="text-align: center;">
                             <div class="card-label">Current Status</div>
                             <div class="flag-item-status" id="prediction-flag-emoji">--</div>
@@ -747,7 +743,10 @@
                     </div>
 
                     <div style="margin-top: 30px; padding: 20px; background: #f3f4f6; border-radius: 12px;">
-                        <h4 style="margin-bottom: 15px; color: #1f2937;">How this works</h4>
+                        <h4 style="margin-bottom: 15px; color: #1f2937;">Model Assumptions</h4>
+                        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
+                            <strong>These predictions assume no additional rainfall.</strong> Actual conditions may vary significantly if rain is forecast.
+                        </p>
                         <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
                             These estimates use historical data showing that Farmoor flow typically decays by approximately <strong id="decay-rate-display">2-3</strong> m³/s per day after a peak (using a conservative estimate).
                         </p>
@@ -788,7 +787,7 @@
         let predictionModel = null;
 
         // Flood meadow threshold level (approximate)
-        const MEADOW_FLOOD_LEVEL = 2.50;
+        const MEADOW_FLOOD_LEVEL = 2.57;
 
         // Hash-based navigation
         function handleHashChange() {
@@ -1195,7 +1194,7 @@
                 if (daysToAmber !== null) {
                     predictionsHtml += `
                         <div class="card-event" style="background: #fd7e14;">
-                            <div class="card-event__value">${daysToAmber.toFixed(1)}</div>
+                            <div class="card-event__value">${Math.ceil(daysToAmber)}</div>
                             <div class="card-event__label">Days to Amber</div>
                         </div>
                     `;
@@ -1203,7 +1202,7 @@
                 if (daysToGreen !== null) {
                     predictionsHtml += `
                         <div class="card-event" style="background: #28a745;">
-                            <div class="card-event__value">${daysToGreen.toFixed(1)}</div>
+                            <div class="card-event__value">${Math.ceil(daysToGreen)}</div>
                             <div class="card-event__label">Days to Green</div>
                         </div>
                     `;
@@ -1489,15 +1488,15 @@
                 const trendElement = document.getElementById('flow-trend');
                 if (data.flow_trend) {
                     let trendIcon, trendText, trendColor;
-                    if (data.flow_trend === 'increasing') {
+                    if (data.flow_trend === 'Rising') {
                         trendIcon = '↑';
                         trendText = 'Increasing';
                         trendColor = '#dc3545';
-                    } else if (data.flow_trend === 'decreasing') {
+                    } else if (data.flow_trend === 'Falling') {
                         trendIcon = '↓';
                         trendText = 'Decreasing';
                         trendColor = '#28a745';
-                    } else if (data.flow_trend === 'level') {
+                    } else if (data.flow_trend === 'Stable') {
                         trendIcon = '→';
                         trendText = 'Level';
                         trendColor = '#666';
