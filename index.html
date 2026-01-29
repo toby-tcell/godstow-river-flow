@@ -585,13 +585,23 @@
                         <div class="flag-text" id="flag-text">--</div>
                         <div class="flag-description" id="flag-description">--</div>
                         <div style="margin-top: 20px; font-size: 1em;">
-                            <a href="#flow-data" class="nav-link">View detailed flow data →</a>
+                            <a href="#flow-data" class="nav-link">View flow data →</a>
+                        </div>
+                        <div style="margin-top: 10px; font-size: 1em;">
+                            <a href="#flow-predictions" class="nav-link">View flow predictions →</a>
                         </div>
                     </div>
-                    <div class="card-secondary" style="text-align: center;">
-                        <div class="card-label">Godstow Differential</div>
-                        <div class="card-value card-value--large" id="flow">--</div>
-                        <div class="flow-trend" id="flow-trend"></div>
+                    <div>
+                        <div class="card-secondary" style="text-align: center; margin-bottom: 15px;">
+                            <div class="card-label">Godstow Differential</div>
+                            <div class="card-value card-value--large" id="flow">--</div>
+                            <div class="flow-trend" id="flow-trend"></div>
+                        </div>
+                        <div class="card-secondary" style="text-align: center;">
+                            <div class="card-label">Farmoor Flow</div>
+                            <div class="card-value card-value--accent" id="farmoor-flow">--</div>
+                            <div class="flow-trend" id="farmoor-trend"></div>
+                        </div>
                     </div>
                 </div>
 
@@ -690,30 +700,82 @@
                     <div style="text-align: center; margin-top: 20px;">
                         <a href="https://flags.jamesonlee.com/godstow" target="_blank" style="color: #1a1a2e; text-decoration: none; font-weight: 600;">Godstow flow data →</a>
                     </div>
-                    <div style="text-align: center; margin-top: 15px;">
-                        <a href="#lock-levels" class="nav-link">View lock level data →</a>
+                </div>
+
+                <div class="card">
+                    <h3>Godstow Lock - Downstage Level</h3>
+                    <div class="flag-thresholds" style="margin-bottom: 15px;">
+                        <div class="threshold-item">
+                            <div class="threshold-dot" style="background: #3b82f6;"></div>
+                            <span>Meadow flood level (~2.50m)</span>
+                        </div>
                     </div>
+                    <div class="chart-container">
+                        <canvas id="godstow-lock-chart"></canvas>
+                    </div>
+                    <p style="text-align: center; color: #6b7280; margin-top: 15px; font-size: 0.9em;">
+                        The blue line indicates the approximate level at which Port Meadow begins to flood.
+                    </p>
                 </div>
             </div>
 
-            <!-- Lock Levels Section (shown when #lock-levels hash is active) -->
-            <div id="lock-levels-section" class="page-section">
-                <a href="#flow-data" class="nav-link" style="margin-bottom: 20px;">&larr; Back to Flow Data</a>
+            <!-- Flow Predictions Section (shown when #flow-predictions hash is active) -->
+            <div id="flow-predictions-section" class="page-section">
+                <a href="#" class="nav-link" style="margin-bottom: 20px;">&larr; Back to River Tracker</a>
 
                 <div class="card" style="margin-top: 20px;">
-                    <h3>Godstow Lock - Downstage Level</h3>
-                    <div class="chart-container">
-                        <canvas id="godstow-lock-chart"></canvas>
+                    <h3>Flow Predictions</h3>
+                    <p style="text-align: center; color: #92400e; background: #fffbeb; padding: 15px; border-radius: 8px; border: 1px solid #fbbf24; margin-bottom: 25px;">
+                        <strong>Important:</strong> These predictions assume <em>no additional rainfall</em>. Actual conditions may vary significantly if rain is forecast.
+                    </p>
+
+                    <div class="card-grid card-grid--2col" style="margin-bottom: 30px;">
+                        <div class="card-secondary" style="text-align: center;">
+                            <div class="card-label">Current Status</div>
+                            <div class="flag-item-status" id="prediction-flag-emoji">--</div>
+                            <div class="flag-item-text" id="prediction-flag-text">--</div>
+                        </div>
+                        <div class="card-secondary" style="text-align: center;">
+                            <div class="card-label">Farmoor Flow</div>
+                            <div class="card-value" id="prediction-farmoor">--</div>
+                            <div style="font-size: 0.9em; color: #6b7280; margin-top: 5px;">m³/s</div>
+                        </div>
+                    </div>
+
+                    <div id="predictions-content">
+                        <!-- Dynamic prediction content will be inserted here -->
+                    </div>
+
+                    <div style="margin-top: 30px; padding: 20px; background: #f3f4f6; border-radius: 12px;">
+                        <h4 style="margin-bottom: 15px; color: #1f2937;">How this works</h4>
+                        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
+                            These estimates use historical data showing that Farmoor flow typically decays by approximately <strong id="decay-rate-display">2-3</strong> m³/s per day after a peak (using a conservative estimate).
+                        </p>
+                        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 0;">
+                            Flag thresholds are based on correlation analysis:
+                            <strong>Green</strong> below <span id="threshold-green">27</span> m³/s,
+                            <strong>Amber</strong> <span id="threshold-green2">27</span>-<span id="threshold-red">43</span> m³/s,
+                            <strong>Red</strong> above <span id="threshold-red2">43</span> m³/s.
+                        </p>
                     </div>
                 </div>
 
                 <div class="card">
-                    <h3>Osney Lock - Upstage Level</h3>
-                    <div class="chart-container">
-                        <canvas id="osney-lock-chart"></canvas>
+                    <h3>AI-Powered Forecast</h3>
+                    <p style="text-align: center; margin-bottom: 20px;">
+                        For predictions that account for rainfall forecasts, try the AI-powered flag predictor:
+                    </p>
+                    <div style="text-align: center;">
+                        <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" class="nav-link" style="background: #1a1a2e; color: white; padding: 15px 30px; font-size: 1.1em;">
+                            View AI Forecast →
+                        </a>
                     </div>
+                    <p style="text-align: center; color: #6b7280; margin-top: 15px; font-size: 0.9em;">
+                        External site by Robert Doane-Solomon
+                    </p>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -722,41 +784,44 @@
         let farmoorChart = null;
         let flowChart = null;
         let godstowLockChart = null;
-        let osneyLockChart = null;
         let currentData = null;
+        let predictionModel = null;
+
+        // Flood meadow threshold level (approximate)
+        const MEADOW_FLOOD_LEVEL = 2.50;
 
         // Hash-based navigation
         function handleHashChange() {
             const hash = window.location.hash;
-            const mainCards = document.querySelectorAll('#content > .card:not(#flow-data-section .card):not(#lock-levels-section .card)');
+            const mainCards = document.querySelectorAll('#content > .card:not(#flow-data-section .card):not(#flow-predictions-section .card)');
             const flowDataSection = document.getElementById('flow-data-section');
-            const lockLevelsSection = document.getElementById('lock-levels-section');
+            const flowPredictionsSection = document.getElementById('flow-predictions-section');
 
             if (hash === '#flow-data') {
                 // Show flow data section, hide others
                 mainCards.forEach(card => card.style.display = 'none');
                 flowDataSection.classList.add('active');
-                lockLevelsSection.classList.remove('active');
+                flowPredictionsSection.classList.remove('active');
 
                 // Create charts if we have data
                 if (currentData) {
                     displayFlowDataSection(currentData);
                 }
-            } else if (hash === '#lock-levels') {
-                // Show lock levels section, hide others
+            } else if (hash === '#flow-predictions') {
+                // Show flow predictions section, hide others
                 mainCards.forEach(card => card.style.display = 'none');
                 flowDataSection.classList.remove('active');
-                lockLevelsSection.classList.add('active');
+                flowPredictionsSection.classList.add('active');
 
-                // Create lock level charts if we have data
-                if (currentData) {
-                    displayLockLevelsSection(currentData);
+                // Display predictions if we have data
+                if (currentData && predictionModel) {
+                    displayFlowPredictions(currentData, predictionModel);
                 }
             } else {
                 // Show main content, hide other sections
                 mainCards.forEach(card => card.style.display = 'block');
                 flowDataSection.classList.remove('active');
-                lockLevelsSection.classList.remove('active');
+                flowPredictionsSection.classList.remove('active');
             }
         }
 
@@ -973,6 +1038,12 @@
                 y: r.value
             }));
 
+            // Create threshold line data spanning the full date range
+            const thresholdData = data.length > 0 ? [
+                { x: data[0].x, y: MEADOW_FLOOD_LEVEL },
+                { x: data[data.length - 1].x, y: MEADOW_FLOOD_LEVEL }
+            ] : [];
+
             if (godstowLockChart) {
                 godstowLockChart.destroy();
             }
@@ -980,16 +1051,27 @@
             godstowLockChart = new Chart(ctx, {
                 type: 'line',
                 data: {
-                    datasets: [{
-                        label: 'Level (m)',
-                        data: data,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        borderWidth: 2
-                    }]
+                    datasets: [
+                        {
+                            label: 'Level (m)',
+                            data: data,
+                            borderColor: '#1a1a2e',
+                            backgroundColor: 'rgba(26, 26, 46, 0.1)',
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 0,
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Meadow Flood Level',
+                            data: thresholdData,
+                            borderColor: '#3b82f6',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            pointRadius: 0,
+                            fill: false
+                        }
+                    ]
                 },
                 options: {
                     responsive: true,
@@ -1022,7 +1104,8 @@
                     },
                     plugins: {
                         legend: {
-                            display: false
+                            display: true,
+                            position: 'bottom'
                         },
                         tooltip: {
                             callbacks: {
@@ -1033,6 +1116,9 @@
                                     });
                                 },
                                 label: function(context) {
+                                    if (context.datasetIndex === 1) {
+                                        return `Meadow flood level: ${MEADOW_FLOOD_LEVEL.toFixed(2)} m`;
+                                    }
                                     return `Level: ${context.parsed.y.toFixed(3)} m`;
                                 }
                             }
@@ -1042,104 +1128,107 @@
             });
         }
 
-        function createOsneyLockChart(history) {
-            const ctx = document.getElementById('osney-lock-chart').getContext('2d');
-
-            // Prepare data (history is newest first, so reverse for chart)
-            const data = history.slice().reverse().map(r => ({
-                x: new Date(r.timestamp),
-                y: r.value
-            }));
-
-            if (osneyLockChart) {
-                osneyLockChart.destroy();
+        function displayFlowPredictions(data, model) {
+            // Get current Farmoor flow
+            const farmoorFlow = data.farmoor ? data.farmoor.flow : null;
+            if (!farmoorFlow || !model) {
+                document.getElementById('predictions-content').innerHTML =
+                    '<p style="text-align: center; color: #6b7280;">Prediction data unavailable</p>';
+                return;
             }
 
-            osneyLockChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Level (m)',
-                        data: data,
-                        borderColor: '#10b981',
-                        backgroundColor: 'rgba(16, 185, 129, 0.1)',
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'dd MMM'
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Level (m)'
-                            },
-                            beginAtZero: false
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short'
-                                    });
-                                },
-                                label: function(context) {
-                                    return `Level: ${context.parsed.y.toFixed(3)} m`;
-                                }
-                            }
-                        }
-                    }
+            // Update display values
+            document.getElementById('prediction-farmoor').textContent = farmoorFlow.toFixed(1);
+
+            // Get thresholds from model
+            const greenAmberThreshold = model.thresholds.green_amber_farmoor;
+            const amberRedThreshold = model.thresholds.amber_red_farmoor;
+            const decayRate = model.decay_rate.conservative;
+
+            // Update threshold displays
+            document.getElementById('decay-rate-display').textContent = decayRate.toFixed(1);
+            document.getElementById('threshold-green').textContent = greenAmberThreshold.toFixed(0);
+            document.getElementById('threshold-green2').textContent = greenAmberThreshold.toFixed(0);
+            document.getElementById('threshold-red').textContent = amberRedThreshold.toFixed(0);
+            document.getElementById('threshold-red2').textContent = amberRedThreshold.toFixed(0);
+
+            // Determine current status and predictions
+            let currentStatus, statusEmoji, statusColor;
+            let daysToAmber = null;
+            let daysToGreen = null;
+
+            if (farmoorFlow > amberRedThreshold) {
+                currentStatus = 'Red';
+                statusEmoji = '🟥';
+                statusColor = '#dc3545';
+                // Calculate days to amber
+                daysToAmber = (farmoorFlow - amberRedThreshold) / decayRate;
+                // Calculate days to green
+                daysToGreen = (farmoorFlow - greenAmberThreshold) / decayRate;
+            } else if (farmoorFlow > greenAmberThreshold) {
+                currentStatus = 'Amber';
+                statusEmoji = '🟧';
+                statusColor = '#fd7e14';
+                // Calculate days to green
+                daysToGreen = (farmoorFlow - greenAmberThreshold) / decayRate;
+            } else {
+                currentStatus = 'Green';
+                statusEmoji = '🟩';
+                statusColor = '#28a745';
+            }
+
+            document.getElementById('prediction-flag-emoji').textContent = statusEmoji;
+            document.getElementById('prediction-flag-text').textContent = currentStatus;
+            document.getElementById('prediction-flag-text').style.color = statusColor;
+
+            // Build predictions content
+            let predictionsHtml = '<div class="card-grid card-grid--2col">';
+
+            if (currentStatus === 'Green') {
+                predictionsHtml += `
+                    <div class="card-event card-event--dark" style="grid-column: 1 / -1;">
+                        <div class="card-event__value">✓</div>
+                        <div class="card-event__label">Currently at Green - no restrictions!</div>
+                    </div>
+                `;
+            } else {
+                if (daysToAmber !== null) {
+                    predictionsHtml += `
+                        <div class="card-event" style="background: #fd7e14;">
+                            <div class="card-event__value">${daysToAmber.toFixed(1)}</div>
+                            <div class="card-event__label">Days to Amber</div>
+                        </div>
+                    `;
                 }
-            });
-        }
-
-        function displayLockLevelsSection(data) {
-            // Create lock level charts
-            if (data.godstow_history && data.godstow_history.length > 0) {
-                createGodstowLockChart(data.godstow_history);
+                if (daysToGreen !== null) {
+                    predictionsHtml += `
+                        <div class="card-event" style="background: #28a745;">
+                            <div class="card-event__value">${daysToGreen.toFixed(1)}</div>
+                            <div class="card-event__label">Days to Green</div>
+                        </div>
+                    `;
+                }
             }
 
-            if (data.osney_history && data.osney_history.length > 0) {
-                createOsneyLockChart(data.osney_history);
-            }
+            predictionsHtml += '</div>';
+            document.getElementById('predictions-content').innerHTML = predictionsHtml;
         }
 
         function displayFlowDataSection(data) {
-            // Create charts
+            // Create Farmoor chart
             if (data.farmoor_history && data.farmoor_history.length > 0) {
                 createFarmoorChart(data.farmoor_history);
             }
 
+            // Create flow differential chart
             if (data.godstow_history && data.osney_history &&
                 data.godstow_history.length > 0 && data.osney_history.length > 0) {
                 createFlowChart(data.godstow_history, data.osney_history);
+            }
+
+            // Create Godstow lock level chart
+            if (data.godstow_history && data.godstow_history.length > 0) {
+                createGodstowLockChart(data.godstow_history);
             }
         }
 
@@ -1231,17 +1320,29 @@
 
         async function loadData() {
             try {
-                const response = await fetch('data/current.json?t=' + Date.now());
+                // Load both current data and prediction model in parallel
+                const [dataResponse, modelResponse] = await Promise.all([
+                    fetch('data/current.json?t=' + Date.now()),
+                    fetch('data/prediction_model.json?t=' + Date.now())
+                ]);
 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+                if (!dataResponse.ok) {
+                    throw new Error(`HTTP error! status: ${dataResponse.status}`);
                 }
 
-                const data = await response.json();
+                const data = await dataResponse.json();
+
+                // Load prediction model (don't fail if unavailable)
+                if (modelResponse.ok) {
+                    predictionModel = await modelResponse.json();
+                }
 
                 // Save to localStorage on successful fetch
                 localStorage.setItem('riverData', JSON.stringify(data));
                 localStorage.setItem('riverDataTimestamp', Date.now().toString());
+                if (predictionModel) {
+                    localStorage.setItem('predictionModel', JSON.stringify(predictionModel));
+                }
 
                 // Store data globally for hash navigation
                 currentData = data;
@@ -1264,11 +1365,15 @@
                 // Try to load from localStorage
                 const cachedData = localStorage.getItem('riverData');
                 const cachedTimestamp = localStorage.getItem('riverDataTimestamp');
+                const cachedModel = localStorage.getItem('predictionModel');
 
                 if (cachedData && cachedTimestamp) {
                     console.log('Using cached data');
                     const data = JSON.parse(cachedData);
                     currentData = data;
+                    if (cachedModel) {
+                        predictionModel = JSON.parse(cachedModel);
+                    }
                     const cacheAge = Date.now() - parseInt(cachedTimestamp);
                     const hoursOld = Math.floor(cacheAge / (1000 * 60 * 60));
                     const minutesOld = Math.floor((cacheAge % (1000 * 60 * 60)) / (1000 * 60));
@@ -1401,6 +1506,41 @@
                 } else {
                     // Show a message if trend not yet available
                     trendElement.innerHTML = '<span style="color: #999; font-size: 0.9em;">Trend available after next update</span>';
+                }
+
+                // Display Farmoor flow and trend
+                if (data.farmoor && data.farmoor.flow !== null) {
+                    document.getElementById('farmoor-flow').innerHTML = data.farmoor.flow.toFixed(1) + ' <span style="font-size: 0.5em; font-weight: 500;">m³/s</span>';
+
+                    // Calculate Farmoor trend from history if available
+                    const farmoorTrendElement = document.getElementById('farmoor-trend');
+                    if (data.farmoor_history && data.farmoor_history.length >= 8) {
+                        // Compare current to 2 hours ago (8 readings at 15-min intervals)
+                        const currentFarmoor = data.farmoor.flow;
+                        const farmoor2hAgo = data.farmoor_history[7].value;
+                        const farmoorChange = currentFarmoor - farmoor2hAgo;
+
+                        let fTrendIcon, fTrendText, fTrendColor;
+                        if (farmoorChange > 0.5) {
+                            fTrendIcon = '↑';
+                            fTrendText = 'Rising';
+                            fTrendColor = '#dc3545';
+                        } else if (farmoorChange < -0.5) {
+                            fTrendIcon = '↓';
+                            fTrendText = 'Falling';
+                            fTrendColor = '#28a745';
+                        } else {
+                            fTrendIcon = '→';
+                            fTrendText = 'Stable';
+                            fTrendColor = '#666';
+                        }
+                        farmoorTrendElement.innerHTML = `<span class="trend-icon" style="color: ${fTrendColor};">${fTrendIcon}</span><span style="color: ${fTrendColor};">${fTrendText}</span>`;
+                    } else {
+                        farmoorTrendElement.innerHTML = '';
+                    }
+                } else {
+                    document.getElementById('farmoor-flow').textContent = '--';
+                    document.getElementById('farmoor-trend').innerHTML = '';
                 }
 
                 document.getElementById('rainfall-24h').textContent =
