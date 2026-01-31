@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-01-31T06:53:27.621237Z",
+  "last_updated": "2026-01-31T07:36:02.546381Z",
   "osney_lock": {
-    "level": -0.032,
-    "timestamp": "2026-01-31T06:30:00Z"
+    "level": -0.02,
+    "timestamp": "2026-01-31T07:15:00Z"
   },
   "godstow_lock": {
-    "level": 2.769,
-    "timestamp": "2026-01-31T06:30:00Z"
+    "level": 2.766,
+    "timestamp": "2026-01-31T07:15:00Z"
   },
   "farmoor": {
-    "flow": 62.12,
-    "timestamp": "2026-01-31T06:30:00Z"
+    "flow": 62.033,
+    "timestamp": "2026-01-31T07:15:00Z"
   },
-  "differential": 2.801,
-  "flow": 1.1710000000000003,
-  "flow_2h_ago": 1.158,
+  "differential": 2.786,
+  "flow": 1.1560000000000001,
+  "flow_2h_ago": 1.1630000000000003,
   "flow_trend": "Stable",
-  "rainfall_24h": 4.473333333333334,
+  "rainfall_24h": 4.213333333333334,
   "rainfall_7d": 25.89000000000003,
   "weather_forecast": [
-    {
-      "time": "2026-01-31T06:00",
-      "temperature": 5.3,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 0
-    },
     {
       "time": "2026-01-31T07:00",
       "temperature": 5.1,
@@ -186,6 +179,13 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 3
+    },
+    {
+      "time": "2026-02-01T06:00",
+      "temperature": 6.7,
+      "precipitation": 0.1,
+      "precipitation_probability": null,
+      "weather_code": 51
     }
   ],
   "rainfall_forecast_3d": [
@@ -202,10 +202,10 @@
       "precipitation": 0.2
     }
   ],
-  "ensemble_rainfall_24h_mean": 0.7589743589743589,
+  "ensemble_rainfall_24h_mean": 0.7666666666666666,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 1.5400000000000003,
-  "ensemble_rainfall_72h_mean": 3.712820512820513,
+  "ensemble_rainfall_72h_mean": 3.912820512820513,
   "ensemble_rainfall_72h_p10": 0.5800000000000001,
   "ensemble_rainfall_72h_p90": 9.620000000000001,
   "ourcs_godstow_flag": {
@@ -229,6 +229,18 @@
     "set_by": "Jack Davies"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-01-31T07:15:00Z",
+      "value": 2.766
+    },
+    {
+      "timestamp": "2026-01-31T07:00:00Z",
+      "value": 2.774
+    },
+    {
+      "timestamp": "2026-01-31T06:45:00Z",
+      "value": 2.77
+    },
     {
       "timestamp": "2026-01-31T06:30:00Z",
       "value": 2.769
@@ -5588,21 +5600,21 @@
     {
       "timestamp": "2026-01-17T07:45:00Z",
       "value": 2.623
-    },
-    {
-      "timestamp": "2026-01-17T07:30:00Z",
-      "value": 2.623
-    },
-    {
-      "timestamp": "2026-01-17T07:15:00Z",
-      "value": 2.623
-    },
-    {
-      "timestamp": "2026-01-17T07:00:00Z",
-      "value": 2.619
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-01-31T07:15:00Z",
+      "value": -0.02
+    },
+    {
+      "timestamp": "2026-01-31T07:00:00Z",
+      "value": -0.02
+    },
+    {
+      "timestamp": "2026-01-31T06:45:00Z",
+      "value": -0.021
+    },
     {
       "timestamp": "2026-01-31T06:30:00Z",
       "value": -0.032
@@ -10962,21 +10974,21 @@
     {
       "timestamp": "2026-01-17T07:45:00Z",
       "value": -0.062
-    },
-    {
-      "timestamp": "2026-01-17T07:30:00Z",
-      "value": -0.059
-    },
-    {
-      "timestamp": "2026-01-17T07:15:00Z",
-      "value": -0.063
-    },
-    {
-      "timestamp": "2026-01-17T07:00:00Z",
-      "value": -0.069
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-01-31T07:15:00Z",
+      "value": 62.033
+    },
+    {
+      "timestamp": "2026-01-31T07:00:00Z",
+      "value": 62.181
+    },
+    {
+      "timestamp": "2026-01-31T06:45:00Z",
+      "value": 62.37
+    },
     {
       "timestamp": "2026-01-31T06:30:00Z",
       "value": 62.12
@@ -16336,18 +16348,6 @@
     {
       "timestamp": "2026-01-17T07:45:00Z",
       "value": 51.583
-    },
-    {
-      "timestamp": "2026-01-17T07:30:00Z",
-      "value": 51.429
-    },
-    {
-      "timestamp": "2026-01-17T07:15:00Z",
-      "value": 51.418
-    },
-    {
-      "timestamp": "2026-01-17T07:00:00Z",
-      "value": 51.29
     }
   ]
 }
