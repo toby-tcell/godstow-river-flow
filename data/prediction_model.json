@@ -1,26 +1,26 @@
 {
-  "updated": "2026-01-28T22:11:49.726951Z",
+  "updated": "2026-02-02T06:52:48.057114Z",
   "data_range": {
-    "start": "2025-01-28T22:15:00Z",
-    "end": "2026-01-27T23:45:00Z",
-    "samples": 34401
+    "start": "2025-02-02T07:00:00Z",
+    "end": "2026-02-01T22:00:00Z",
+    "samples": 34066
   },
   "regression": {
-    "slope": 0.018418,
-    "intercept": -0.0502,
-    "r_squared": 0.956,
-    "correlation": 0.9778
+    "slope": 0.018488,
+    "intercept": -0.0508,
+    "r_squared": 0.954,
+    "correlation": 0.9767
   },
   "thresholds": {
-    "green_amber_farmoor": 27.2,
-    "amber_red_farmoor": 43.4,
+    "green_amber_farmoor": 27.1,
+    "amber_red_farmoor": 43.3,
     "green_amber_flow": 0.45,
     "amber_red_flow": 0.75
   },
   "decay_rate": {
-    "mean": 3.0,
+    "mean": 2.8,
     "median": 2.8,
     "conservative": 2.2,
-    "n_peaks_analyzed": 15
+    "n_peaks_analyzed": 14
   }
 }
