@@ -725,36 +725,28 @@
 
                 <div class="card" style="margin-top: 20px;">
                     <h3>Flow Predictions</h3>
-<div class="card-grid card-grid--2col" style="margin-bottom: 30px;">
-                        <div class="card-secondary" style="text-align: center;">
-                            <div class="card-label">Current Status</div>
-                            <div class="flag-item-status" id="prediction-flag-emoji">--</div>
-                            <div class="flag-item-text" id="prediction-flag-text">--</div>
-                        </div>
-                        <div class="card-secondary" style="text-align: center;">
-                            <div class="card-label">Farmoor Flow</div>
-                            <div class="card-value" id="prediction-farmoor">--</div>
-                            <div style="font-size: 0.9em; color: #6b7280; margin-top: 5px;">m³/s</div>
-                        </div>
+
+                    <div class="chart-container">
+                        <canvas id="prediction-chart"></canvas>
                     </div>
 
-                    <div id="predictions-content">
+                    <div id="predictions-content" style="margin-top: 20px;">
                         <!-- Dynamic prediction content will be inserted here -->
                     </div>
 
                     <div style="margin-top: 30px; padding: 20px; background: #f3f4f6; border-radius: 12px;">
                         <h4 style="margin-bottom: 15px; color: #1f2937;">Model Assumptions</h4>
                         <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
-                            <strong>These predictions assume no additional rainfall.</strong> Actual conditions may vary significantly if rain is forecast.
+                            These predictions assume no additional rainfall. Actual conditions may vary significantly if rain is forecast.
                         </p>
                         <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
-                            These estimates use historical data showing that Farmoor flow typically decays by approximately <strong id="decay-rate-display">2-3</strong> m³/s per day after a peak (using a conservative estimate).
+                            Estimates use an exponential decay model fitted to historical peak events. The flow differential has a typical half-life of approximately <span id="decay-rate-display">2-3</span> days after a peak (using a conservative estimate).
                         </p>
                         <p style="color: #4b5563; line-height: 1.6; margin-bottom: 0;">
-                            Flag thresholds are based on correlation analysis:
-                            <strong>Green</strong> below <span id="threshold-green">27</span> m³/s,
-                            <strong>Amber</strong> <span id="threshold-green2">27</span>-<span id="threshold-red">43</span> m³/s,
-                            <strong>Red</strong> above <span id="threshold-red2">43</span> m³/s.
+                            Flag thresholds based on flow differential:
+                            Green below <span id="threshold-green">0.45</span> m,
+                            Amber <span id="threshold-green2">0.45</span>-<span id="threshold-red">0.75</span> m,
+                            Red above <span id="threshold-red2">0.75</span> m.
                         </p>
                     </div>
                 </div>
@@ -783,6 +775,7 @@
         let farmoorChart = null;
         let flowChart = null;
         let godstowLockChart = null;
+        let predictionChart = null;
         let currentData = null;
         let predictionModel = null;
 
@@ -1128,65 +1121,48 @@
         }
 
         function displayFlowPredictions(data, model) {
-            // Get current Farmoor flow
-            const farmoorFlow = data.farmoor ? data.farmoor.flow : null;
-            if (!farmoorFlow || !model) {
+            // Get current flow differential
+            const currentFlow = data.flow;
+            if (currentFlow == null || !model) {
                 document.getElementById('predictions-content').innerHTML =
                     '<p style="text-align: center; color: #6b7280;">Prediction data unavailable</p>';
                 return;
             }
 
-            // Update display values
-            document.getElementById('prediction-farmoor').textContent = farmoorFlow.toFixed(1);
+            // Flow differential thresholds
+            const greenAmberThreshold = model.thresholds.green_amber_flow;
+            const amberRedThreshold = model.thresholds.amber_red_flow;
 
-            // Get thresholds from model
-            const greenAmberThreshold = model.thresholds.green_amber_farmoor;
-            const amberRedThreshold = model.thresholds.amber_red_farmoor;
-            const decayRate = model.decay_rate.conservative;
+            // Exponential decay: flow(t) = current * exp(-t / tau)  (baseline = 0)
+            const diffDecay = model.flow_differential_decay || {};
+            const tauHours = diffDecay.conservative_tau_hours || 62;
+            const halfLifeDays = (tauHours * Math.LN2) / 24;
 
             // Update threshold displays
-            document.getElementById('decay-rate-display').textContent = decayRate.toFixed(1);
-            document.getElementById('threshold-green').textContent = greenAmberThreshold.toFixed(0);
-            document.getElementById('threshold-green2').textContent = greenAmberThreshold.toFixed(0);
-            document.getElementById('threshold-red').textContent = amberRedThreshold.toFixed(0);
-            document.getElementById('threshold-red2').textContent = amberRedThreshold.toFixed(0);
+            document.getElementById('decay-rate-display').textContent = halfLifeDays.toFixed(1);
+            document.getElementById('threshold-green').textContent = greenAmberThreshold.toFixed(2);
+            document.getElementById('threshold-green2').textContent = greenAmberThreshold.toFixed(2);
+            document.getElementById('threshold-red').textContent = amberRedThreshold.toFixed(2);
+            document.getElementById('threshold-red2').textContent = amberRedThreshold.toFixed(2);
 
             // Determine current status and predictions
-            let currentStatus, statusEmoji, statusColor;
             let daysToAmber = null;
             let daysToGreen = null;
 
-            if (farmoorFlow > amberRedThreshold) {
-                currentStatus = 'Red';
-                statusEmoji = '🟥';
-                statusColor = '#dc3545';
-                // Calculate days to amber
-                daysToAmber = (farmoorFlow - amberRedThreshold) / decayRate;
-                // Calculate days to green
-                daysToGreen = (farmoorFlow - greenAmberThreshold) / decayRate;
-            } else if (farmoorFlow > greenAmberThreshold) {
-                currentStatus = 'Amber';
-                statusEmoji = '🟧';
-                statusColor = '#fd7e14';
-                // Calculate days to green
-                daysToGreen = (farmoorFlow - greenAmberThreshold) / decayRate;
-            } else {
-                currentStatus = 'Green';
-                statusEmoji = '🟩';
-                statusColor = '#28a745';
+            if (currentFlow > amberRedThreshold) {
+                daysToAmber = (tauHours * Math.log(currentFlow / amberRedThreshold)) / 24;
+                daysToGreen = (tauHours * Math.log(currentFlow / greenAmberThreshold)) / 24;
+            } else if (currentFlow > greenAmberThreshold) {
+                daysToGreen = (tauHours * Math.log(currentFlow / greenAmberThreshold)) / 24;
             }
-
-            document.getElementById('prediction-flag-emoji').textContent = statusEmoji;
-            document.getElementById('prediction-flag-text').textContent = currentStatus;
-            document.getElementById('prediction-flag-text').style.color = statusColor;
 
             // Build predictions content
             let predictionsHtml = '<div class="card-grid card-grid--2col">';
 
-            if (currentStatus === 'Green') {
+            if (currentFlow <= greenAmberThreshold) {
                 predictionsHtml += `
                     <div class="card-event card-event--dark" style="grid-column: 1 / -1;">
-                        <div class="card-event__value">✓</div>
+                        <div class="card-event__value">&#10003;</div>
                         <div class="card-event__label">Currently at Green - no restrictions!</div>
                     </div>
                 `;
@@ -1211,6 +1187,234 @@
 
             predictionsHtml += '</div>';
             document.getElementById('predictions-content').innerHTML = predictionsHtml;
+
+            // Create the prediction chart
+            createPredictionChart(data, model);
+        }
+
+        function createPredictionChart(data, model) {
+            const ctx = document.getElementById('prediction-chart').getContext('2d');
+
+            // Build actual flow differential from last 24h of history
+            const osneyMap = {};
+            if (data.osney_history) {
+                data.osney_history.forEach(r => { osneyMap[r.timestamp] = r.value; });
+            }
+
+            const now = new Date();
+            const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
+
+            const actualData = [];
+            if (data.godstow_history) {
+                data.godstow_history.slice().reverse().forEach(r => {
+                    const osneyValue = osneyMap[r.timestamp];
+                    if (osneyValue !== undefined) {
+                        const ts = new Date(r.timestamp);
+                        if (ts >= twentyFourHoursAgo) {
+                            actualData.push({
+                                x: ts,
+                                y: (r.value - osneyValue) - 1.63
+                            });
+                        }
+                    }
+                });
+            }
+
+            // Get decay parameters
+            const diffDecay = model.flow_differential_decay || {};
+            const tauHours = diffDecay.conservative_tau_hours || 62;
+
+            // Build predicted decay curve for 7 days from now
+            const latestFlow = data.flow;
+            const predictedData = [];
+            if (latestFlow != null && latestFlow > 0) {
+                for (let h = 0; h <= 168; h++) {
+                    const t = new Date(now.getTime() + h * 60 * 60 * 1000);
+                    const predicted = latestFlow * Math.exp(-h / tauHours);
+                    predictedData.push({ x: t, y: predicted });
+                }
+            }
+
+            // Threshold lines spanning full range
+            const chartStart = twentyFourHoursAgo;
+            const chartEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+            const greenThresholdData = [
+                { x: chartStart, y: 0.45 },
+                { x: chartEnd, y: 0.45 }
+            ];
+            const amberThresholdData = [
+                { x: chartStart, y: 0.75 },
+                { x: chartEnd, y: 0.75 }
+            ];
+
+            // "Now" marker line
+            const yMax = Math.max(latestFlow || 0, 1.0);
+            const nowLineData = [
+                { x: now, y: 0 },
+                { x: now, y: yMax * 1.1 }
+            ];
+
+            if (predictionChart) {
+                predictionChart.destroy();
+            }
+
+            predictionChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        {
+                            label: 'Actual',
+                            data: actualData,
+                            borderColor: '#1a1a2e',
+                            backgroundColor: function(context) {
+                                const chart = context.chart;
+                                const {ctx: c, chartArea} = chart;
+                                if (!chartArea) return null;
+                                const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                                const {min, max} = chart.scales.y;
+                                const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
+                                const greenPos = toPos(0.45);
+                                const redPos = toPos(0.75);
+                                gradient.addColorStop(0, 'rgba(40, 167, 69, 0.3)');
+                                gradient.addColorStop(greenPos, 'rgba(40, 167, 69, 0.3)');
+                                gradient.addColorStop(greenPos, 'rgba(253, 126, 20, 0.3)');
+                                gradient.addColorStop(redPos, 'rgba(253, 126, 20, 0.3)');
+                                gradient.addColorStop(redPos, 'rgba(220, 53, 69, 0.3)');
+                                gradient.addColorStop(1, 'rgba(220, 53, 69, 0.3)');
+                                return gradient;
+                            },
+                            fill: true,
+                            tension: 0.3,
+                            pointRadius: 0,
+                            borderWidth: 2,
+                            order: 2
+                        },
+                        {
+                            label: 'Predicted',
+                            data: predictedData,
+                            borderColor: '#6b7280',
+                            backgroundColor: function(context) {
+                                const chart = context.chart;
+                                const {ctx: c, chartArea} = chart;
+                                if (!chartArea) return null;
+                                const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                                const {min, max} = chart.scales.y;
+                                const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
+                                const greenPos = toPos(0.45);
+                                const redPos = toPos(0.75);
+                                gradient.addColorStop(0, 'rgba(40, 167, 69, 0.15)');
+                                gradient.addColorStop(greenPos, 'rgba(40, 167, 69, 0.15)');
+                                gradient.addColorStop(greenPos, 'rgba(253, 126, 20, 0.15)');
+                                gradient.addColorStop(redPos, 'rgba(253, 126, 20, 0.15)');
+                                gradient.addColorStop(redPos, 'rgba(220, 53, 69, 0.15)');
+                                gradient.addColorStop(1, 'rgba(220, 53, 69, 0.15)');
+                                return gradient;
+                            },
+                            fill: true,
+                            borderDash: [5, 5],
+                            tension: 0.3,
+                            pointRadius: 0,
+                            borderWidth: 2,
+                            order: 3
+                        },
+                        {
+                            label: 'Green threshold',
+                            data: greenThresholdData,
+                            borderColor: 'rgba(40, 167, 69, 0.6)',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            fill: false,
+                            order: 1
+                        },
+                        {
+                            label: 'Amber threshold',
+                            data: amberThresholdData,
+                            borderColor: 'rgba(253, 126, 20, 0.6)',
+                            borderDash: [5, 5],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            fill: false,
+                            order: 1
+                        },
+                        {
+                            label: 'Now',
+                            data: nowLineData,
+                            borderColor: 'rgba(107, 114, 128, 0.4)',
+                            borderDash: [3, 3],
+                            borderWidth: 1,
+                            pointRadius: 0,
+                            fill: false,
+                            order: 0
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    },
+                    scales: {
+                        x: {
+                            type: 'time',
+                            min: chartStart,
+                            max: chartEnd,
+                            time: {
+                                unit: 'day',
+                                displayFormats: {
+                                    day: 'dd MMM'
+                                }
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Flow Differential (m)'
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'bottom',
+                            labels: {
+                                filter: function(item) {
+                                    // Only show Actual and Predicted in legend
+                                    return item.text === 'Actual' || item.text === 'Predicted';
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                title: function(context) {
+                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
+                                        dateStyle: 'medium',
+                                        timeStyle: 'short'
+                                    });
+                                },
+                                label: function(context) {
+                                    if (context.dataset.label === 'Now' ||
+                                        context.dataset.label === 'Green threshold' ||
+                                        context.dataset.label === 'Amber threshold') return null;
+                                    const flow = context.parsed.y;
+                                    let status = 'Green';
+                                    if (flow > 0.75) status = 'Red';
+                                    else if (flow >= 0.45) status = 'Amber';
+                                    return `${context.dataset.label}: ${flow.toFixed(3)}m (${status})`;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
         }
 
         function displayFlowDataSection(data) {

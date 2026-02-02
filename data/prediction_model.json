@@ -1,15 +1,15 @@
 {
-  "updated": "2026-02-02T06:52:48.057114Z",
+  "updated": "2026-02-02T17:18:09.154258Z",
   "data_range": {
-    "start": "2025-02-02T07:00:00Z",
+    "start": "2025-02-02T17:30:00Z",
     "end": "2026-02-01T22:00:00Z",
-    "samples": 34066
+    "samples": 34024
   },
   "regression": {
-    "slope": 0.018488,
-    "intercept": -0.0508,
-    "r_squared": 0.954,
-    "correlation": 0.9767
+    "slope": 0.018497,
+    "intercept": -0.0509,
+    "r_squared": 0.9538,
+    "correlation": 0.9766
   },
   "thresholds": {
     "green_amber_farmoor": 27.1,
@@ -17,10 +17,24 @@
     "green_amber_flow": 0.45,
     "amber_red_flow": 0.75
   },
-  "decay_rate": {
-    "mean": 2.8,
-    "median": 2.8,
-    "conservative": 2.2,
-    "n_peaks_analyzed": 14
+  "farmoor_decay": {
+    "model": "exponential",
+    "baseline": 1.0,
+    "tau_hours_mean": 187.2,
+    "tau_hours_median": 140.3,
+    "half_life_hours_mean": 129.8,
+    "half_life_hours_median": 97.3,
+    "conservative_tau_hours": 112.3,
+    "n_peaks_analyzed": 6
+  },
+  "flow_differential_decay": {
+    "model": "exponential",
+    "baseline": 0.0,
+    "tau_hours_mean": 108.6,
+    "tau_hours_median": 77.5,
+    "half_life_hours_mean": 75.3,
+    "half_life_hours_median": 53.7,
+    "conservative_tau_hours": 62.0,
+    "n_peaks_analyzed": 6
   }
 }

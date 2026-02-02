@@ -113,7 +113,7 @@ def fetch_lock_level(station_id, measurement_type):
         return None
 
 def fetch_rainfall(hours=24):
-    '''Fetch rainfall from nearby stations for specified hours'''
+    '''Fetch rainfall from the nearest station for specified hours'''
     try:
         lat, lon = 51.7520, -1.2577
 
@@ -125,29 +125,25 @@ def fetch_rainfall(hours=24):
             return None
 
         stations = response.json().get('items', [])
-        total_rainfall = 0
-        count = 0
+        if not stations:
+            return 0
 
-        for station in stations[:3]:
-            measures = station.get('measures', [])
-            for measure in measures:
-                measure_id = measure['@id'].split('/')[-1]
+        # Use only the closest station (API returns sorted by distance)
+        station = stations[0]
+        measures = station.get('measures', [])
+        for measure in measures:
+            measure_id = measure['@id'].split('/')[-1]
 
-                since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat().replace('+00:00', 'Z')
-                readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
-                params = {'since': since, '_limit': 5000}
+            since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat().replace('+00:00', 'Z')
+            readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
+            params = {'since': since, '_limit': 5000}
 
-                r = requests.get(readings_url, params=params, timeout=30)
-                if r.status_code == 200:
-                    items = r.json().get('items', [])
-                    if items:
-                        station_total = sum([item['value'] for item in items])
-                        total_rainfall += station_total
-                        count += 1
-                        break
+            r = requests.get(readings_url, params=params, timeout=30)
+            if r.status_code == 200:
+                items = r.json().get('items', [])
+                if items:
+                    return sum(item['value'] for item in items)
 
-        if count > 0:
-            return total_rainfall / count
         return 0
 
     except Exception as e:
