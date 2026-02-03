@@ -201,207 +201,88 @@ def calculate_model_parameters(data):
     }
 
 
-def _fit_exponential_decay(readings, peaks, min_rise_threshold):
+def calculate_godstow_drop_rates(data):
+    """Calculate average daily godstow level drop rates, binned by level.
+
+    Looks at all days where godstow was falling (dry periods) and computes
+    the average drop in mm/day for each level bin. This is the primary driver
+    of the flow differential since osney is relatively stable.
     """
-    Fit exponential decay curves to peak events.
-
-    Model: value(t) = baseline + amplitude * exp(-t / tau)
-    where tau is the time constant and half_life = tau * ln(2).
-
-    Returns list of fitted decay parameters for peaks with R² > 0.5.
-    """
-    results = []
-
-    for p_idx, (idx, peak_ts, peak_val) in enumerate(peaks):
-        # Estimate baseline from minimum value 7-14 days before peak
-        baseline_readings = [val for _, val in readings[max(0, idx - 84):idx - 12]]
-        if not baseline_readings:
-            baseline_readings = [val for _, val in readings[max(0, idx - 84):idx]]
-        if not baseline_readings:
-            continue
-
-        baseline = min(baseline_readings)
-        amplitude = peak_val - baseline
-        if amplitude < min_rise_threshold:
-            continue
-
-        # Collect decay points until next peak or flow starts rising
-        decay_points = []
-        next_peak_ts = peaks[p_idx + 1][1] if p_idx + 1 < len(peaks) else None
-
-        for j in range(idx, min(idx + 180, len(readings))):
-            ts, val = readings[j]
-            hours = (ts - peak_ts).total_seconds() / 3600
-
-            if next_peak_ts and ts >= next_peak_ts:
-                break
-            # Stop if flow starts rising significantly (new rain event)
-            if hours > 12 and j > idx + 3:
-                recent = [readings[k][1] for k in range(j - 3, j + 1)]
-                if recent[-1] > recent[0] + min_rise_threshold:
-                    break
-
-            decay_points.append((hours, val))
-
-        if len(decay_points) < 6:
-            continue
-
-        # Linearize: ln((val - baseline) / amplitude) = -t / tau
-        log_points = []
-        for hours, val in decay_points:
-            ratio = (val - baseline) / amplitude
-            if 0.01 < ratio <= 1.0:
-                log_points.append((hours, math.log(ratio)))
-
-        if len(log_points) < 4:
-            continue
-
-        # Linear regression on log-transformed data
-        n = len(log_points)
-        sum_x = sum(p[0] for p in log_points)
-        sum_y = sum(p[1] for p in log_points)
-        sum_xy = sum(p[0] * p[1] for p in log_points)
-        sum_xx = sum(p[0] ** 2 for p in log_points)
-
-        denom = n * sum_xx - sum_x ** 2
-        if denom == 0:
-            continue
-
-        slope = (n * sum_xy - sum_x * sum_y) / denom
-        if slope >= 0:  # not decaying
-            continue
-
-        tau = -1.0 / slope
-        half_life = tau * math.log(2)
-
-        # R² of the fit
-        mean_y = sum_y / n
-        ss_tot = sum((p[1] - mean_y) ** 2 for p in log_points)
-        ss_res = sum((p[1] - (slope * p[0])) ** 2 for p in log_points)
-        r_sq = 1 - ss_res / ss_tot if ss_tot > 0 else 0
-
-        if r_sq > 0.5:
-            results.append({
-                'peak_time': peak_ts,
-                'peak_val': peak_val,
-                'baseline': baseline,
-                'amplitude': amplitude,
-                'tau_hours': tau,
-                'half_life_hours': half_life,
-                'r_squared': r_sq,
-                'fit_points': n,
-            })
-
-    return results
-
-
-def _find_peaks(readings, min_peak, window, min_gap):
-    """Find local maxima in a time series, at least min_gap apart."""
-    peaks = []
-    for i in range(window, len(readings) - window):
-        ts, val = readings[i]
-        if val < min_peak:
-            continue
-        window_vals = [readings[j][1] for j in range(i - window, i + window + 1)]
-        if val == max(window_vals):
-            if not peaks or (ts - peaks[-1][1]) > min_gap:
-                peaks.append((i, ts, val))
-            elif val > peaks[-1][2]:
-                peaks[-1] = (i, ts, val)
-    return peaks
-
-
-def _to_2h_readings(history_list):
-    """Convert a history list to 2-hour interval (dt, value) tuples."""
-    readings = []
-    for r in history_list:
+    # Build daily noon readings for godstow
+    godstow_daily = {}
+    for r in data['godstow_history']:
         if r.get('value') is None:
             continue
-        try:
-            dt = datetime.fromisoformat(r['timestamp'].replace('Z', '+00:00'))
-        except (ValueError, AttributeError):
-            continue
-        if dt.hour % 2 == 0 and dt.minute == 0:
-            readings.append((dt, r['value']))
-    readings.sort(key=lambda x: x[0])
-    return readings
-
-
-def _summarise_decay(fits, default_tau, baseline=0.0):
-    """Summarise a list of exponential decay fits into model parameters."""
-    if not fits:
-        return {
-            'tau_hours_mean': default_tau,
-            'tau_hours_median': default_tau,
-            'half_life_hours_mean': default_tau * math.log(2),
-            'half_life_hours_median': default_tau * math.log(2),
-            'baseline': baseline,
-            'n_peaks': 0,
-        }
-
-    taus = [f['tau_hours'] for f in fits]
-    halflives = [f['half_life_hours'] for f in fits]
-    taus_sorted = sorted(taus)
-    hl_sorted = sorted(halflives)
-
-    return {
-        'tau_hours_mean': sum(taus) / len(taus),
-        'tau_hours_median': taus_sorted[len(taus) // 2],
-        'half_life_hours_mean': sum(halflives) / len(halflives),
-        'half_life_hours_median': hl_sorted[len(halflives) // 2],
-        'baseline': baseline,
-        'n_peaks': len(fits),
-    }
-
-
-def calculate_farmoor_decay(data):
-    """Fit exponential decay to Farmoor flow peaks.
-
-    Uses the median summer (Jun-Sep) flow as the asymptotic baseline
-    since Farmoor never fully dries out.
-    """
-    readings = _to_2h_readings(data['farmoor_history'])
-
-    # Calculate summer baseline (Jun-Sep median)
-    summer_vals = [val for dt, val in readings if dt.month in (6, 7, 8, 9)]
-    if summer_vals:
-        summer_vals.sort()
-        baseline = summer_vals[len(summer_vals) // 2]
-    else:
-        baseline = 1.0  # fallback
-
-    peaks = _find_peaks(readings, min_peak=30, window=6, min_gap=timedelta(days=3))
-    fits = _fit_exponential_decay(readings, peaks, min_rise_threshold=5)
-    return _summarise_decay(fits, default_tau=112, baseline=baseline)
-
-
-def calculate_flow_differential_decay(data):
-    """Fit exponential decay to flow differential (godstow - osney - 1.63) peaks.
-
-    Baseline is 0 since the differential can genuinely reach zero.
-    """
-    godstow = {r['timestamp']: r['value'] for r in data['godstow_history']
-                if r.get('value') is not None}
-    osney = {r['timestamp']: r['value'] for r in data['osney_history']
-              if r.get('value') is not None}
-
-    # Build flow differential series at 2h intervals
-    readings = []
-    for ts in sorted(godstow.keys()):
-        if ts not in osney:
-            continue
+        ts = r['timestamp']
         try:
             dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
         except (ValueError, AttributeError):
             continue
-        if dt.hour % 2 == 0 and dt.minute == 0:
-            flow = (godstow[ts] - osney[ts]) - 1.63
-            readings.append((dt, flow))
-    readings.sort(key=lambda x: x[0])
+        if dt.hour == 12 and dt.minute == 0:
+            godstow_daily[dt.date()] = r['value']
 
-    peaks = _find_peaks(readings, min_peak=0.3, window=6, min_gap=timedelta(days=3))
-    fits = _fit_exponential_decay(readings, peaks, min_rise_threshold=0.1)
-    return _summarise_decay(fits, default_tau=70, baseline=0.0)
+    # Build daily noon readings for osney (for average osney level)
+    osney_vals = []
+    for r in data['osney_history']:
+        if r.get('value') is None:
+            continue
+        ts = r['timestamp']
+        try:
+            dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+        except (ValueError, AttributeError):
+            continue
+        if dt.hour == 12 and dt.minute == 0:
+            osney_vals.append(r['value'])
+
+    avg_osney = sum(osney_vals) / len(osney_vals) if osney_vals else -0.04
+
+    # Collect daily drops during falling periods
+    # A "falling day" is one where godstow dropped from the previous day
+    bins = [
+        {'min_level': 2.4, 'max_level': 3.0, 'drops': []},
+        {'min_level': 2.0, 'max_level': 2.4, 'drops': []},
+        {'min_level': 1.6, 'max_level': 2.0, 'drops': []},
+    ]
+
+    days = sorted(godstow_daily.keys())
+    for i in range(1, len(days)):
+        if (days[i] - days[i - 1]).days != 1:
+            continue  # skip gaps
+        prev_val = godstow_daily[days[i - 1]]
+        curr_val = godstow_daily[days[i]]
+        drop_mm = (prev_val - curr_val) * 1000  # positive = falling
+
+        if drop_mm <= 0:
+            continue  # only count falling days
+
+        # Bin by the starting level
+        for b in bins:
+            if b['min_level'] <= prev_val < b['max_level']:
+                b['drops'].append(drop_mm)
+                break
+
+    result_bins = []
+    for b in bins:
+        drops = b['drops']
+        if drops:
+            drops.sort()
+            avg = sum(drops) / len(drops)
+            median = drops[len(drops) // 2]
+        else:
+            avg = 0
+            median = 0
+        result_bins.append({
+            'min_level': b['min_level'],
+            'max_level': b['max_level'],
+            'avg_drop_mm_per_day': round(avg, 1),
+            'median_drop_mm_per_day': round(median, 1),
+            'n_days': len(drops),
+        })
+
+    return {
+        'bins': result_bins,
+        'avg_osney': round(avg_osney, 3),
+    }
 
 
 def main():
@@ -457,24 +338,15 @@ def main():
     print(f"   Green/Amber threshold: {params['thresholds']['green_amber']:.1f} m³/s")
     print(f"   Amber/Red threshold: {params['thresholds']['amber_red']:.1f} m³/s")
 
-    # Calculate exponential decay rates
-    print("\n3. Calculating Farmoor flow decay (exponential)...")
-    farmoor_decay = calculate_farmoor_decay(historic)
-    print(f"   Tau (mean):      {farmoor_decay['tau_hours_mean']:.1f}h ({farmoor_decay['tau_hours_mean']/24:.1f} days)")
-    print(f"   Tau (median):    {farmoor_decay['tau_hours_median']:.1f}h ({farmoor_decay['tau_hours_median']/24:.1f} days)")
-    print(f"   Half-life (mean):   {farmoor_decay['half_life_hours_mean']:.1f}h ({farmoor_decay['half_life_hours_mean']/24:.1f} days)")
-    print(f"   Half-life (median): {farmoor_decay['half_life_hours_median']:.1f}h ({farmoor_decay['half_life_hours_median']/24:.1f} days)")
-    print(f"   Baseline:        {farmoor_decay['baseline']:.1f} m³/s (summer median)")
-    print(f"   Based on {farmoor_decay['n_peaks']} peaks")
-
-    print("\n4. Calculating flow differential decay (exponential)...")
-    diff_decay = calculate_flow_differential_decay(historic)
-    print(f"   Tau (mean):      {diff_decay['tau_hours_mean']:.1f}h ({diff_decay['tau_hours_mean']/24:.1f} days)")
-    print(f"   Tau (median):    {diff_decay['tau_hours_median']:.1f}h ({diff_decay['tau_hours_median']/24:.1f} days)")
-    print(f"   Half-life (mean):   {diff_decay['half_life_hours_mean']:.1f}h ({diff_decay['half_life_hours_mean']/24:.1f} days)")
-    print(f"   Half-life (median): {diff_decay['half_life_hours_median']:.1f}h ({diff_decay['half_life_hours_median']/24:.1f} days)")
-    print(f"   Baseline:        {diff_decay['baseline']:.1f} m")
-    print(f"   Based on {diff_decay['n_peaks']} peaks")
+    # Calculate godstow drop rates
+    print("\n3. Calculating godstow daily drop rates...")
+    drop_rates = calculate_godstow_drop_rates(historic)
+    for b in drop_rates['bins']:
+        print(f"   Level {b['min_level']:.1f}-{b['max_level']:.1f}m: "
+              f"avg {b['avg_drop_mm_per_day']:.0f} mm/day, "
+              f"median {b['median_drop_mm_per_day']:.0f} mm/day "
+              f"({b['n_days']} days)")
+    print(f"   Average osney level: {drop_rates['avg_osney']:.3f}m")
 
     # Build model JSON
     model = {
@@ -491,31 +363,10 @@ def main():
             'correlation': round(params['correlation'], 4)
         },
         'thresholds': {
-            'green_amber_farmoor': round(params['thresholds']['green_amber'], 1),
-            'amber_red_farmoor': round(params['thresholds']['amber_red'], 1),
             'green_amber_flow': 0.45,
             'amber_red_flow': 0.75
         },
-        'farmoor_decay': {
-            'model': 'exponential',
-            'baseline': round(farmoor_decay['baseline'], 1),
-            'tau_hours_mean': round(farmoor_decay['tau_hours_mean'], 1),
-            'tau_hours_median': round(farmoor_decay['tau_hours_median'], 1),
-            'half_life_hours_mean': round(farmoor_decay['half_life_hours_mean'], 1),
-            'half_life_hours_median': round(farmoor_decay['half_life_hours_median'], 1),
-            'conservative_tau_hours': round(farmoor_decay['tau_hours_median'] * 0.8, 1),
-            'n_peaks_analyzed': farmoor_decay['n_peaks']
-        },
-        'flow_differential_decay': {
-            'model': 'exponential',
-            'baseline': round(diff_decay['baseline'], 1),
-            'tau_hours_mean': round(diff_decay['tau_hours_mean'], 1),
-            'tau_hours_median': round(diff_decay['tau_hours_median'], 1),
-            'half_life_hours_mean': round(diff_decay['half_life_hours_mean'], 1),
-            'half_life_hours_median': round(diff_decay['half_life_hours_median'], 1),
-            'conservative_tau_hours': round(diff_decay['tau_hours_median'] * 0.8, 1),
-            'n_peaks_analyzed': diff_decay['n_peaks']
-        }
+        'godstow_decay_rates': drop_rates,
     }
 
     with open(MODEL_FILE, 'w') as f:

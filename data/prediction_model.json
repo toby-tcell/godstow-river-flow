@@ -1,5 +1,5 @@
 {
-  "updated": "2026-02-02T17:18:09.154258Z",
+  "updated": "2026-02-03T12:00:00Z",
   "data_range": {
     "start": "2025-02-02T17:30:00Z",
     "end": "2026-02-01T22:00:00Z",
@@ -12,29 +12,15 @@
     "correlation": 0.9766
   },
   "thresholds": {
-    "green_amber_farmoor": 27.1,
-    "amber_red_farmoor": 43.3,
     "green_amber_flow": 0.45,
     "amber_red_flow": 0.75
   },
-  "farmoor_decay": {
-    "model": "exponential",
-    "baseline": 1.0,
-    "tau_hours_mean": 187.2,
-    "tau_hours_median": 140.3,
-    "half_life_hours_mean": 129.8,
-    "half_life_hours_median": 97.3,
-    "conservative_tau_hours": 112.3,
-    "n_peaks_analyzed": 6
-  },
-  "flow_differential_decay": {
-    "model": "exponential",
-    "baseline": 0.0,
-    "tau_hours_mean": 108.6,
-    "tau_hours_median": 77.5,
-    "half_life_hours_mean": 75.3,
-    "half_life_hours_median": 53.7,
-    "conservative_tau_hours": 62.0,
-    "n_peaks_analyzed": 6
+  "godstow_decay_rates": {
+    "bins": [
+      {"min_level": 2.4, "max_level": 3.0, "avg_drop_mm_per_day": 49.7, "median_drop_mm_per_day": 44.0, "n_days": 22},
+      {"min_level": 2.0, "max_level": 2.4, "avg_drop_mm_per_day": 71.2, "median_drop_mm_per_day": 56.0, "n_days": 31},
+      {"min_level": 1.6, "max_level": 2.0, "avg_drop_mm_per_day": 27.9, "median_drop_mm_per_day": 19.0, "n_days": 95}
+    ],
+    "avg_osney": -0.036
   }
 }

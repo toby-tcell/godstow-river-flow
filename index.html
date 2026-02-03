@@ -17,90 +17,48 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f8f9fa;
             min-height: 100vh;
-            padding: 40px 20px;
+            padding: 30px 20px;
+            color: #1f2937;
         }
 
         .container {
-            max-width: 1000px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         header {
             text-align: center;
-            color: #1a1a2e;
-            margin-bottom: 50px;
-            padding-top: 20px;
+            margin-bottom: 30px;
         }
 
         h1 {
-            font-size: 3em;
-            margin-bottom: 15px;
+            font-size: 2.4em;
             font-weight: 700;
             letter-spacing: -1px;
-        }
-
-        .subtitle {
-            font-size: 1.3em;
-            color: #4a4a5e;
-            font-weight: 400;
-            letter-spacing: 0.5px;
+            color: #1a1a2e;
         }
 
         .header-updated {
-            font-size: 0.9em;
-            color: #6b7280;
-            margin-top: 15px;
-            font-weight: 500;
-        }
-
-        .flag-display {
-            font-size: 6em;
-            margin: 20px 0;
-            line-height: 1;
-            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
-        }
-
-        .flag-text {
-            font-size: 2.8em;
-            font-weight: 700;
-            margin-bottom: 20px;
-            letter-spacing: -0.5px;
-        }
-
-        .flag-description {
-            font-size: 1.4em;
-            color: #6b7280;
-            margin-bottom: 30px;
-            font-weight: 500;
-        }
-
-        .flow-trend {
-            font-size: 1.3em;
-            margin-top: 15px;
-            font-weight: 600;
-        }
-
-        .trend-icon {
-            font-size: 1.4em;
-            margin-right: 8px;
+            font-size: 0.85em;
+            color: #9ca3af;
+            margin-top: 6px;
         }
 
         .loading {
             text-align: center;
             padding: 80px;
-            color: #1a1a2e;
-            font-size: 1.5em;
-            font-weight: 500;
+            font-size: 1.2em;
+            color: #6b7280;
         }
 
         .spinner {
-            border: 5px solid #e0e0e0;
-            border-top: 5px solid #1a1a2e;
+            border: 4px solid #e5e7eb;
+            border-top: 4px solid #1a1a2e;
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
+            width: 40px;
+            height: 40px;
             animation: spin 1s ease-in-out infinite;
-            margin: 30px auto;
+            margin: 20px auto;
         }
 
         @keyframes spin {
@@ -109,434 +67,296 @@
         }
 
         .error {
-            background: #fff5f5;
-            color: #c53030;
-            padding: 30px;
-            border-radius: 16px;
-            margin: 20px 0;
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 20px;
+            border-radius: 8px;
             text-align: center;
-            border: 2px solid #fc8181;
-            font-weight: 500;
-        }
-
-        .last-updated {
-            text-align: center;
-            color: #6b7280;
-            margin-top: 40px;
-            font-size: 1em;
-            font-weight: 500;
+            border: 1px solid #fecaca;
         }
 
         .stale-warning {
             background: #fffbeb;
             color: #92400e;
-            padding: 15px 25px;
-            border-radius: 12px;
-            font-size: 1em;
+            padding: 12px 20px;
+            border-radius: 8px;
             text-align: center;
-            margin-bottom: 25px;
-            border: 2px solid #fbbf24;
-            font-weight: 600;
-        }
-
-        .flag-item-status {
-            font-size: 3.5em;
-            margin: 15px 0;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-        .flag-item-text {
-            font-size: 1.5em;
-            font-weight: 700;
-            color: #1f2937;
-            letter-spacing: -0.3px;
-        }
-
-        .flag-item-meta {
+            margin-bottom: 20px;
+            border: 1px solid #fcd34d;
             font-size: 0.9em;
+        }
+
+        /* Two-column grid */
+        .page-grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 30px 40px;
+            align-items: start;
+        }
+
+        .section-label {
+            font-size: 0.75em;
             color: #9ca3af;
-            margin-top: 12px;
-            font-weight: 500;
-        }
-
-        .flag-notice {
-            font-size: 0.95em;
-            color: #92400e;
-            background: #fffbeb;
-            padding: 12px;
-            border-radius: 8px;
-            margin-top: 12px;
-            font-weight: 500;
-            border: 1px solid #fbbf24;
-        }
-
-        .highlight {
-            background: #f8f9fa;
-            border-left: 5px solid #1a1a2e;
-            padding: 20px;
-            margin: 20px 0;
-            border-radius: 8px;
-        }
-
-        /* ========================================
-           STANDARDISED CARD SYSTEM
-           ======================================== */
-
-        /* Primary card - main content boxes with shadow */
-        .card {
-            background: white;
-            border-radius: 16px;
-            padding: 40px;
-            margin-bottom: 30px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
-        }
-
-        .card h3 {
-            color: #1f2937;
-            margin-bottom: 25px;
-            font-size: 1.8em;
-            font-weight: 700;
-            letter-spacing: -0.5px;
-            text-align: center;
-        }
-
-        .card p {
-            color: #4b5563;
-            line-height: 1.8;
-            margin-bottom: 15px;
-            font-size: 1.05em;
-        }
-
-        /* Secondary card - nested boxes with border (no shadow) */
-        .card-secondary {
-            background: #ffffff;
-            border-radius: 12px;
-            padding: 25px;
-            border: 2px solid #e0e0e0;
-        }
-
-        /* Compact secondary card for smaller nested items */
-        .card-secondary--compact {
-            padding: 20px;
-        }
-
-        /* Card label - uppercase label text */
-        .card-label {
-            font-size: 1em;
-            color: #6b7280;
-            margin-bottom: 10px;
             text-transform: uppercase;
+            letter-spacing: 1.5px;
             font-weight: 600;
-            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
 
-        /* Card value - large numeric display */
-        .card-value {
-            font-size: 2.2em;
+        .section-divider {
+            border: none;
+            border-top: 1px solid #e5e7eb;
+            margin: 24px 0;
+        }
+
+        /* Left column: values */
+        .left-col {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .flag-block {
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        .flag-display {
+            font-size: 4em;
+            line-height: 1;
+            margin-bottom: 8px;
+        }
+
+        .flag-text {
+            font-size: 2em;
             font-weight: 700;
+        }
+
+        .flag-description {
+            font-size: 1.1em;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        .ourcs-flags {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 12px;
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        .ourcs-flag-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .value-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            padding: 6px 0;
+        }
+
+        .value-label {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .value-number {
+            font-size: 1.1em;
+            font-weight: 600;
             color: #1f2937;
         }
 
-        .card-value--large {
-            font-size: 3.5em;
-            font-weight: 800;
+        .value-big {
+            font-size: 2.2em;
+            font-weight: 700;
             color: #1a1a2e;
+            text-align: center;
+            padding: 10px 0;
         }
 
-        .card-value--accent {
-            color: #3b82f6;
+        .flow-trend {
+            text-align: center;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-top: -6px;
+            margin-bottom: 8px;
         }
 
-        /* Grid layouts for cards */
-        .card-grid {
+        .prediction-cards {
             display: grid;
-            gap: 20px;
-        }
-
-        .card-grid--2col {
             grid-template-columns: 1fr 1fr;
-        }
-
-        /* Event card - dark themed for countdowns */
-        .card-event {
-            text-align: center;
-            padding: 30px 20px;
-            border-radius: 16px;
-            border: 2px solid transparent;
-        }
-
-        .card-event--dark {
-            background: #1a1a2e;
-            border-color: #1a1a2e;
-        }
-
-        .card-event--red {
-            background: #dc2626;
-            border-color: #dc2626;
-        }
-
-        .card-event__value {
-            font-size: 3em;
-            font-weight: 800;
-            color: white;
-            margin-bottom: 10px;
-        }
-
-        .card-event__label {
-            color: rgba(255,255,255,0.9);
+            gap: 10px;
             margin-top: 8px;
-            font-weight: 500;
-            font-size: 1.05em;
         }
 
-        /* Weather forecast card */
-        .card-weather {
+        .prediction-card {
             text-align: center;
-            padding: 15px 10px;
-            background: #ffffff;
-            border-radius: 12px;
-            border: 2px solid #e0e0e0;
+            padding: 16px 10px;
+            border-radius: 10px;
+            color: white;
         }
 
-        .card-weather__time {
-            font-size: 0.95em;
+        .prediction-card__value {
+            font-size: 2em;
+            font-weight: 800;
+        }
+
+        .prediction-card__label {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
+
+        /* Right column: charts */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .chart-block {
+            position: relative;
+        }
+
+        .chart-title {
+            font-size: 0.85em;
             color: #6b7280;
             font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .card-weather__icon {
-            font-size: 2.2em;
-            margin: 8px 0;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-        .card-weather__temp {
-            font-weight: 700;
-            color: #1f2937;
-            font-size: 1.1em;
-        }
-
-        .card-weather__chance {
-            font-size: 0.9em;
-            color: #3b82f6;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        .card-weather__precip {
-            font-size: 0.85em;
-            color: #10b981;
-            font-weight: 700;
-            margin-top: 4px;
-        }
-
-        /* Weather forecast grid */
-        .weather-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .nav-link {
-            color: #1a1a2e;
-            text-decoration: none;
-            font-weight: 600;
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border-radius: 8px;
-            display: inline-block;
-            transition: background 0.2s;
-        }
-
-        .nav-link:hover {
-            background: #e9ecef;
-        }
-
-        .page-section {
-            display: none;
-        }
-
-        .page-section.active {
-            display: block;
+            margin-bottom: 8px;
         }
 
         .chart-container {
             position: relative;
-            height: 400px;
-            margin-top: 20px;
+            height: 250px;
         }
 
-        .current-flow-value {
-            text-align: center;
-            padding: 30px;
-            background: #f8f9fa;
-            border-radius: 16px;
-            margin-bottom: 30px;
-        }
-
-        .current-flow-value .label {
-            font-size: 1em;
-            color: #6b7280;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-
-        .current-flow-value .value {
-            font-size: 3em;
-            font-weight: 800;
-            color: #1a1a2e;
-        }
-
-        .current-flow-value .unit {
-            font-size: 1.2em;
-            color: #6b7280;
-            font-weight: 500;
-        }
-
-        .current-flow-value .timestamp {
-            font-size: 0.9em;
-            color: #9ca3af;
-            margin-top: 10px;
-        }
-
-        .flag-thresholds {
+        .chart-legend {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            margin-top: 15px;
-            flex-wrap: wrap;
-        }
-
-        .threshold-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
+            gap: 16px;
+            margin-top: 6px;
+            font-size: 0.8em;
             color: #6b7280;
         }
 
-        .threshold-dot {
-            width: 12px;
-            height: 12px;
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
             border-radius: 50%;
         }
 
-        @media (max-width: 768px) {
-            body {
-                padding: 20px 10px;
-            }
+        /* Full-width sections below the grid */
+        .full-width {
+            margin-top: 30px;
+        }
 
-            h1 {
-                font-size: 2em;
-            }
+        .weather-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+            gap: 8px;
+        }
 
-            .subtitle {
-                font-size: 1.1em;
-            }
+        .weather-cell {
+            text-align: center;
+            padding: 10px 4px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            background: white;
+        }
 
-            .header-updated {
-                font-size: 0.8em;
-            }
+        .weather-cell__time {
+            font-size: 0.8em;
+            color: #6b7280;
+            font-weight: 600;
+        }
 
-            .flag-display {
-                font-size: 4.5em !important;
-                margin: 15px 0 !important;
-            }
+        .weather-cell__icon {
+            font-size: 1.8em;
+            margin: 4px 0;
+        }
 
-            .flag-text {
-                font-size: 2.2em !important;
-                margin-bottom: 15px !important;
-            }
+        .weather-cell__temp {
+            font-weight: 700;
+            font-size: 0.95em;
+        }
 
-            .flag-description {
-                font-size: 1.2em !important;
-                margin-bottom: 20px !important;
-            }
+        .weather-cell__precip {
+            font-size: 0.75em;
+            color: #10b981;
+            font-weight: 600;
+            margin-top: 2px;
+        }
 
-            .highlight {
-                font-size: 0.95em;
-                padding: 15px;
-            }
+        .events-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
 
-            .chart-container {
-                height: 300px;
-            }
+        .event-card {
+            text-align: center;
+            padding: 20px;
+            border-radius: 10px;
+            color: white;
+        }
 
-            .current-flow-value .value {
-                font-size: 2.5em;
-            }
+        .event-card--dark { background: #1a1a2e; }
+        .event-card--red { background: #dc2626; }
 
-            /* Card system mobile overrides */
-            .card {
-                padding: 25px 20px;
-                border-radius: 16px;
-            }
+        .event-card__value {
+            font-size: 2.4em;
+            font-weight: 800;
+        }
 
-            .card h3 {
-                font-size: 1.5em;
-            }
+        .event-card__label {
+            font-size: 0.9em;
+            opacity: 0.9;
+            margin-top: 4px;
+        }
 
-            .card p {
-                font-size: 1em;
-            }
+        .info-text {
+            font-size: 0.8em;
+            color: #9ca3af;
+            line-height: 1.6;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+        }
 
-            .card-secondary {
-                padding: 20px;
-                border-radius: 12px;
-            }
+        .info-text a {
+            color: #6b7280;
+        }
 
-            .card-secondary--compact {
-                padding: 15px;
-            }
-
-            .card-grid--2col {
+        @media (max-width: 900px) {
+            .page-grid {
                 grid-template-columns: 1fr;
             }
 
-            .card-value {
-                font-size: 1.8em;
-            }
+            h1 { font-size: 1.8em; }
 
-            .card-value--large {
-                font-size: 2.8em;
-            }
+            .flag-display { font-size: 3em; }
+            .flag-text { font-size: 1.6em; }
 
-            .card-event__value {
-                font-size: 2.5em;
+            .chart-container { height: 220px; }
+
+            .prediction-cards {
+                grid-template-columns: 1fr 1fr;
             }
 
             .weather-grid {
-                grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
-                gap: 8px;
-            }
-
-            .card-weather {
-                padding: 8px;
-                border-radius: 8px;
-            }
-
-            .card-weather__time {
-                font-size: 0.85em;
-            }
-
-            .card-weather__icon {
-                font-size: 1.6em;
-            }
-
-            .card-weather__temp {
-                font-size: 0.95em;
-            }
-
-            .card-weather__chance {
-                font-size: 0.8em;
-            }
-
-            .card-weather__precip {
-                font-size: 0.75em;
+                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
             }
         }
     </style>
@@ -545,7 +365,6 @@
     <div class="container">
         <header>
             <h1>Godstow River Tracker</h1>
-            <p class="subtitle">Real-time River Conditions</p>
             <p class="header-updated" id="header-last-updated"></p>
         </header>
 
@@ -555,223 +374,160 @@
         </div>
 
         <div id="error" class="error" style="display: none;"></div>
-
         <div id="stale-warning" class="stale-warning" style="display: none;"></div>
 
         <div id="content" style="display: none;">
-            <div class="card">
-                <h3>OURCS Flag Status</h3>
-                <div class="card-grid card-grid--2col">
-                    <div class="card-secondary" style="text-align: center;">
-                        <div class="card-label">Godstow</div>
-                        <div class="flag-item-status" id="ourcs-godstow-emoji">--</div>
-                        <div class="flag-item-text" id="ourcs-godstow-text">--</div>
-                        <div class="flag-item-meta" id="ourcs-godstow-meta"></div>
-                    </div>
-                    <div class="card-secondary" style="text-align: center;">
-                        <div class="card-label">Isis</div>
-                        <div class="flag-item-status" id="ourcs-isis-emoji">--</div>
-                        <div class="flag-item-text" id="ourcs-isis-text">--</div>
-                        <div class="flag-item-meta" id="ourcs-isis-meta"></div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card" style="text-align: center;">
-                <h3>Current Godstow Differential</h3>
-                <div class="card-grid card-grid--2col" style="align-items: center;">
-                    <div>
+            <div class="page-grid">
+                <!-- LEFT COLUMN: values and text -->
+                <div class="left-col">
+                    <!-- Flag status -->
+                    <div class="flag-block">
                         <div class="flag-display" id="flag-status">--</div>
                         <div class="flag-text" id="flag-text">--</div>
                         <div class="flag-description" id="flag-description">--</div>
-                        <div style="margin-top: 20px; font-size: 1em;">
-                            <a href="#flow-data" class="nav-link">View flow data →</a>
-                        </div>
-                        <div style="margin-top: 10px; font-size: 1em;">
-                            <a href="#flow-predictions" class="nav-link">View flow predictions →</a>
+                        <div class="ourcs-flags">
+                            <div class="ourcs-flag-item">
+                                <span id="ourcs-godstow-emoji">--</span>
+                                <span>Godstow</span>
+                            </div>
+                            <div class="ourcs-flag-item">
+                                <span id="ourcs-isis-emoji">--</span>
+                                <span>Isis</span>
+                            </div>
                         </div>
                     </div>
-                    <div>
-                        <div class="card-secondary" style="text-align: center; margin-bottom: 15px;">
-                            <div class="card-label">Godstow Differential</div>
-                            <div class="card-value card-value--large" id="flow">--</div>
-                            <div class="flow-trend" id="flow-trend"></div>
+
+                    <hr class="section-divider">
+
+                    <!-- Flow values -->
+                    <div class="value-big" id="flow">--</div>
+                    <div class="flow-trend" id="flow-trend"></div>
+
+                    <div class="value-row">
+                        <span class="value-label">Farmoor Flow</span>
+                        <span class="value-number" id="farmoor-flow">--</span>
+                    </div>
+                    <div class="value-row" style="margin-bottom: 4px;">
+                        <span class="value-label">Farmoor Trend</span>
+                        <span class="value-number" id="farmoor-trend">--</span>
+                    </div>
+
+                    <hr class="section-divider">
+
+                    <!-- Rainfall -->
+                    <div class="section-label">Local Rainfall</div>
+                    <div class="value-row">
+                        <span class="value-label">Last 24h</span>
+                        <span class="value-number"><span id="rainfall-24h">--</span> mm</span>
+                    </div>
+                    <div class="value-row">
+                        <span class="value-label">Last 7 days</span>
+                        <span class="value-number"><span id="rainfall-7d">--</span> mm</span>
+                    </div>
+
+                    <div class="section-label" style="margin-top: 12px;">Upstream Rainfall (avg)</div>
+                    <div class="value-row">
+                        <span class="value-label">Last 24h</span>
+                        <span class="value-number"><span id="upstream-rainfall-24h">--</span> mm</span>
+                    </div>
+                    <div class="value-row">
+                        <span class="value-label">Last 7 days</span>
+                        <span class="value-number"><span id="upstream-rainfall-7d">--</span> mm</span>
+                    </div>
+
+                    <div class="section-label" style="margin-top: 12px;">Forecast Rainfall</div>
+                    <div class="value-row">
+                        <span class="value-label">Next 24h</span>
+                        <span class="value-number" id="predicted-rainfall-24h">--</span>
+                    </div>
+                    <div class="value-row">
+                        <span class="value-label">Next 3 days</span>
+                        <span class="value-number" id="predicted-rainfall-3d">--</span>
+                    </div>
+
+                    <hr class="section-divider">
+
+                    <!-- Predictions -->
+                    <div class="section-label">Prediction (no rain)</div>
+                    <div id="predictions-content">
+                        <!-- Dynamic prediction content -->
+                    </div>
+
+                    <hr class="section-divider">
+
+                    <!-- Events -->
+                    <div class="section-label">Upcoming Events</div>
+                    <div class="events-row">
+                        <div class="event-card event-card--dark">
+                            <div class="event-card__value" id="countdown-1-days">--</div>
+                            <div class="event-card__label" id="countdown-1-label">Torpids</div>
                         </div>
-                        <div class="card-secondary" style="text-align: center;">
-                            <div class="card-label">Farmoor Flow</div>
-                            <div class="card-value card-value--accent" id="farmoor-flow">--</div>
-                            <div class="flow-trend" id="farmoor-trend"></div>
+                        <div class="event-card event-card--red">
+                            <div class="event-card__value" id="countdown-2-days">--</div>
+                            <div class="event-card__label" id="countdown-2-label">Eights</div>
                         </div>
                     </div>
                 </div>
 
-                <div class="card-grid card-grid--2col" style="margin-top: 30px;">
-                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
-                        <div class="card-label">24h Rainfall</div>
-                        <div class="card-value"><span id="rainfall-24h">--</span> mm</div>
+                <!-- RIGHT COLUMN: charts -->
+                <div class="right-col">
+                    <div class="chart-block">
+                        <div class="chart-title">Godstow Differential &mdash; 14 days</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Green (&lt;0.45)</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Amber (0.45-0.75)</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#dc3545;"></div> Red (&gt;0.75)</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="flow-chart"></canvas>
+                        </div>
                     </div>
-                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
-                        <div class="card-label">7d Rainfall</div>
-                        <div class="card-value"><span id="rainfall-7d">--</span> mm</div>
+
+                    <div class="chart-block">
+                        <div class="chart-title">Farmoor Flow &mdash; 14 days</div>
+                        <div class="chart-container">
+                            <canvas id="farmoor-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-block">
+                        <div class="chart-title">Godstow Downstage Level &mdash; 14 days</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Meadow flood (~2.57m)</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="godstow-lock-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-block">
+                        <div class="chart-title">Flow Prediction &mdash; 24h actual + 14 day forecast</div>
+                        <div class="chart-container">
+                            <canvas id="prediction-chart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <h3>Weather Forecast</h3>
-                <div class="card-grid card-grid--2col" style="margin-bottom: 25px;">
-                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
-                        <div class="card-label">Predicted 24h Rainfall</div>
-                        <div class="card-value card-value--accent" id="predicted-rainfall-24h">--</div>
-                    </div>
-                    <div class="card-secondary card-secondary--compact" style="text-align: center;">
-                        <div class="card-label">Predicted 3d Rainfall</div>
-                        <div class="card-value card-value--accent" id="predicted-rainfall-3d">--</div>
-                    </div>
-                </div>
-                <div id="weather-forecast" class="weather-grid">
-                    <!-- Weather forecast will be inserted here -->
-                </div>
+            <!-- Full-width: weather -->
+            <div class="full-width">
+                <div class="section-label">Weather Forecast &mdash; 24h</div>
+                <div id="weather-forecast" class="weather-grid"></div>
             </div>
 
-            <div class="card">
-                <h3>Upcoming Events</h3>
-                <div class="card-grid card-grid--2col" style="margin-top: 20px;">
-                    <div class="card-event card-event--dark">
-                        <div class="card-event__value" id="countdown-1-days">--</div>
-                        <div class="card-event__label" id="countdown-1-label">Event 1</div>
-                    </div>
-                    <div class="card-event card-event--red">
-                        <div class="card-event__value" id="countdown-2-days">--</div>
-                        <div class="card-event__label" id="countdown-2-label">Event 2</div>
-                    </div>
-                </div>
+            <!-- Full-width: info -->
+            <div class="info-text">
+                Flag status: Green (flow &lt;0.45) no restrictions, Amber (0.45-0.75) experienced coxes only, Red (&gt;0.75) no crews.
+                Flow is the adjusted differential between Godstow and Osney locks minus the 1.63m height offset.
+                Predictions assume no additional rainfall and use observed daily godstow level drop rates.
+                Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.
+                <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank">AI-powered forecast (with rainfall)</a>.
+                <span id="data-timestamp"></span>
             </div>
-
-            <div class="card">
-                <h3>Info</h3>
-                <div>
-                    <strong>Flag Status:</strong><br>
-                    🟩 Green Flag (Flow under 0.45): No restrictions<br>
-                    🟧 Amber Flag (Flow 0.45-0.75): X/S-Status coxes only<br>
-                    🟥 Red Flag (Flow above 0.75): No crews<br><br>
-                    <strong>Flow:</strong> The adjusted river differential between Godstow and Osney locks, accounting for the 1.63m height difference between measurement points. This represents the actual flow gradient through the stretch.
-                </div>
-
-                <p><strong>Data Source:</strong> Environment Agency Real-time Flood Monitoring API and OpenMeteo Ensemble API (DWD ICON Seamless model)</p>
-                <p><strong>Weather Forecast:</strong> Precipitation predictions use ensemble forecasts from 40 model members for improved accuracy</p>
-                <p><strong>Update Frequency:</strong> Every 15 minutes during daylight hours (6am-9pm UTC), hourly overnight</p>
-                <p id="data-timestamp" style="margin-top: 15px; font-style: italic; color: #888;"></p>
-            </div>
-
-            <!-- Flow Data Section (shown when #flow-data hash is active) -->
-            <div id="flow-data-section" class="page-section">
-                <a href="#" class="nav-link" style="margin-bottom: 20px;">&larr; Back to River Tracker</a>
-
-                <div class="card" style="margin-top: 20px;">
-                    <h3>Farmoor Flow - Past 14 Days</h3>
-                    <div class="chart-container">
-                        <canvas id="farmoor-chart"></canvas>
-                    </div>
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="https://www.gaugemap.co.uk/#!Map/Summary/1001/1037" target="_blank" style="color: #1a1a2e; text-decoration: none; font-weight: 600;">Current upstream flow data →</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Godstow Differential - Past 14 Days</h3>
-                    <div class="flag-thresholds">
-                        <div class="threshold-item">
-                            <div class="threshold-dot" style="background: #28a745;"></div>
-                            <span>Green (&lt;0.45)</span>
-                        </div>
-                        <div class="threshold-item">
-                            <div class="threshold-dot" style="background: #fd7e14;"></div>
-                            <span>Amber (0.45-0.75)</span>
-                        </div>
-                        <div class="threshold-item">
-                            <div class="threshold-dot" style="background: #dc3545;"></div>
-                            <span>Red (&gt;0.75)</span>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="flow-chart"></canvas>
-                    </div>
-                    <div style="text-align: center; margin-top: 20px;">
-                        <a href="https://flags.jamesonlee.com/godstow" target="_blank" style="color: #1a1a2e; text-decoration: none; font-weight: 600;">Godstow flow data →</a>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>Godstow Lock - Downstage Level</h3>
-                    <div class="flag-thresholds" style="margin-bottom: 15px;">
-                        <div class="threshold-item">
-                            <div class="threshold-dot" style="background: #3b82f6;"></div>
-                            <span>Meadow flood level (~2.57m)</span>
-                        </div>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="godstow-lock-chart"></canvas>
-                    </div>
-                    <p style="text-align: center; color: #6b7280; margin-top: 15px; font-size: 0.9em;">
-                        The blue line indicates the approximate level at which Port Meadow begins to flood.
-                    </p>
-                </div>
-            </div>
-
-            <!-- Flow Predictions Section (shown when #flow-predictions hash is active) -->
-            <div id="flow-predictions-section" class="page-section">
-                <a href="#" class="nav-link" style="margin-bottom: 20px;">&larr; Back to River Tracker</a>
-
-                <div class="card" style="margin-top: 20px;">
-                    <h3>Flow Predictions</h3>
-
-                    <div class="chart-container">
-                        <canvas id="prediction-chart"></canvas>
-                    </div>
-
-                    <div id="predictions-content" style="margin-top: 20px;">
-                        <!-- Dynamic prediction content will be inserted here -->
-                    </div>
-
-                    <div style="margin-top: 30px; padding: 20px; background: #f3f4f6; border-radius: 12px;">
-                        <h4 style="margin-bottom: 15px; color: #1f2937;">Model Assumptions</h4>
-                        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
-                            These predictions assume no additional rainfall. Actual conditions may vary significantly if rain is forecast.
-                        </p>
-                        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 10px;">
-                            Estimates use an exponential decay model fitted to historical peak events. The flow differential has a typical half-life of approximately <span id="decay-rate-display">2-3</span> days after a peak (using a conservative estimate).
-                        </p>
-                        <p style="color: #4b5563; line-height: 1.6; margin-bottom: 0;">
-                            Flag thresholds based on flow differential:
-                            Green below <span id="threshold-green">0.45</span> m,
-                            Amber <span id="threshold-green2">0.45</span>-<span id="threshold-red">0.75</span> m,
-                            Red above <span id="threshold-red2">0.75</span> m.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <h3>AI-Powered Forecast</h3>
-                    <p style="text-align: center; margin-bottom: 20px;">
-                        For predictions that account for rainfall forecasts, try the AI-powered flag predictor:
-                    </p>
-                    <div style="text-align: center;">
-                        <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" class="nav-link" style="background: #1a1a2e; color: white; padding: 15px 30px; font-size: 1.1em;">
-                            View AI Forecast →
-                        </a>
-                    </div>
-                    <p style="text-align: center; color: #6b7280; margin-top: 15px; font-size: 0.9em;">
-                        External site by Robert Doane-Solomon
-                    </p>
-                </div>
-            </div>
-
         </div>
     </div>
 
     <script>
-        // Chart instances
         let farmoorChart = null;
         let flowChart = null;
         let godstowLockChart = null;
@@ -779,420 +535,98 @@
         let currentData = null;
         let predictionModel = null;
 
-        // Flood meadow threshold level (approximate)
         const MEADOW_FLOOD_LEVEL = 2.57;
 
-        // Hash-based navigation
-        function handleHashChange() {
-            const hash = window.location.hash;
-            const mainCards = document.querySelectorAll('#content > .card:not(#flow-data-section .card):not(#flow-predictions-section .card)');
-            const flowDataSection = document.getElementById('flow-data-section');
-            const flowPredictionsSection = document.getElementById('flow-predictions-section');
-
-            if (hash === '#flow-data') {
-                // Show flow data section, hide others
-                mainCards.forEach(card => card.style.display = 'none');
-                flowDataSection.classList.add('active');
-                flowPredictionsSection.classList.remove('active');
-
-                // Create charts if we have data
-                if (currentData) {
-                    displayFlowDataSection(currentData);
-                }
-            } else if (hash === '#flow-predictions') {
-                // Show flow predictions section, hide others
-                mainCards.forEach(card => card.style.display = 'none');
-                flowDataSection.classList.remove('active');
-                flowPredictionsSection.classList.add('active');
-
-                // Display predictions if we have data
-                if (currentData && predictionModel) {
-                    displayFlowPredictions(currentData, predictionModel);
-                }
-            } else {
-                // Show main content, hide other sections
-                mainCards.forEach(card => card.style.display = 'block');
-                flowDataSection.classList.remove('active');
-                flowPredictionsSection.classList.remove('active');
-            }
-        }
-
-        window.addEventListener('hashchange', handleHashChange);
-
         function formatTimestamp(timestamp) {
-            const date = new Date(timestamp);
-            return date.toLocaleString('en-GB', {
+            return new Date(timestamp).toLocaleString('en-GB', {
                 dateStyle: 'medium',
                 timeStyle: 'short'
             });
         }
 
-        function createFarmoorChart(history) {
-            const ctx = document.getElementById('farmoor-chart').getContext('2d');
+        // ---- Prediction model: godstow drop-rate projection ----
 
-            // Prepare data (history is newest first, so reverse for chart)
-            const data = history.slice().reverse().map(r => ({
-                x: new Date(r.timestamp),
-                y: r.value
+        function projectGodstowLevel(currentLevel, model, days) {
+            const bins = model.godstow_decay_rates.bins;
+            let level = currentLevel;
+            const points = [{day: 0, level: level}];
+
+            for (let d = 1; d <= days; d++) {
+                let dropRate = 0;
+                for (const bin of bins) {
+                    if (level >= bin.min_level && level < bin.max_level) {
+                        dropRate = bin.median_drop_mm_per_day;
+                        break;
+                    }
+                }
+                level -= dropRate / 1000;
+                level = Math.max(level, 1.4);
+                points.push({day: d, level: level});
+            }
+            return points;
+        }
+
+        function projectDifferential(godstowPoints, avgOsney) {
+            return godstowPoints.map(p => ({
+                day: p.day,
+                diff: (p.level - avgOsney) - 1.63
             }));
-
-            if (farmoorChart) {
-                farmoorChart.destroy();
-            }
-
-            farmoorChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Flow (m³/s)',
-                        data: data,
-                        borderColor: '#3b82f6',
-                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'dd MMM'
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Flow (m³/s)'
-                            },
-                            beginAtZero: false
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short'
-                                    });
-                                },
-                                label: function(context) {
-                                    return `Flow: ${context.parsed.y.toFixed(2)} m³/s`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
         }
 
-        function createFlowChart(godstowHistory, osneyHistory) {
-            const ctx = document.getElementById('flow-chart').getContext('2d');
-
-            // Create a map of osney values by timestamp
-            const osneyMap = {};
-            osneyHistory.forEach(r => {
-                osneyMap[r.timestamp] = r.value;
-            });
-
-            // Calculate flow for each godstow reading where we have matching osney
-            const flowData = [];
-            godstowHistory.slice().reverse().forEach(r => {
-                const osneyValue = osneyMap[r.timestamp];
-                if (osneyValue !== undefined) {
-                    const differential = r.value - osneyValue;
-                    const flow = differential - 1.63;
-                    flowData.push({
-                        x: new Date(r.timestamp),
-                        y: flow
-                    });
+        function daysToThreshold(diffPoints, threshold) {
+            for (let i = 1; i < diffPoints.length; i++) {
+                if (diffPoints[i].diff <= threshold) {
+                    // Interpolate between i-1 and i
+                    const prev = diffPoints[i - 1];
+                    const curr = diffPoints[i];
+                    const frac = (prev.diff - threshold) / (prev.diff - curr.diff);
+                    return prev.day + frac;
                 }
-            });
-
-            if (flowChart) {
-                flowChart.destroy();
             }
-
-            flowChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Flow',
-                        data: flowData,
-                        borderColor: '#1a1a2e',
-                        backgroundColor: function(context) {
-                            const chart = context.chart;
-                            const {ctx, chartArea} = chart;
-                            if (!chartArea) return null;
-
-                            // Create gradient with sharp threshold boundaries
-                            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                            const {min, max} = chart.scales.y;
-                            const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
-
-                            const greenPos = toPos(0.45);
-                            const redPos = toPos(0.75);
-
-                            gradient.addColorStop(0, 'rgba(40, 167, 69, 0.3)');
-                            gradient.addColorStop(greenPos, 'rgba(40, 167, 69, 0.3)');
-                            gradient.addColorStop(greenPos, 'rgba(253, 126, 20, 0.3)');
-                            gradient.addColorStop(redPos, 'rgba(253, 126, 20, 0.3)');
-                            gradient.addColorStop(redPos, 'rgba(220, 53, 69, 0.3)');
-                            gradient.addColorStop(1, 'rgba(220, 53, 69, 0.3)');
-                            return gradient;
-                        },
-                        fill: true,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'dd MMM'
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Flow (m)'
-                            },
-                            beginAtZero: false
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short'
-                                    });
-                                },
-                                label: function(context) {
-                                    const flow = context.parsed.y;
-                                    let status = 'Green';
-                                    if (flow > 0.75) status = 'Red';
-                                    else if (flow >= 0.45) status = 'Amber';
-                                    return `Flow: ${flow.toFixed(3)} (${status})`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            return null;
         }
 
-        function createGodstowLockChart(history) {
-            const ctx = document.getElementById('godstow-lock-chart').getContext('2d');
-
-            // Prepare data (history is newest first, so reverse for chart)
-            const data = history.slice().reverse().map(r => ({
-                x: new Date(r.timestamp),
-                y: r.value
-            }));
-
-            // Create threshold line data spanning the full date range
-            const thresholdData = data.length > 0 ? [
-                { x: data[0].x, y: MEADOW_FLOOD_LEVEL },
-                { x: data[data.length - 1].x, y: MEADOW_FLOOD_LEVEL }
-            ] : [];
-
-            if (godstowLockChart) {
-                godstowLockChart.destroy();
-            }
-
-            godstowLockChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [
-                        {
-                            label: 'Level (m)',
-                            data: data,
-                            borderColor: '#1a1a2e',
-                            backgroundColor: 'rgba(26, 26, 46, 0.1)',
-                            fill: true,
-                            tension: 0.3,
-                            pointRadius: 0,
-                            borderWidth: 2
-                        },
-                        {
-                            label: 'Meadow Flood Level',
-                            data: thresholdData,
-                            borderColor: '#3b82f6',
-                            borderWidth: 2,
-                            borderDash: [5, 5],
-                            pointRadius: 0,
-                            fill: false
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
-                    scales: {
-                        x: {
-                            type: 'time',
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'dd MMM'
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Level (m)'
-                            },
-                            beginAtZero: false
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom'
-                        },
-                        tooltip: {
-                            callbacks: {
-                                title: function(context) {
-                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short'
-                                    });
-                                },
-                                label: function(context) {
-                                    if (context.datasetIndex === 1) {
-                                        return `Meadow flood level: ${MEADOW_FLOOD_LEVEL.toFixed(2)} m`;
-                                    }
-                                    return `Level: ${context.parsed.y.toFixed(3)} m`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
-        function displayFlowPredictions(data, model) {
-            // Get current flow differential
+        function displayPredictions(data, model) {
+            const container = document.getElementById('predictions-content');
             const currentFlow = data.flow;
-            if (currentFlow == null || !model) {
-                document.getElementById('predictions-content').innerHTML =
-                    '<p style="text-align: center; color: #6b7280;">Prediction data unavailable</p>';
+            const godstowLevel = data.godstow_lock ? data.godstow_lock.level : null;
+
+            if (currentFlow == null || !model || !model.godstow_decay_rates || godstowLevel == null) {
+                container.innerHTML = '<span class="value-label">Prediction data unavailable</span>';
                 return;
             }
 
-            // Flow differential thresholds
-            const greenAmberThreshold = model.thresholds.green_amber_flow;
-            const amberRedThreshold = model.thresholds.amber_red_flow;
+            const greenThreshold = model.thresholds.green_amber_flow;
+            const amberThreshold = model.thresholds.amber_red_flow;
+            const avgOsney = model.godstow_decay_rates.avg_osney;
 
-            // Exponential decay: flow(t) = current * exp(-t / tau)  (baseline = 0)
-            const diffDecay = model.flow_differential_decay || {};
-            const tauHours = diffDecay.conservative_tau_hours || 62;
-            const halfLifeDays = (tauHours * Math.LN2) / 24;
+            const godstowPoints = projectGodstowLevel(godstowLevel, model, 30);
+            const diffPoints = projectDifferential(godstowPoints, avgOsney);
 
-            // Update threshold displays
-            document.getElementById('decay-rate-display').textContent = halfLifeDays.toFixed(1);
-            document.getElementById('threshold-green').textContent = greenAmberThreshold.toFixed(2);
-            document.getElementById('threshold-green2').textContent = greenAmberThreshold.toFixed(2);
-            document.getElementById('threshold-red').textContent = amberRedThreshold.toFixed(2);
-            document.getElementById('threshold-red2').textContent = amberRedThreshold.toFixed(2);
+            const toAmber = currentFlow > amberThreshold ? daysToThreshold(diffPoints, amberThreshold) : null;
+            const toGreen = currentFlow > greenThreshold ? daysToThreshold(diffPoints, greenThreshold) : null;
 
-            // Determine current status and predictions
-            let daysToAmber = null;
-            let daysToGreen = null;
-
-            if (currentFlow > amberRedThreshold) {
-                daysToAmber = (tauHours * Math.log(currentFlow / amberRedThreshold)) / 24;
-                daysToGreen = (tauHours * Math.log(currentFlow / greenAmberThreshold)) / 24;
-            } else if (currentFlow > greenAmberThreshold) {
-                daysToGreen = (tauHours * Math.log(currentFlow / greenAmberThreshold)) / 24;
-            }
-
-            // Build predictions content
-            let predictionsHtml = '<div class="card-grid card-grid--2col">';
-
-            if (currentFlow <= greenAmberThreshold) {
-                predictionsHtml += `
-                    <div class="card-event card-event--dark" style="grid-column: 1 / -1;">
-                        <div class="card-event__value">&#10003;</div>
-                        <div class="card-event__label">Currently at Green - no restrictions!</div>
-                    </div>
-                `;
+            let html = '';
+            if (currentFlow <= greenThreshold) {
+                html = '<div class="prediction-cards"><div class="prediction-card" style="background:#28a745; grid-column: 1/-1;"><div class="prediction-card__value">&#10003;</div><div class="prediction-card__label">Currently Green</div></div></div>';
             } else {
-                if (daysToAmber !== null) {
-                    predictionsHtml += `
-                        <div class="card-event" style="background: #fd7e14;">
-                            <div class="card-event__value">${Math.ceil(daysToAmber)}</div>
-                            <div class="card-event__label">Days to Amber</div>
-                        </div>
-                    `;
+                html = '<div class="prediction-cards">';
+                if (toAmber !== null) {
+                    html += `<div class="prediction-card" style="background:#fd7e14;"><div class="prediction-card__value">${Math.ceil(toAmber)}</div><div class="prediction-card__label">Days to Amber</div></div>`;
                 }
-                if (daysToGreen !== null) {
-                    predictionsHtml += `
-                        <div class="card-event" style="background: #28a745;">
-                            <div class="card-event__value">${Math.ceil(daysToGreen)}</div>
-                            <div class="card-event__label">Days to Green</div>
-                        </div>
-                    `;
+                if (toGreen !== null) {
+                    html += `<div class="prediction-card" style="background:#28a745;"><div class="prediction-card__value">${Math.ceil(toGreen)}</div><div class="prediction-card__label">Days to Green</div></div>`;
+                } else if (currentFlow > greenThreshold) {
+                    html += `<div class="prediction-card" style="background:#6b7280;"><div class="prediction-card__value">30+</div><div class="prediction-card__label">Days to Green</div></div>`;
                 }
+                html += '</div>';
             }
+            container.innerHTML = html;
 
-            predictionsHtml += '</div>';
-            document.getElementById('predictions-content').innerHTML = predictionsHtml;
-
-            // Create the prediction chart
-            createPredictionChart(data, model);
+            createPredictionChart(data, model, diffPoints);
         }
 
-        function createPredictionChart(data, model) {
+        function createPredictionChart(data, model, diffPoints) {
             const ctx = document.getElementById('prediction-chart').getContext('2d');
 
             // Build actual flow differential from last 24h of history
@@ -1211,53 +645,42 @@
                     if (osneyValue !== undefined) {
                         const ts = new Date(r.timestamp);
                         if (ts >= twentyFourHoursAgo) {
-                            actualData.push({
-                                x: ts,
-                                y: (r.value - osneyValue) - 1.63
-                            });
+                            actualData.push({ x: ts, y: (r.value - osneyValue) - 1.63 });
                         }
                     }
                 });
             }
 
-            // Get decay parameters
-            const diffDecay = model.flow_differential_decay || {};
-            const tauHours = diffDecay.conservative_tau_hours || 62;
+            // Build predicted line from diffPoints (day-by-day projection)
+            const predictedData = diffPoints.map(p => ({
+                x: new Date(now.getTime() + p.day * 24 * 60 * 60 * 1000),
+                y: Math.max(p.diff, 0)
+            }));
 
-            // Build predicted decay curve for 7 days from now
-            const latestFlow = data.flow;
-            const predictedData = [];
-            if (latestFlow != null && latestFlow > 0) {
-                for (let h = 0; h <= 168; h++) {
-                    const t = new Date(now.getTime() + h * 60 * 60 * 1000);
-                    const predicted = latestFlow * Math.exp(-h / tauHours);
-                    predictedData.push({ x: t, y: predicted });
-                }
-            }
+            const chartEnd = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
+            const greenLine = [{ x: twentyFourHoursAgo, y: 0.45 }, { x: chartEnd, y: 0.45 }];
+            const amberLine = [{ x: twentyFourHoursAgo, y: 0.75 }, { x: chartEnd, y: 0.75 }];
+            const yMax = Math.max(data.flow || 0, 1.0);
+            const nowLine = [{ x: now, y: 0 }, { x: now, y: yMax * 1.1 }];
 
-            // Threshold lines spanning full range
-            const chartStart = twentyFourHoursAgo;
-            const chartEnd = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
+            if (predictionChart) predictionChart.destroy();
 
-            const greenThresholdData = [
-                { x: chartStart, y: 0.45 },
-                { x: chartEnd, y: 0.45 }
-            ];
-            const amberThresholdData = [
-                { x: chartStart, y: 0.75 },
-                { x: chartEnd, y: 0.75 }
-            ];
-
-            // "Now" marker line
-            const yMax = Math.max(latestFlow || 0, 1.0);
-            const nowLineData = [
-                { x: now, y: 0 },
-                { x: now, y: yMax * 1.1 }
-            ];
-
-            if (predictionChart) {
-                predictionChart.destroy();
-            }
+            const gradientFn = (opacity) => function(context) {
+                const chart = context.chart;
+                const {ctx: c, chartArea} = chart;
+                if (!chartArea) return null;
+                const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                const {min, max} = chart.scales.y;
+                const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
+                const gp = toPos(0.45), rp = toPos(0.75);
+                gradient.addColorStop(0, `rgba(40,167,69,${opacity})`);
+                gradient.addColorStop(gp, `rgba(40,167,69,${opacity})`);
+                gradient.addColorStop(gp, `rgba(253,126,20,${opacity})`);
+                gradient.addColorStop(rp, `rgba(253,126,20,${opacity})`);
+                gradient.addColorStop(rp, `rgba(220,53,69,${opacity})`);
+                gradient.addColorStop(1, `rgba(220,53,69,${opacity})`);
+                return gradient;
+            };
 
             predictionChart = new Chart(ctx, {
                 type: 'line',
@@ -1267,148 +690,38 @@
                             label: 'Actual',
                             data: actualData,
                             borderColor: '#1a1a2e',
-                            backgroundColor: function(context) {
-                                const chart = context.chart;
-                                const {ctx: c, chartArea} = chart;
-                                if (!chartArea) return null;
-                                const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                                const {min, max} = chart.scales.y;
-                                const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
-                                const greenPos = toPos(0.45);
-                                const redPos = toPos(0.75);
-                                gradient.addColorStop(0, 'rgba(40, 167, 69, 0.3)');
-                                gradient.addColorStop(greenPos, 'rgba(40, 167, 69, 0.3)');
-                                gradient.addColorStop(greenPos, 'rgba(253, 126, 20, 0.3)');
-                                gradient.addColorStop(redPos, 'rgba(253, 126, 20, 0.3)');
-                                gradient.addColorStop(redPos, 'rgba(220, 53, 69, 0.3)');
-                                gradient.addColorStop(1, 'rgba(220, 53, 69, 0.3)');
-                                return gradient;
-                            },
-                            fill: true,
-                            tension: 0.3,
-                            pointRadius: 0,
-                            borderWidth: 2,
-                            order: 2
+                            backgroundColor: gradientFn(0.25),
+                            fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2, order: 2
                         },
                         {
                             label: 'Predicted',
                             data: predictedData,
                             borderColor: '#6b7280',
-                            backgroundColor: function(context) {
-                                const chart = context.chart;
-                                const {ctx: c, chartArea} = chart;
-                                if (!chartArea) return null;
-                                const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                                const {min, max} = chart.scales.y;
-                                const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
-                                const greenPos = toPos(0.45);
-                                const redPos = toPos(0.75);
-                                gradient.addColorStop(0, 'rgba(40, 167, 69, 0.15)');
-                                gradient.addColorStop(greenPos, 'rgba(40, 167, 69, 0.15)');
-                                gradient.addColorStop(greenPos, 'rgba(253, 126, 20, 0.15)');
-                                gradient.addColorStop(redPos, 'rgba(253, 126, 20, 0.15)');
-                                gradient.addColorStop(redPos, 'rgba(220, 53, 69, 0.15)');
-                                gradient.addColorStop(1, 'rgba(220, 53, 69, 0.15)');
-                                return gradient;
-                            },
-                            fill: true,
-                            borderDash: [5, 5],
-                            tension: 0.3,
-                            pointRadius: 0,
-                            borderWidth: 2,
-                            order: 3
+                            backgroundColor: gradientFn(0.12),
+                            fill: true, borderDash: [5, 5], tension: 0.1, pointRadius: 0, borderWidth: 2, order: 3
                         },
-                        {
-                            label: 'Green threshold',
-                            data: greenThresholdData,
-                            borderColor: 'rgba(40, 167, 69, 0.6)',
-                            borderDash: [5, 5],
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            fill: false,
-                            order: 1
-                        },
-                        {
-                            label: 'Amber threshold',
-                            data: amberThresholdData,
-                            borderColor: 'rgba(253, 126, 20, 0.6)',
-                            borderDash: [5, 5],
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            fill: false,
-                            order: 1
-                        },
-                        {
-                            label: 'Now',
-                            data: nowLineData,
-                            borderColor: 'rgba(107, 114, 128, 0.4)',
-                            borderDash: [3, 3],
-                            borderWidth: 1,
-                            pointRadius: 0,
-                            fill: false,
-                            order: 0
-                        }
+                        { label: 'Green', data: greenLine, borderColor: 'rgba(40,167,69,0.5)', borderDash: [5,5], borderWidth: 1, pointRadius: 0, fill: false, order: 1 },
+                        { label: 'Amber', data: amberLine, borderColor: 'rgba(253,126,20,0.5)', borderDash: [5,5], borderWidth: 1, pointRadius: 0, fill: false, order: 1 },
+                        { label: 'Now', data: nowLine, borderColor: 'rgba(107,114,128,0.3)', borderDash: [3,3], borderWidth: 1, pointRadius: 0, fill: false, order: 0 }
                     ]
                 },
                 options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    interaction: {
-                        intersect: false,
-                        mode: 'index'
-                    },
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
                     scales: {
-                        x: {
-                            type: 'time',
-                            min: chartStart,
-                            max: chartEnd,
-                            time: {
-                                unit: 'day',
-                                displayFormats: {
-                                    day: 'dd MMM'
-                                }
-                            },
-                            title: {
-                                display: true,
-                                text: 'Date'
-                            }
-                        },
-                        y: {
-                            title: {
-                                display: true,
-                                text: 'Flow Differential (m)'
-                            },
-                            beginAtZero: true
-                        }
+                        x: { type: 'time', min: twentyFourHoursAgo, max: chartEnd, time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
+                        y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: true }
                     },
                     plugins: {
-                        legend: {
-                            display: true,
-                            position: 'bottom',
-                            labels: {
-                                filter: function(item) {
-                                    // Only show Actual and Predicted in legend
-                                    return item.text === 'Actual' || item.text === 'Predicted';
-                                }
-                            }
-                        },
+                        legend: { display: true, position: 'bottom', labels: { filter: item => item.text === 'Actual' || item.text === 'Predicted' } },
                         tooltip: {
                             callbacks: {
-                                title: function(context) {
-                                    return new Date(context[0].parsed.x).toLocaleString('en-GB', {
-                                        dateStyle: 'medium',
-                                        timeStyle: 'short'
-                                    });
-                                },
-                                label: function(context) {
-                                    if (context.dataset.label === 'Now' ||
-                                        context.dataset.label === 'Green threshold' ||
-                                        context.dataset.label === 'Amber threshold') return null;
-                                    const flow = context.parsed.y;
-                                    let status = 'Green';
-                                    if (flow > 0.75) status = 'Red';
-                                    else if (flow >= 0.45) status = 'Amber';
-                                    return `${context.dataset.label}: ${flow.toFixed(3)}m (${status})`;
+                                title: ctx => new Date(ctx[0].parsed.x).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }),
+                                label: ctx => {
+                                    if (['Now','Green','Amber'].includes(ctx.dataset.label)) return null;
+                                    const f = ctx.parsed.y;
+                                    const s = f > 0.75 ? 'Red' : f >= 0.45 ? 'Amber' : 'Green';
+                                    return `${ctx.dataset.label}: ${f.toFixed(3)}m (${s})`;
                                 }
                             }
                         }
@@ -1417,146 +730,299 @@
             });
         }
 
-        function displayFlowDataSection(data) {
-            // Create Farmoor chart
-            if (data.farmoor_history && data.farmoor_history.length > 0) {
-                createFarmoorChart(data.farmoor_history);
-            }
+        // ---- Chart creation functions ----
 
-            // Create flow differential chart
-            if (data.godstow_history && data.osney_history &&
-                data.godstow_history.length > 0 && data.osney_history.length > 0) {
-                createFlowChart(data.godstow_history, data.osney_history);
-            }
-
-            // Create Godstow lock level chart
-            if (data.godstow_history && data.godstow_history.length > 0) {
-                createGodstowLockChart(data.godstow_history);
-            }
+        function createFarmoorChart(history) {
+            const ctx = document.getElementById('farmoor-chart').getContext('2d');
+            const data = history.slice().reverse().map(r => ({ x: new Date(r.timestamp), y: r.value }));
+            if (farmoorChart) farmoorChart.destroy();
+            farmoorChart = new Chart(ctx, {
+                type: 'line',
+                data: { datasets: [{ label: 'Flow (m\u00b3/s)', data, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }] },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    scales: {
+                        x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
+                        y: { title: { display: true, text: 'Flow (m\u00b3/s)' }, beginAtZero: false }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: { title: ctx => formatTimestamp(ctx[0].parsed.x), label: ctx => `Flow: ${ctx.parsed.y.toFixed(2)} m\u00b3/s` } }
+                    }
+                }
+            });
         }
 
-        // Weather code mapping (WMO codes)
+        function createFlowChart(godstowHistory, osneyHistory) {
+            const ctx = document.getElementById('flow-chart').getContext('2d');
+            const osneyMap = {};
+            osneyHistory.forEach(r => { osneyMap[r.timestamp] = r.value; });
+            const flowData = [];
+            godstowHistory.slice().reverse().forEach(r => {
+                const ov = osneyMap[r.timestamp];
+                if (ov !== undefined) flowData.push({ x: new Date(r.timestamp), y: (r.value - ov) - 1.63 });
+            });
+            if (flowChart) flowChart.destroy();
+            flowChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Flow', data: flowData, borderColor: '#1a1a2e',
+                        backgroundColor: function(context) {
+                            const chart = context.chart;
+                            const {ctx, chartArea} = chart;
+                            if (!chartArea) return null;
+                            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                            const {min, max} = chart.scales.y;
+                            const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
+                            const gp = toPos(0.45), rp = toPos(0.75);
+                            gradient.addColorStop(0, 'rgba(40,167,69,0.3)');
+                            gradient.addColorStop(gp, 'rgba(40,167,69,0.3)');
+                            gradient.addColorStop(gp, 'rgba(253,126,20,0.3)');
+                            gradient.addColorStop(rp, 'rgba(253,126,20,0.3)');
+                            gradient.addColorStop(rp, 'rgba(220,53,69,0.3)');
+                            gradient.addColorStop(1, 'rgba(220,53,69,0.3)');
+                            return gradient;
+                        },
+                        fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    scales: {
+                        x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
+                        y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: false }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: {
+                            title: ctx => formatTimestamp(ctx[0].parsed.x),
+                            label: ctx => { const f = ctx.parsed.y; const s = f > 0.75 ? 'Red' : f >= 0.45 ? 'Amber' : 'Green'; return `Flow: ${f.toFixed(3)} (${s})`; }
+                        } }
+                    }
+                }
+            });
+        }
+
+        function createGodstowLockChart(history) {
+            const ctx = document.getElementById('godstow-lock-chart').getContext('2d');
+            const data = history.slice().reverse().map(r => ({ x: new Date(r.timestamp), y: r.value }));
+            const thresholdData = data.length > 0 ? [{ x: data[0].x, y: MEADOW_FLOOD_LEVEL }, { x: data[data.length - 1].x, y: MEADOW_FLOOD_LEVEL }] : [];
+            if (godstowLockChart) godstowLockChart.destroy();
+            godstowLockChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    datasets: [
+                        { label: 'Level (m)', data, borderColor: '#1a1a2e', backgroundColor: 'rgba(26,26,46,0.1)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
+                        { label: 'Meadow Flood', data: thresholdData, borderColor: '#3b82f6', borderWidth: 2, borderDash: [5,5], pointRadius: 0, fill: false }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    scales: {
+                        x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
+                        y: { title: { display: true, text: 'Level (m)' }, beginAtZero: false }
+                    },
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { callbacks: {
+                            title: ctx => formatTimestamp(ctx[0].parsed.x),
+                            label: ctx => ctx.datasetIndex === 1 ? `Meadow flood: ${MEADOW_FLOOD_LEVEL.toFixed(2)} m` : `Level: ${ctx.parsed.y.toFixed(3)} m`
+                        } }
+                    }
+                }
+            });
+        }
+
+        // ---- Weather ----
+
         function getWeatherEmoji(code) {
-            if (code === 0) return '☀️';
-            if (code <= 3) return '⛅';
-            if (code <= 48) return '🌫️';
-            if (code <= 67) return '🌧️';
-            if (code <= 77) return '🌨️';
-            if (code <= 82) return '🌧️';
-            if (code <= 86) return '🌨️';
-            if (code <= 99) return '⛈️';
-            return '☁️';
+            if (code === 0) return '\u2600\uFE0F';
+            if (code <= 3) return '\u26C5';
+            if (code <= 48) return '\uD83C\uDF2B\uFE0F';
+            if (code <= 67) return '\uD83C\uDF27\uFE0F';
+            if (code <= 77) return '\uD83C\uDF28\uFE0F';
+            if (code <= 82) return '\uD83C\uDF27\uFE0F';
+            if (code <= 86) return '\uD83C\uDF28\uFE0F';
+            if (code <= 99) return '\u26C8\uFE0F';
+            return '\u2601\uFE0F';
         }
 
         function displayWeatherForecast(forecast, ensembleStats) {
             const container = document.getElementById('weather-forecast');
             container.innerHTML = '';
 
-            // Use ensemble rainfall statistics if available
             if (ensembleStats && ensembleStats.mean !== null && ensembleStats.mean !== undefined) {
-                const meanText = ensembleStats.mean.toFixed(1);
-                const rangeText = `${ensembleStats.p10.toFixed(1)}-${ensembleStats.p90.toFixed(1)}`;
-                document.getElementById('predicted-rainfall-24h').innerHTML =
-                    `${meanText} mm <span style="font-size: 0.8em; color: #6b7280;">(${rangeText}mm)</span>`;
+                const el = document.getElementById('predicted-rainfall-24h');
+                el.innerHTML = `${ensembleStats.mean.toFixed(1)} mm <span style="font-size:0.75em;color:#9ca3af;">(${ensembleStats.p10.toFixed(1)}-${ensembleStats.p90.toFixed(1)})</span>`;
             } else if (forecast && forecast.length > 0) {
-                // Fallback: Calculate total predicted rainfall for 24 hours
-                let totalPrecipitation = 0;
-                forecast.forEach(hour => {
-                    if (hour.precipitation !== null && hour.precipitation !== undefined) {
-                        totalPrecipitation += hour.precipitation;
-                    }
-                });
-                document.getElementById('predicted-rainfall-24h').textContent = totalPrecipitation.toFixed(1) + ' mm';
-            } else {
-                document.getElementById('predicted-rainfall-24h').textContent = '--';
+                let total = 0;
+                forecast.forEach(h => { if (h.precipitation != null) total += h.precipitation; });
+                document.getElementById('predicted-rainfall-24h').textContent = total.toFixed(1) + ' mm';
             }
 
             if (!forecast || forecast.length === 0) {
-                container.innerHTML = '<p style="color: #999;">Weather forecast unavailable</p>';
+                container.innerHTML = '<span style="color:#9ca3af;font-size:0.85em;">Forecast unavailable</span>';
                 return;
             }
 
-            forecast.forEach((hour, index) => {
-                if (index % 3 !== 0) return; // Show every 3 hours
-
+            forecast.forEach((hour, i) => {
+                if (i % 3 !== 0) return;
                 const time = new Date(hour.time);
-                const hourDiv = document.createElement('div');
-                hourDiv.className = 'card-weather';
-
-                // Sum precipitation for the 3-hour period starting from this hour
                 let precipSum = 0;
-                for (let i = index; i < Math.min(index + 3, forecast.length); i++) {
-                    if (forecast[i].precipitation !== null && forecast[i].precipitation !== undefined) {
-                        precipSum += forecast[i].precipitation;
-                    }
+                for (let j = i; j < Math.min(i + 3, forecast.length); j++) {
+                    if (forecast[j].precipitation != null) precipSum += forecast[j].precipitation;
                 }
-                const precipitation = precipSum > 0 ? precipSum.toFixed(1) + 'mm' : '0.0mm';
-
-                hourDiv.innerHTML = `
-                    <div class="card-weather__time">${time.getHours()}:00</div>
-                    <div class="card-weather__icon">${getWeatherEmoji(hour.weather_code)}</div>
-                    <div class="card-weather__temp">${hour.temperature ? Math.round(hour.temperature) + '°C' : '--'}</div>
-                    <div class="card-weather__chance">${hour.precipitation_probability ? hour.precipitation_probability + '%' : '--'}</div>
-                    <div class="card-weather__precip">${precipitation}</div>
+                const div = document.createElement('div');
+                div.className = 'weather-cell';
+                div.innerHTML = `
+                    <div class="weather-cell__time">${time.getHours()}:00</div>
+                    <div class="weather-cell__icon">${getWeatherEmoji(hour.weather_code)}</div>
+                    <div class="weather-cell__temp">${hour.temperature ? Math.round(hour.temperature) + '\u00b0C' : '--'}</div>
+                    <div class="weather-cell__precip">${precipSum > 0 ? precipSum.toFixed(1) + 'mm' : '0mm'}</div>
                 `;
-
-                container.appendChild(hourDiv);
+                container.appendChild(div);
             });
         }
 
         function updateCountdowns() {
             const torpids = new Date('2026-03-04T00:00:00');
-            const summerEights = new Date('2026-05-27T00:00:00');
+            const eights = new Date('2026-05-27T00:00:00');
+            const now = new Date(); now.setHours(0, 0, 0, 0);
+            document.getElementById('countdown-1-days').textContent = Math.max(0, Math.ceil((torpids - now) / 86400000));
+            document.getElementById('countdown-1-label').textContent = 'Days to Torpids';
+            document.getElementById('countdown-2-days').textContent = Math.max(0, Math.ceil((eights - now) / 86400000));
+            document.getElementById('countdown-2-label').textContent = 'Days to Eights';
+        }
 
-            const now = new Date();
-            now.setHours(0, 0, 0, 0); // Reset to start of day for accurate day count
+        // ---- Data loading ----
 
-            const daysTorpids = Math.ceil((torpids - now) / (1000 * 60 * 60 * 24));
-            const daysSummerEights = Math.ceil((summerEights - now) / (1000 * 60 * 60 * 24));
+        function getFlagEmoji(statusText) {
+            const lower = statusText.toLowerCase();
+            if (lower.includes('green')) return '\uD83D\uDFE9';
+            if (lower.includes('amber')) return '\uD83D\uDFE7';
+            if (lower.includes('red')) return '\uD83D\uDFE5';
+            if (lower.includes('blue')) return '\uD83D\uDFE6';
+            return '--';
+        }
 
-            document.getElementById('countdown-1-days').textContent = daysTorpids > 0 ? daysTorpids : 0;
-            document.getElementById('countdown-1-label').textContent = 'Days until Torpids';
+        function displayData(data) {
+            // OURCS flags
+            if (data.ourcs_godstow_flag) {
+                document.getElementById('ourcs-godstow-emoji').textContent = getFlagEmoji(data.ourcs_godstow_flag.status_text);
+            }
+            if (data.ourcs_isis_flag) {
+                document.getElementById('ourcs-isis-emoji').textContent = getFlagEmoji(data.ourcs_isis_flag.status_text);
+            }
 
-            document.getElementById('countdown-2-days').textContent = daysSummerEights > 0 ? daysSummerEights : 0;
-            document.getElementById('countdown-2-label').textContent = 'Days until Summer Eights';
+            // Flow
+            let flow = null;
+            if (data.differential !== null) {
+                flow = data.differential - 1.63;
+                document.getElementById('flow').textContent = flow.toFixed(3);
+
+                let flagEmoji, flagText, flagDesc, flagColor;
+                if (flow > 0.75) { flagEmoji = '\uD83D\uDFE5'; flagText = 'Red'; flagDesc = 'No crews'; flagColor = '#dc3545'; }
+                else if (flow < 0.45) { flagEmoji = '\uD83D\uDFE9'; flagText = 'Green'; flagDesc = 'No restrictions'; flagColor = '#28a745'; }
+                else { flagEmoji = '\uD83D\uDFE7'; flagText = 'Amber'; flagDesc = 'X/S-Status coxes only'; flagColor = '#fd7e14'; }
+
+                document.getElementById('flag-status').textContent = flagEmoji;
+                document.getElementById('flag-text').textContent = flagText;
+                document.getElementById('flag-text').style.color = flagColor;
+                document.getElementById('flag-description').textContent = flagDesc;
+            }
+
+            // Flow trend
+            const trendEl = document.getElementById('flow-trend');
+            if (data.flow_trend) {
+                let icon, text, color;
+                if (data.flow_trend === 'Rising') { icon = '\u2191'; text = 'Increasing'; color = '#dc3545'; }
+                else if (data.flow_trend === 'Falling') { icon = '\u2193'; text = 'Decreasing'; color = '#28a745'; }
+                else { icon = '\u2192'; text = 'Level'; color = '#6b7280'; }
+                trendEl.innerHTML = `<span style="color:${color};">${icon} ${text}</span>`;
+            }
+
+            // Farmoor
+            if (data.farmoor && data.farmoor.flow !== null) {
+                document.getElementById('farmoor-flow').textContent = data.farmoor.flow.toFixed(1) + ' m\u00b3/s';
+                const ft = document.getElementById('farmoor-trend');
+                if (data.farmoor_history && data.farmoor_history.length >= 8) {
+                    const change = data.farmoor.flow - data.farmoor_history[7].value;
+                    let icon, text, color;
+                    if (change > 0.5) { icon = '\u2191'; text = 'Rising'; color = '#dc3545'; }
+                    else if (change < -0.5) { icon = '\u2193'; text = 'Falling'; color = '#28a745'; }
+                    else { icon = '\u2192'; text = 'Stable'; color = '#6b7280'; }
+                    ft.innerHTML = `<span style="color:${color};">${icon} ${text}</span>`;
+                }
+            }
+
+            // Rainfall
+            document.getElementById('rainfall-24h').textContent = (data.rainfall_24h || 0).toFixed(1);
+            document.getElementById('rainfall-7d').textContent = (data.rainfall_7d || 0).toFixed(1);
+            document.getElementById('upstream-rainfall-24h').textContent = (data.upstream_rainfall_24h || 0).toFixed(1);
+            document.getElementById('upstream-rainfall-7d').textContent = (data.upstream_rainfall_7d || 0).toFixed(1);
+
+            // Weather
+            const ensemble24h = (data.ensemble_rainfall_24h_mean != null) ? { mean: data.ensemble_rainfall_24h_mean, p10: data.ensemble_rainfall_24h_p10, p90: data.ensemble_rainfall_24h_p90 } : null;
+            displayWeatherForecast(data.weather_forecast || [], ensemble24h);
+
+            // 3-day forecast
+            if (data.ensemble_rainfall_72h_mean != null) {
+                document.getElementById('predicted-rainfall-3d').innerHTML = `${data.ensemble_rainfall_72h_mean.toFixed(1)} mm <span style="font-size:0.75em;color:#9ca3af;">(${data.ensemble_rainfall_72h_p10.toFixed(1)}-${data.ensemble_rainfall_72h_p90.toFixed(1)})</span>`;
+            } else {
+                const f3d = data.rainfall_forecast_3d || [];
+                if (f3d.length > 0) {
+                    document.getElementById('predicted-rainfall-3d').textContent = f3d.reduce((s, d) => s + (d.precipitation || 0), 0).toFixed(1) + ' mm';
+                }
+            }
+
+            // Countdowns
+            updateCountdowns();
+
+            // Timestamps
+            const lastUpdated = new Date(data.last_updated);
+            document.getElementById('header-last-updated').textContent = `Updated ${lastUpdated.toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' })}`;
+            if (data.godstow_lock && data.godstow_lock.timestamp) {
+                document.getElementById('data-timestamp').textContent = `Readings from ${formatTimestamp(data.godstow_lock.timestamp)}.`;
+            }
+
+            // Create all charts
+            if (data.godstow_history && data.osney_history && data.godstow_history.length > 0 && data.osney_history.length > 0) {
+                createFlowChart(data.godstow_history, data.osney_history);
+            }
+            if (data.farmoor_history && data.farmoor_history.length > 0) {
+                createFarmoorChart(data.farmoor_history);
+            }
+            if (data.godstow_history && data.godstow_history.length > 0) {
+                createGodstowLockChart(data.godstow_history);
+            }
+            if (predictionModel) {
+                displayPredictions(data, predictionModel);
+            }
         }
 
         async function loadData() {
             try {
-                // Load both current data and prediction model in parallel
                 const [dataResponse, modelResponse] = await Promise.all([
                     fetch('data/current.json?t=' + Date.now()),
                     fetch('data/prediction_model.json?t=' + Date.now())
                 ]);
 
-                if (!dataResponse.ok) {
-                    throw new Error(`HTTP error! status: ${dataResponse.status}`);
-                }
+                if (!dataResponse.ok) throw new Error(`HTTP ${dataResponse.status}`);
 
                 const data = await dataResponse.json();
+                if (modelResponse.ok) predictionModel = await modelResponse.json();
 
-                // Load prediction model (don't fail if unavailable)
-                if (modelResponse.ok) {
-                    predictionModel = await modelResponse.json();
-                }
-
-                // Save to localStorage on successful fetch
                 localStorage.setItem('riverData', JSON.stringify(data));
                 localStorage.setItem('riverDataTimestamp', Date.now().toString());
-                if (predictionModel) {
-                    localStorage.setItem('predictionModel', JSON.stringify(predictionModel));
-                }
+                if (predictionModel) localStorage.setItem('predictionModel', JSON.stringify(predictionModel));
 
-                // Store data globally for hash navigation
                 currentData = data;
-
-                // Display the data
                 displayData(data);
 
-                // Handle hash navigation after data is loaded
-                handleHashChange();
-
-                // Hide loading, show content, hide warnings
                 document.getElementById('loading').style.display = 'none';
                 document.getElementById('error').style.display = 'none';
                 document.getElementById('stale-warning').style.display = 'none';
@@ -1564,250 +1030,33 @@
 
             } catch (error) {
                 console.error('Error loading data:', error);
-
-                // Try to load from localStorage
-                const cachedData = localStorage.getItem('riverData');
-                const cachedTimestamp = localStorage.getItem('riverDataTimestamp');
+                const cached = localStorage.getItem('riverData');
+                const cachedTs = localStorage.getItem('riverDataTimestamp');
                 const cachedModel = localStorage.getItem('predictionModel');
 
-                if (cachedData && cachedTimestamp) {
-                    console.log('Using cached data');
-                    const data = JSON.parse(cachedData);
+                if (cached && cachedTs) {
+                    const data = JSON.parse(cached);
                     currentData = data;
-                    if (cachedModel) {
-                        predictionModel = JSON.parse(cachedModel);
-                    }
-                    const cacheAge = Date.now() - parseInt(cachedTimestamp);
-                    const hoursOld = Math.floor(cacheAge / (1000 * 60 * 60));
-                    const minutesOld = Math.floor((cacheAge % (1000 * 60 * 60)) / (1000 * 60));
+                    if (cachedModel) predictionModel = JSON.parse(cachedModel);
+                    const age = Date.now() - parseInt(cachedTs);
+                    const h = Math.floor(age / 3600000), m = Math.floor((age % 3600000) / 60000);
 
-                    // Display the cached data
                     displayData(data);
-                    handleHashChange();
 
-                    // Show stale warning
-                    const warningEl = document.getElementById('stale-warning');
-                    let ageText = hoursOld > 0 ? `${hoursOld}h ${minutesOld}m` : `${minutesOld}m`;
-                    warningEl.innerHTML = `⚠️ Showing cached data (${ageText} old) - unable to fetch latest update`;
-                    warningEl.style.display = 'block';
-
+                    const w = document.getElementById('stale-warning');
+                    w.textContent = `Showing cached data (${h > 0 ? h + 'h ' : ''}${m}m old)`;
+                    w.style.display = 'block';
                     document.getElementById('loading').style.display = 'none';
-                    document.getElementById('error').style.display = 'none';
                     document.getElementById('content').style.display = 'block';
                 } else {
-                    // No cached data available
                     document.getElementById('loading').style.display = 'none';
                     document.getElementById('error').style.display = 'block';
-                    document.getElementById('error').innerHTML = `
-                        <strong>⚠️ Unable to load river data</strong><br>
-                        ${error.message}<br>
-                        <small>No cached data available. The data file may not exist yet.</small>
-                    `;
+                    document.getElementById('error').textContent = 'Unable to load river data. No cached data available.';
                 }
             }
         }
 
-        function getFlagEmoji(statusText) {
-                // Map OURCS flag status to emoji
-                const lower = statusText.toLowerCase();
-                if (lower.includes('green')) return '🟩';
-                if (lower.includes('amber')) return '🟧';
-                if (lower.includes('red')) return '🟥';
-                if (lower.includes('blue')) return '🟦';  // All blues use blue square
-                if (lower.includes('grey') || lower.includes('gray')) return '⬜';
-                return '--';
-        }
-
-        function displayOURCSFlags(data) {
-                // Display OURCS Godstow flag
-                if (data.ourcs_godstow_flag) {
-                    const godstow = data.ourcs_godstow_flag;
-                    const godstowEmoji = getFlagEmoji(godstow.status_text);
-                    document.getElementById('ourcs-godstow-emoji').textContent = godstowEmoji;
-                    document.getElementById('ourcs-godstow-text').textContent = godstow.status_text;
-
-                    if (godstow.set_date) {
-                        const setDate = new Date(godstow.set_date);
-                        document.getElementById('ourcs-godstow-meta').textContent =
-                            `Updated ${setDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})}`;
-                    }
-                }
-
-                // Display OURCS Isis flag
-                if (data.ourcs_isis_flag) {
-                    const isis = data.ourcs_isis_flag;
-                    const isisEmoji = getFlagEmoji(isis.status_text);
-                    document.getElementById('ourcs-isis-emoji').textContent = isisEmoji;
-                    document.getElementById('ourcs-isis-text').textContent = isis.status_text;
-
-                    if (isis.set_date) {
-                        const setDate = new Date(isis.set_date);
-                        document.getElementById('ourcs-isis-meta').textContent =
-                            `Updated ${setDate.toLocaleDateString('en-GB', {day: 'numeric', month: 'short'})}`;
-                    }
-                }
-        }
-
-        function displayData(data) {
-                // Display OURCS flags
-                displayOURCSFlags(data);
-
-                // Calculate flow (adjusted differential)
-                let flow = null;
-                if (data.differential !== null) {
-                    flow = data.differential - 1.63;
-                    document.getElementById('flow').textContent = flow.toFixed(3);
-
-                    // Determine flag status
-                    let flagEmoji, flagText, flagDescription, flagColor;
-                    if (flow > 0.75) {
-                        flagEmoji = '🟥';
-                        flagText = 'Red';
-                        flagDescription = 'No crews';
-                        flagColor = '#dc3545';
-                    } else if (flow < 0.45) {
-                        flagEmoji = '🟩';
-                        flagText = 'Green';
-                        flagDescription = 'No restrictions';
-                        flagColor = '#28a745';
-                    } else {
-                        flagEmoji = '🟧';
-                        flagText = 'Amber';
-                        flagDescription = 'X/S-Status coxes only';
-                        flagColor = '#fd7e14';
-                    }
-
-                    document.getElementById('flag-status').textContent = flagEmoji;
-                    document.getElementById('flag-text').textContent = flagText;
-                    document.getElementById('flag-text').style.color = flagColor;
-                    document.getElementById('flag-description').textContent = flagDescription;
-                } else {
-                    document.getElementById('flow').textContent = 'N/A';
-                    document.getElementById('flag-status').textContent = '--';
-                    document.getElementById('flag-text').textContent = '--';
-                    document.getElementById('flag-description').textContent = '--';
-                }
-
-                // Display flow trend - ensure it shows even if null initially
-                const trendElement = document.getElementById('flow-trend');
-                if (data.flow_trend) {
-                    let trendIcon, trendText, trendColor;
-                    if (data.flow_trend === 'Rising') {
-                        trendIcon = '↑';
-                        trendText = 'Increasing';
-                        trendColor = '#dc3545';
-                    } else if (data.flow_trend === 'Falling') {
-                        trendIcon = '↓';
-                        trendText = 'Decreasing';
-                        trendColor = '#28a745';
-                    } else if (data.flow_trend === 'Stable') {
-                        trendIcon = '→';
-                        trendText = 'Level';
-                        trendColor = '#666';
-                    }
-                    trendElement.innerHTML = `<span class="trend-icon" style="color: ${trendColor};">${trendIcon}</span><span style="color: ${trendColor};">${trendText}</span>`;
-                } else {
-                    // Show a message if trend not yet available
-                    trendElement.innerHTML = '<span style="color: #999; font-size: 0.9em;">Trend available after next update</span>';
-                }
-
-                // Display Farmoor flow and trend
-                if (data.farmoor && data.farmoor.flow !== null) {
-                    document.getElementById('farmoor-flow').innerHTML = data.farmoor.flow.toFixed(1) + ' <span style="font-size: 0.5em; font-weight: 500;">m³/s</span>';
-
-                    // Calculate Farmoor trend from history if available
-                    const farmoorTrendElement = document.getElementById('farmoor-trend');
-                    if (data.farmoor_history && data.farmoor_history.length >= 8) {
-                        // Compare current to 2 hours ago (8 readings at 15-min intervals)
-                        const currentFarmoor = data.farmoor.flow;
-                        const farmoor2hAgo = data.farmoor_history[7].value;
-                        const farmoorChange = currentFarmoor - farmoor2hAgo;
-
-                        let fTrendIcon, fTrendText, fTrendColor;
-                        if (farmoorChange > 0.5) {
-                            fTrendIcon = '↑';
-                            fTrendText = 'Rising';
-                            fTrendColor = '#dc3545';
-                        } else if (farmoorChange < -0.5) {
-                            fTrendIcon = '↓';
-                            fTrendText = 'Falling';
-                            fTrendColor = '#28a745';
-                        } else {
-                            fTrendIcon = '→';
-                            fTrendText = 'Stable';
-                            fTrendColor = '#666';
-                        }
-                        farmoorTrendElement.innerHTML = `<span class="trend-icon" style="color: ${fTrendColor};">${fTrendIcon}</span><span style="color: ${fTrendColor};">${fTrendText}</span>`;
-                    } else {
-                        farmoorTrendElement.innerHTML = '';
-                    }
-                } else {
-                    document.getElementById('farmoor-flow').textContent = '--';
-                    document.getElementById('farmoor-trend').innerHTML = '';
-                }
-
-                document.getElementById('rainfall-24h').textContent =
-                    data.rainfall_24h ? data.rainfall_24h.toFixed(1) : '0.0';
-                document.getElementById('rainfall-7d').textContent =
-                    data.rainfall_7d ? data.rainfall_7d.toFixed(1) : '0.0';
-
-                // Display weather forecast with ensemble rainfall if available
-                const ensemble24h = (data.ensemble_rainfall_24h_mean !== null && data.ensemble_rainfall_24h_mean !== undefined) ? {
-                    mean: data.ensemble_rainfall_24h_mean,
-                    p10: data.ensemble_rainfall_24h_p10,
-                    p90: data.ensemble_rainfall_24h_p90
-                } : null;
-                displayWeatherForecast(data.weather_forecast || [], ensemble24h);
-
-                // Display 3-day rainfall forecast - use ensemble if available
-                if (data.ensemble_rainfall_72h_mean !== null && data.ensemble_rainfall_72h_mean !== undefined) {
-                    const meanText = data.ensemble_rainfall_72h_mean.toFixed(1);
-                    const rangeText = `${data.ensemble_rainfall_72h_p10.toFixed(1)}-${data.ensemble_rainfall_72h_p90.toFixed(1)}`;
-                    document.getElementById('predicted-rainfall-3d').innerHTML =
-                        `${meanText} mm <span style="font-size: 0.8em; color: #6b7280;">(${rangeText}mm)</span>`;
-                } else {
-                    const forecast3d = data.rainfall_forecast_3d || [];
-                    if (forecast3d.length > 0) {
-                        const total3d = forecast3d.reduce((sum, day) => sum + (day.precipitation || 0), 0);
-                        document.getElementById('predicted-rainfall-3d').textContent = total3d.toFixed(1) + ' mm';
-                    } else {
-                        document.getElementById('predicted-rainfall-3d').textContent = '--';
-                    }
-                }
-
-                // Display countdowns
-                updateCountdowns();
-
-                // Update last updated time in header
-                const lastUpdated = new Date(data.last_updated);
-                document.getElementById('header-last-updated').textContent =
-                    `Last updated: ${lastUpdated.toLocaleString('en-GB', {
-                        dateStyle: 'medium',
-                        timeStyle: 'short'
-                    })}`;
-
-                // Update data timestamp (when measurements were taken)
-                if (data.godstow_lock && data.godstow_lock.timestamp) {
-                    const measurementTime = new Date(data.godstow_lock.timestamp);
-                    document.getElementById('data-timestamp').textContent =
-                        `Measurements from: ${measurementTime.toLocaleString('en-GB', {
-                            dateStyle: 'medium',
-                            timeStyle: 'short'
-                        })}`;
-                } else if (data.osney_lock && data.osney_lock.timestamp) {
-                    const measurementTime = new Date(data.osney_lock.timestamp);
-                    document.getElementById('data-timestamp').textContent =
-                        `Measurements from: ${measurementTime.toLocaleString('en-GB', {
-                            dateStyle: 'medium',
-                            timeStyle: 'short'
-                        })} (Godstow data unavailable)`;
-                }
-        }
-
-        // Load data when page loads
         loadData();
-        
-        // Refresh data every 5 minutes (in case it updates)
         setInterval(loadData, 5 * 60 * 1000);
     </script>
 </body>

@@ -11,6 +11,14 @@ MEASURE_IDS = {
     'farmoor': '1100TH-flow--Mean-15_min-m3_s'
 }
 
+# Rainfall measure IDs
+RAINFALL_LOCAL = '256230TP-rainfall-tipping_bucket_raingauge-t-15_min-mm'  # Oxford (1km)
+RAINFALL_UPSTREAM = [
+    '254336TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Farmoor/Eynsham
+    '253861TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Witney
+    '254829TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Upper Thames
+]
+
 def fetch_all_readings_for_period(measure_id, since_timestamp):
     '''Fetch all readings for a measure since a given timestamp'''
     try:
@@ -112,43 +120,39 @@ def fetch_lock_level(station_id, measurement_type):
         print(f"Error fetching {station_id}: {e}")
         return None
 
-def fetch_rainfall(hours=24):
-    '''Fetch rainfall from the nearest station for specified hours'''
+def _fetch_rainfall_total(measure_id, hours):
+    '''Fetch total rainfall from a single measure for specified hours'''
     try:
-        lat, lon = 51.7520, -1.2577
-
-        url = "https://environment.data.gov.uk/flood-monitoring/id/stations.json"
-        params = {'parameter': 'rainfall', 'lat': lat, 'long': lon, 'dist': 15}
-
-        response = requests.get(url, params=params, timeout=30)
-        if response.status_code != 200:
-            return None
-
-        stations = response.json().get('items', [])
-        if not stations:
-            return 0
-
-        # Use only the closest station (API returns sorted by distance)
-        station = stations[0]
-        measures = station.get('measures', [])
-        for measure in measures:
-            measure_id = measure['@id'].split('/')[-1]
-
-            since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat().replace('+00:00', 'Z')
-            readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
-            params = {'since': since, '_limit': 5000}
-
-            r = requests.get(readings_url, params=params, timeout=30)
-            if r.status_code == 200:
-                items = r.json().get('items', [])
-                if items:
-                    return sum(item['value'] for item in items)
-
-        return 0
-
-    except Exception as e:
-        print(f"Error fetching rainfall: {e}")
+        since = (datetime.now(timezone.utc) - timedelta(hours=hours)).isoformat().replace('+00:00', 'Z')
+        readings_url = f"https://environment.data.gov.uk/flood-monitoring/id/measures/{measure_id}/readings.json"
+        params = {'since': since, '_limit': 5000}
+        r = requests.get(readings_url, params=params, timeout=30)
+        if r.status_code == 200:
+            items = r.json().get('items', [])
+            if items:
+                return sum(item['value'] for item in items)
         return None
+    except Exception as e:
+        print(f"Error fetching rainfall for {measure_id}: {e}")
+        return None
+
+
+def fetch_rainfall(hours=24):
+    '''Fetch rainfall from the Oxford station for specified hours'''
+    result = _fetch_rainfall_total(RAINFALL_LOCAL, hours)
+    return result if result is not None else 0
+
+
+def fetch_upstream_rainfall(hours=24):
+    '''Fetch averaged rainfall from upstream Thames catchment stations'''
+    totals = []
+    for measure_id in RAINFALL_UPSTREAM:
+        total = _fetch_rainfall_total(measure_id, hours)
+        if total is not None:
+            totals.append(total)
+    if totals:
+        return sum(totals) / len(totals)
+    return 0
 
 def fetch_ourcs_flag(reach):
     '''Fetch OURCS flag status for a given reach (godstow or isis)'''
@@ -433,6 +437,8 @@ def main():
 
     rainfall_24h = fetch_rainfall(24)
     rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
+    upstream_rainfall_24h = fetch_upstream_rainfall(24)
+    upstream_rainfall_7d = fetch_upstream_rainfall(168)
     weather_forecast = fetch_weather_forecast()
     rainfall_forecast_3d = fetch_3day_rainfall_forecast()
     ensemble_stats = fetch_ensemble_rainfall_statistics()
@@ -524,6 +530,8 @@ def main():
         'flow_trend': flow_trend,
         'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
         'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
+        'upstream_rainfall_24h': upstream_rainfall_24h if upstream_rainfall_24h is not None else 0,
+        'upstream_rainfall_7d': upstream_rainfall_7d if upstream_rainfall_7d is not None else 0,
         'weather_forecast': weather_forecast if weather_forecast else [],
         'rainfall_forecast_3d': rainfall_forecast_3d if rainfall_forecast_3d else [],
         'ensemble_rainfall_24h_mean': ensemble_stats.get('rainfall_24h_mean') if ensemble_stats else None,
@@ -552,6 +560,8 @@ def main():
     print(f"Flow trend: {flow_trend if flow_trend else 'N/A'}")
     print(f"Rainfall 24h: {rainfall_24h if rainfall_24h else 'N/A'}mm")
     print(f"Rainfall 7d: {rainfall_7d if rainfall_7d else 'N/A'}mm")
+    print(f"Upstream rainfall 24h: {upstream_rainfall_24h if upstream_rainfall_24h else 'N/A'}mm")
+    print(f"Upstream rainfall 7d: {upstream_rainfall_7d if upstream_rainfall_7d else 'N/A'}mm")
     print(f"Weather forecast: {len(weather_forecast) if weather_forecast else 0} hours")
     print(f"History: Godstow={len(godstow_history)}, Osney={len(osney_history)}, Farmoor={len(farmoor_history)} readings")
 
