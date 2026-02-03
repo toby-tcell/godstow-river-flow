@@ -447,36 +447,6 @@
                         </div>
                     </div>
 
-                    <div class="chart-block" style="margin-top:24px;">
-                        <div class="chart-title">Godstow Downstage Level &mdash; 14 days</div>
-                        <div class="chart-legend">
-                            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Meadow flood (~2.57m)</div>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="godstow-lock-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ROW 2: Farmoor values + Farmoor chart -->
-                <div class="left-col" style="padding-bottom:24px;">
-                    <div class="section-label">Farmoor</div>
-                    <div class="value-row">
-                        <span class="value-label">Flow</span>
-                        <span class="value-number" id="farmoor-flow">--</span>
-                    </div>
-                    <div class="value-row">
-                        <span class="value-label">Trend</span>
-                        <span class="value-number" id="farmoor-trend">--</span>
-                    </div>
-                </div>
-                <div class="right-col" style="padding-bottom:24px;">
-                    <div class="chart-block">
-                        <div class="chart-title">Farmoor Flow &mdash; 14 days</div>
-                        <div class="chart-container">
-                            <canvas id="farmoor-chart"></canvas>
-                        </div>
-                    </div>
                 </div>
 
                 <!-- ROW 3: Rainfall + Weather forecast -->
@@ -562,9 +532,7 @@
     </div>
 
     <script>
-        let farmoorChart = null;
         let flowChart = null;
-        let godstowLockChart = null;
         let predictionChart = null;
         let currentData = null;
         let predictionModel = null;
@@ -741,7 +709,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    interaction: { intersect: false, mode: 'index' },
+                    interaction: { intersect: false, mode: 'nearest' },
                     scales: {
                         x: { type: 'time', min: twentyFourHoursAgo, max: chartEnd, time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
                         y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: true }
@@ -749,13 +717,10 @@
                     plugins: {
                         legend: { display: true, position: 'bottom', labels: { filter: item => item.text === 'Actual' || item.text === 'Predicted' } },
                         tooltip: {
+                            filter: item => !['Now','Green','Amber'].includes(item.dataset.label),
                             callbacks: {
-                                title: ctx => {
-                                    const val = ctx[0].raw.x || new Date(ctx[0].parsed.x);
-                                    return new Date(val).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
-                                },
+                                title: ctx => formatTimestamp(ctx[0].parsed.x),
                                 label: ctx => {
-                                    if (['Now','Green','Amber'].includes(ctx.dataset.label)) return null;
                                     const f = ctx.parsed.y;
                                     const s = f > 0.75 ? 'Red' : f >= 0.45 ? 'Amber' : 'Green';
                                     return `${ctx.dataset.label}: ${f.toFixed(3)}m (${s})`;
@@ -768,28 +733,6 @@
         }
 
         // ---- Chart creation functions ----
-
-        function createFarmoorChart(history) {
-            const ctx = document.getElementById('farmoor-chart').getContext('2d');
-            const data = history.slice().reverse().map(r => ({ x: new Date(r.timestamp), y: r.value }));
-            if (farmoorChart) farmoorChart.destroy();
-            farmoorChart = new Chart(ctx, {
-                type: 'line',
-                data: { datasets: [{ label: 'Flow (m\u00b3/s)', data, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 }] },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    interaction: { intersect: false, mode: 'index' },
-                    scales: {
-                        x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
-                        y: { title: { display: true, text: 'Flow (m\u00b3/s)' }, beginAtZero: false }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { callbacks: { title: ctx => formatTimestamp(ctx[0].parsed.x), label: ctx => `Flow: ${ctx.parsed.y.toFixed(2)} m\u00b3/s` } }
-                    }
-                }
-            });
-        }
 
         function createFlowChart(godstowHistory, osneyHistory) {
             const ctx = document.getElementById('flow-chart').getContext('2d');
@@ -830,44 +773,13 @@
                     interaction: { intersect: false, mode: 'index' },
                     scales: {
                         x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
-                        y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: false }
+                        y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: true }
                     },
                     plugins: {
                         legend: { display: false },
                         tooltip: { callbacks: {
                             title: ctx => formatTimestamp(ctx[0].parsed.x),
                             label: ctx => { const f = ctx.parsed.y; const s = f > 0.75 ? 'Red' : f >= 0.45 ? 'Amber' : 'Green'; return `Flow: ${f.toFixed(3)} (${s})`; }
-                        } }
-                    }
-                }
-            });
-        }
-
-        function createGodstowLockChart(history) {
-            const ctx = document.getElementById('godstow-lock-chart').getContext('2d');
-            const data = history.slice().reverse().map(r => ({ x: new Date(r.timestamp), y: r.value }));
-            const thresholdData = data.length > 0 ? [{ x: data[0].x, y: MEADOW_FLOOD_LEVEL }, { x: data[data.length - 1].x, y: MEADOW_FLOOD_LEVEL }] : [];
-            if (godstowLockChart) godstowLockChart.destroy();
-            godstowLockChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [
-                        { label: 'Level (m)', data, borderColor: '#1a1a2e', backgroundColor: 'rgba(26,26,46,0.1)', fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2 },
-                        { label: 'Meadow Flood', data: thresholdData, borderColor: '#3b82f6', borderWidth: 2, borderDash: [5,5], pointRadius: 0, fill: false }
-                    ]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    interaction: { intersect: false, mode: 'index' },
-                    scales: {
-                        x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
-                        y: { title: { display: true, text: 'Level (m)' }, beginAtZero: false }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { callbacks: {
-                            title: ctx => formatTimestamp(ctx[0].parsed.x),
-                            label: ctx => ctx.datasetIndex === 1 ? `Meadow flood: ${MEADOW_FLOOD_LEVEL.toFixed(2)} m` : `Level: ${ctx.parsed.y.toFixed(3)} m`
                         } }
                     }
                 }
@@ -982,20 +894,6 @@
                 trendEl.innerHTML = `<span style="color:${color};">${icon} ${text}</span>`;
             }
 
-            // Farmoor
-            if (data.farmoor && data.farmoor.flow !== null) {
-                document.getElementById('farmoor-flow').textContent = data.farmoor.flow.toFixed(1) + ' m\u00b3/s';
-                const ft = document.getElementById('farmoor-trend');
-                if (data.farmoor_history && data.farmoor_history.length >= 8) {
-                    const change = data.farmoor.flow - data.farmoor_history[7].value;
-                    let icon, text, color;
-                    if (change > 0.5) { icon = '\u2191'; text = 'Rising'; color = '#dc3545'; }
-                    else if (change < -0.5) { icon = '\u2193'; text = 'Falling'; color = '#28a745'; }
-                    else { icon = '\u2192'; text = 'Stable'; color = '#6b7280'; }
-                    ft.innerHTML = `<span style="color:${color};">${icon} ${text}</span>`;
-                }
-            }
-
             // Rainfall
             document.getElementById('rainfall-24h').textContent = (data.rainfall_24h || 0).toFixed(1);
             document.getElementById('rainfall-7d').textContent = (data.rainfall_7d || 0).toFixed(1);
@@ -1029,12 +927,6 @@
             // Create all charts
             if (data.godstow_history && data.osney_history && data.godstow_history.length > 0 && data.osney_history.length > 0) {
                 createFlowChart(data.godstow_history, data.osney_history);
-            }
-            if (data.farmoor_history && data.farmoor_history.length > 0) {
-                createFarmoorChart(data.farmoor_history);
-            }
-            if (data.godstow_history && data.godstow_history.length > 0) {
-                createGodstowLockChart(data.godstow_history);
             }
             if (predictionModel) {
                 displayPredictions(data, predictionModel);
