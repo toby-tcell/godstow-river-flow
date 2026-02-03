@@ -86,12 +86,16 @@
             font-size: 0.9em;
         }
 
-        /* Two-column grid */
+        /* Two-column grid — paired rows */
         .page-grid {
             display: grid;
             grid-template-columns: 340px 1fr;
-            gap: 30px 40px;
+            gap: 0 40px;
             align-items: start;
+        }
+
+        .grid-row {
+            display: contents;
         }
 
         .section-label {
@@ -111,9 +115,7 @@
 
         /* Left column: values */
         .left-col {
-            display: flex;
-            flex-direction: column;
-            gap: 0;
+            padding: 0;
         }
 
         .flag-block {
@@ -142,15 +144,27 @@
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: 12px;
-            font-size: 0.85em;
-            color: #6b7280;
+            margin-top: 16px;
+            font-size: 1em;
+            color: #4b5563;
+        }
+
+        .ourcs-flags-label {
+            font-size: 0.75em;
+            color: #9ca3af;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 16px;
+            margin-bottom: 6px;
         }
 
         .ourcs-flag-item {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            font-weight: 600;
         }
 
         .value-row {
@@ -261,10 +275,27 @@
             margin-top: 30px;
         }
 
+        .weather-scroll {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 -4px;
+            padding: 0 4px 8px;
+        }
+
         .weather-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
             gap: 8px;
+        }
+
+        .weather-grid--inline {
+            display: flex;
+            gap: 6px;
+        }
+
+        .weather-grid--inline .weather-cell {
+            min-width: 65px;
+            flex-shrink: 0;
         }
 
         .weather-cell {
@@ -378,20 +409,20 @@
 
         <div id="content" style="display: none;">
             <div class="page-grid">
-                <!-- LEFT COLUMN: values and text -->
-                <div class="left-col">
-                    <!-- Flag status -->
+                <!-- ROW 1: Flag status + Differential chart -->
+                <div class="left-col" style="padding-bottom:24px;">
                     <div class="flag-block">
                         <div class="flag-display" id="flag-status">--</div>
                         <div class="flag-text" id="flag-text">--</div>
                         <div class="flag-description" id="flag-description">--</div>
+                        <div class="ourcs-flags-label">OURCS Flags</div>
                         <div class="ourcs-flags">
                             <div class="ourcs-flag-item">
-                                <span id="ourcs-godstow-emoji">--</span>
+                                <span id="ourcs-godstow-emoji" style="font-size:1.4em;">--</span>
                                 <span>Godstow</span>
                             </div>
                             <div class="ourcs-flag-item">
-                                <span id="ourcs-isis-emoji">--</span>
+                                <span id="ourcs-isis-emoji" style="font-size:1.4em;">--</span>
                                 <span>Isis</span>
                             </div>
                         </div>
@@ -399,22 +430,57 @@
 
                     <hr class="section-divider">
 
-                    <!-- Flow values -->
+                    <div class="section-label" style="text-align:center;">Godstow Differential</div>
                     <div class="value-big" id="flow">--</div>
                     <div class="flow-trend" id="flow-trend"></div>
+                </div>
+                <div class="right-col" style="padding-bottom:24px;">
+                    <div class="chart-block">
+                        <div class="chart-title">Godstow Differential &mdash; 14 days</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Green (&lt;0.45)</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Amber (0.45-0.75)</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#dc3545;"></div> Red (&gt;0.75)</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="flow-chart"></canvas>
+                        </div>
+                    </div>
 
+                    <div class="chart-block" style="margin-top:24px;">
+                        <div class="chart-title">Godstow Downstage Level &mdash; 14 days</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Meadow flood (~2.57m)</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="godstow-lock-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ROW 2: Farmoor values + Farmoor chart -->
+                <div class="left-col" style="padding-bottom:24px;">
+                    <div class="section-label">Farmoor</div>
                     <div class="value-row">
-                        <span class="value-label">Farmoor Flow</span>
+                        <span class="value-label">Flow</span>
                         <span class="value-number" id="farmoor-flow">--</span>
                     </div>
-                    <div class="value-row" style="margin-bottom: 4px;">
-                        <span class="value-label">Farmoor Trend</span>
+                    <div class="value-row">
+                        <span class="value-label">Trend</span>
                         <span class="value-number" id="farmoor-trend">--</span>
                     </div>
+                </div>
+                <div class="right-col" style="padding-bottom:24px;">
+                    <div class="chart-block">
+                        <div class="chart-title">Farmoor Flow &mdash; 14 days</div>
+                        <div class="chart-container">
+                            <canvas id="farmoor-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
 
-                    <hr class="section-divider">
-
-                    <!-- Rainfall -->
+                <!-- ROW 3: Rainfall + Weather forecast -->
+                <div class="left-col" style="padding-bottom:24px;">
                     <div class="section-label">Local Rainfall</div>
                     <div class="value-row">
                         <span class="value-label">Last 24h</span>
@@ -444,10 +510,14 @@
                         <span class="value-label">Next 3 days</span>
                         <span class="value-number" id="predicted-rainfall-3d">--</span>
                     </div>
+                </div>
+                <div class="right-col" style="padding-bottom:24px;">
+                    <div class="section-label">Weather Forecast &mdash; 24h</div>
+                    <div id="weather-forecast" class="weather-grid"></div>
+                </div>
 
-                    <hr class="section-divider">
-
-                    <!-- Predictions -->
+                <!-- ROW 4: Prediction + Events alongside Prediction chart -->
+                <div class="left-col" style="padding-bottom:24px;">
                     <div class="section-label">Prediction (no rain)</div>
                     <div id="predictions-content">
                         <!-- Dynamic prediction content -->
@@ -455,7 +525,6 @@
 
                     <hr class="section-divider">
 
-                    <!-- Events -->
                     <div class="section-label">Upcoming Events</div>
                     <div class="events-row">
                         <div class="event-card event-card--dark">
@@ -468,60 +537,25 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- RIGHT COLUMN: charts -->
-                <div class="right-col">
-                    <div class="chart-block">
-                        <div class="chart-title">Godstow Differential &mdash; 14 days</div>
-                        <div class="chart-legend">
-                            <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Green (&lt;0.45)</div>
-                            <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Amber (0.45-0.75)</div>
-                            <div class="legend-item"><div class="legend-dot" style="background:#dc3545;"></div> Red (&gt;0.75)</div>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="flow-chart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="chart-block">
-                        <div class="chart-title">Farmoor Flow &mdash; 14 days</div>
-                        <div class="chart-container">
-                            <canvas id="farmoor-chart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="chart-block">
-                        <div class="chart-title">Godstow Downstage Level &mdash; 14 days</div>
-                        <div class="chart-legend">
-                            <div class="legend-item"><div class="legend-dot" style="background:#3b82f6;"></div> Meadow flood (~2.57m)</div>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="godstow-lock-chart"></canvas>
-                        </div>
-                    </div>
-
+                <div class="right-col" style="padding-bottom:24px;">
                     <div class="chart-block">
                         <div class="chart-title">Flow Prediction &mdash; 24h actual + 14 day forecast</div>
                         <div class="chart-container">
                             <canvas id="prediction-chart"></canvas>
                         </div>
+                        <div style="text-align:center;margin-top:8px;font-size:0.85em;">
+                            <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" style="color:#6b7280;">AI-powered forecast (with rainfall) &rarr;</a>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Full-width: weather -->
-            <div class="full-width">
-                <div class="section-label">Weather Forecast &mdash; 24h</div>
-                <div id="weather-forecast" class="weather-grid"></div>
-            </div>
-
             <!-- Full-width: info -->
             <div class="info-text">
-                Flag status: Green (flow &lt;0.45) no restrictions, Amber (0.45-0.75) experienced coxes only, Red (&gt;0.75) no crews.
-                Flow is the adjusted differential between Godstow and Osney locks minus the 1.63m height offset.
-                Predictions assume no additional rainfall and use observed daily godstow level drop rates.
-                Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.
-                <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank">AI-powered forecast (with rainfall)</a>.
+                Flag status: Green (flow &lt;0.45) no restrictions, Amber (0.45-0.75) experienced coxes only, Red (&gt;0.75) no crews.<br>
+                Flow is the adjusted differential between Godstow and Osney locks minus the 1.63m height offset.<br>
+                Predictions assume no additional rainfall and use observed daily godstow level drop rates.<br>
+                Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.<br>
                 <span id="data-timestamp"></span>
             </div>
         </div>
@@ -716,7 +750,10 @@
                         legend: { display: true, position: 'bottom', labels: { filter: item => item.text === 'Actual' || item.text === 'Predicted' } },
                         tooltip: {
                             callbacks: {
-                                title: ctx => new Date(ctx[0].parsed.x).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' }),
+                                title: ctx => {
+                                    const val = ctx[0].raw.x || new Date(ctx[0].parsed.x);
+                                    return new Date(val).toLocaleString('en-GB', { dateStyle: 'medium', timeStyle: 'short' });
+                                },
                                 label: ctx => {
                                     if (['Now','Green','Amber'].includes(ctx.dataset.label)) return null;
                                     const f = ctx.parsed.y;
