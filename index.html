@@ -358,7 +358,7 @@
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
                     <div class="chart-block">
-                        <div class="chart-title">Godstow Differential &mdash; 14 days</div>
+                        <div class="chart-title">Godstow Differential &mdash; Past 14 days</div>
                         <div class="chart-legend">
                             <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Green (&lt;0.45)</div>
                             <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Amber (0.45-0.75)</div>
@@ -373,20 +373,21 @@
 
                 <!-- ROW 2: Prediction alongside Prediction chart -->
                 <div class="left-col" style="padding-bottom:24px;">
-                    <div class="section-label">Prediction (no rain)</div>
+                    <div class="section-label">Prediction (No further rain)</div>
                     <div id="predictions-content">
                         <!-- Dynamic prediction content -->
+                    </div>
+                    <div style="text-align:center;margin-top:8px;font-size:0.85em;">
+                            <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" style="color:#6b7280;">Rob's AI-powered forecast (with rainfall) &rarr;</a>
                     </div>
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
                     <div class="chart-block">
-                        <div class="chart-title">Flow Prediction &mdash; 24h actual + 14 day forecast</div>
+                        <div class="chart-title">Flow Prediction &mdash; 14 day forecast</div>
                         <div class="chart-container">
                             <canvas id="prediction-chart"></canvas>
                         </div>
-                        <div style="text-align:center;margin-top:8px;font-size:0.85em;">
-                            <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" style="color:#6b7280;">AI-powered forecast (with rainfall) &rarr;</a>
-                        </div>
+                        
                     </div>
                 </div>
 
@@ -402,7 +403,7 @@
                         <span class="value-number"><span id="rainfall-7d">--</span> mm</span>
                     </div>
 
-                    <div class="section-label" style="margin-top: 12px;">Upstream Rainfall (avg)</div>
+                    <div class="section-label" style="margin-top: 12px;">Average Upstream Rainfall</div>
                     <div class="value-row">
                         <span class="value-label">Last 24h</span>
                         <span class="value-number"><span id="upstream-rainfall-24h">--</span> mm</span>
@@ -423,7 +424,7 @@
                     </div>
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
-                    <div class="section-label">Weather Forecast &mdash; 24h</div>
+                    <div class="chart-title">24h Weather Forecast</div>
                     <div id="weather-forecast" class="weather-grid"></div>
                 </div>
             </div>
@@ -432,7 +433,7 @@
             <div class="info-text">
                 Flag status: Green (flow &lt;0.45) no restrictions, Amber (0.45-0.75) experienced coxes only, Red (&gt;0.75) no crews.<br>
                 Flow is the adjusted differential between Godstow and Osney locks minus the 1.63m height offset.<br>
-                Predictions assume no additional rainfall and use observed daily godstow level drop rates.<br>
+                Predictions assume no additional rainfall and are modelled on observed daily drop in levels at Godstow Lock.<br>
                 Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.<br>
                 Source code on <a href="https://github.com/toby-tcell/godstow-river-flow" target="_blank">GitHub</a>.<br>
                 <span id="data-timestamp"></span>
