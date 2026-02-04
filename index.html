@@ -118,26 +118,17 @@
             padding: 0;
         }
 
-        .flag-block {
-            text-align: center;
-            padding: 20px 0;
-        }
-
-        .flag-display {
-            font-size: 4em;
-            line-height: 1;
-            margin-bottom: 8px;
-        }
-
-        .flag-text {
-            font-size: 2em;
-            font-weight: 700;
+        .flow-value-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
         }
 
         .flag-description {
-            font-size: 1.1em;
+            font-size: 0.9em;
             color: #6b7280;
-            margin-top: 4px;
+            margin-top: 2px;
         }
 
         .ourcs-flags {
@@ -147,17 +138,6 @@
             margin-top: 16px;
             font-size: 1em;
             color: #4b5563;
-        }
-
-        .ourcs-flags-label {
-            font-size: 0.75em;
-            color: #9ca3af;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 600;
-            text-align: center;
-            margin-top: 16px;
-            margin-bottom: 6px;
         }
 
         .ourcs-flag-item {
@@ -201,30 +181,6 @@
             margin-bottom: 8px;
         }
 
-        .prediction-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 8px;
-        }
-
-        .prediction-card {
-            text-align: center;
-            padding: 16px 10px;
-            border-radius: 10px;
-            color: white;
-        }
-
-        .prediction-card__value {
-            font-size: 2em;
-            font-weight: 800;
-        }
-
-        .prediction-card__label {
-            font-size: 0.85em;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
 
         /* Right column: charts */
         .right-col {
@@ -329,33 +285,6 @@
             margin-top: 2px;
         }
 
-        .events-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-top: 12px;
-        }
-
-        .event-card {
-            text-align: center;
-            padding: 20px;
-            border-radius: 10px;
-            color: white;
-        }
-
-        .event-card--dark { background: #1a1a2e; }
-        .event-card--red { background: #dc2626; }
-
-        .event-card__value {
-            font-size: 2.4em;
-            font-weight: 800;
-        }
-
-        .event-card__label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-top: 4px;
-        }
 
         .info-text {
             font-size: 0.8em;
@@ -377,14 +306,7 @@
 
             h1 { font-size: 1.8em; }
 
-            .flag-display { font-size: 3em; }
-            .flag-text { font-size: 1.6em; }
-
             .chart-container { height: 220px; }
-
-            .prediction-cards {
-                grid-template-columns: 1fr 1fr;
-            }
 
             .weather-grid {
                 grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
@@ -411,27 +333,26 @@
             <div class="page-grid">
                 <!-- ROW 1: Flag status + Differential chart -->
                 <div class="left-col" style="padding-bottom:24px;">
-                    <div class="flag-block">
-                        <div class="flag-display" id="flag-status">--</div>
-                        <div class="flag-text" id="flag-text">--</div>
-                        <div class="flag-description" id="flag-description">--</div>
-                        <div class="ourcs-flags-label">OURCS Flags</div>
-                        <div class="ourcs-flags">
-                            <div class="ourcs-flag-item">
-                                <span id="ourcs-godstow-emoji" style="font-size:1.4em;">--</span>
-                                <span>Godstow</span>
-                            </div>
-                            <div class="ourcs-flag-item">
-                                <span id="ourcs-isis-emoji" style="font-size:1.4em;">--</span>
-                                <span>Isis</span>
-                            </div>
+                    <div class="section-label" style="text-align:center;">OURCS Flags</div>
+                    <div class="ourcs-flags" style="margin-top:4px;">
+                        <div class="ourcs-flag-item">
+                            <span id="ourcs-godstow-emoji" style="font-size:1.8em;">--</span>
+                            <span>Godstow</span>
+                        </div>
+                        <div class="ourcs-flag-item">
+                            <span id="ourcs-isis-emoji" style="font-size:1.8em;">--</span>
+                            <span>Isis</span>
                         </div>
                     </div>
 
                     <hr class="section-divider">
 
                     <div class="section-label" style="text-align:center;">Godstow Differential</div>
-                    <div class="value-big" id="flow">--</div>
+                    <div class="flow-value-row">
+                        <span id="flag-status" style="font-size:1.6em;">--</span>
+                        <span class="value-big" id="flow" style="padding:0;">--</span>
+                    </div>
+                    <div class="flag-description" id="flag-description" style="text-align:center;">--</div>
                     <div class="flow-trend" id="flow-trend"></div>
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
@@ -447,6 +368,25 @@
                         </div>
                     </div>
 
+                </div>
+
+                <!-- ROW 2: Prediction alongside Prediction chart -->
+                <div class="left-col" style="padding-bottom:24px;">
+                    <div class="section-label">Prediction (no rain)</div>
+                    <div id="predictions-content">
+                        <!-- Dynamic prediction content -->
+                    </div>
+                </div>
+                <div class="right-col" style="padding-bottom:24px;">
+                    <div class="chart-block">
+                        <div class="chart-title">Flow Prediction &mdash; 24h actual + 14 day forecast</div>
+                        <div class="chart-container">
+                            <canvas id="prediction-chart"></canvas>
+                        </div>
+                        <div style="text-align:center;margin-top:8px;font-size:0.85em;">
+                            <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" style="color:#6b7280;">AI-powered forecast (with rainfall) &rarr;</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- ROW 3: Rainfall + Weather forecast -->
@@ -485,39 +425,6 @@
                     <div class="section-label">Weather Forecast &mdash; 24h</div>
                     <div id="weather-forecast" class="weather-grid"></div>
                 </div>
-
-                <!-- ROW 4: Prediction + Events alongside Prediction chart -->
-                <div class="left-col" style="padding-bottom:24px;">
-                    <div class="section-label">Prediction (no rain)</div>
-                    <div id="predictions-content">
-                        <!-- Dynamic prediction content -->
-                    </div>
-
-                    <hr class="section-divider">
-
-                    <div class="section-label">Upcoming Events</div>
-                    <div class="events-row">
-                        <div class="event-card event-card--dark">
-                            <div class="event-card__value" id="countdown-1-days">--</div>
-                            <div class="event-card__label" id="countdown-1-label">Torpids</div>
-                        </div>
-                        <div class="event-card event-card--red">
-                            <div class="event-card__value" id="countdown-2-days">--</div>
-                            <div class="event-card__label" id="countdown-2-label">Eights</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="right-col" style="padding-bottom:24px;">
-                    <div class="chart-block">
-                        <div class="chart-title">Flow Prediction &mdash; 24h actual + 14 day forecast</div>
-                        <div class="chart-container">
-                            <canvas id="prediction-chart"></canvas>
-                        </div>
-                        <div style="text-align:center;margin-top:8px;font-size:0.85em;">
-                            <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" style="color:#6b7280;">AI-powered forecast (with rainfall) &rarr;</a>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <!-- Full-width: info -->
@@ -526,6 +433,7 @@
                 Flow is the adjusted differential between Godstow and Osney locks minus the 1.63m height offset.<br>
                 Predictions assume no additional rainfall and use observed daily godstow level drop rates.<br>
                 Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.<br>
+                Source code on <a href="https://github.com/toby-tcell/godstow-river-flow" target="_blank">GitHub</a>.<br>
                 <span id="data-timestamp"></span>
             </div>
         </div>
@@ -610,18 +518,16 @@
 
             let html = '';
             if (currentFlow <= greenThreshold) {
-                html = '<div class="prediction-cards"><div class="prediction-card" style="background:#28a745; grid-column: 1/-1;"><div class="prediction-card__value">&#10003;</div><div class="prediction-card__label">Currently Green</div></div></div>';
+                html = '<div class="value-row"><span class="value-label">Status</span><span class="value-number" style="color:#28a745;">Currently Green</span></div>';
             } else {
-                html = '<div class="prediction-cards">';
                 if (toAmber !== null) {
-                    html += `<div class="prediction-card" style="background:#fd7e14;"><div class="prediction-card__value">${Math.ceil(toAmber)}</div><div class="prediction-card__label">Days to Amber</div></div>`;
+                    html += `<div class="value-row"><span class="value-label">Days to Amber</span><span class="value-number" style="color:#fd7e14; font-weight:700;">${Math.ceil(toAmber)}</span></div>`;
                 }
                 if (toGreen !== null) {
-                    html += `<div class="prediction-card" style="background:#28a745;"><div class="prediction-card__value">${Math.ceil(toGreen)}</div><div class="prediction-card__label">Days to Green</div></div>`;
+                    html += `<div class="value-row"><span class="value-label">Days to Green</span><span class="value-number" style="color:#28a745; font-weight:700;">${Math.ceil(toGreen)}</span></div>`;
                 } else if (currentFlow > greenThreshold) {
-                    html += `<div class="prediction-card" style="background:#6b7280;"><div class="prediction-card__value">30+</div><div class="prediction-card__label">Days to Green</div></div>`;
+                    html += `<div class="value-row"><span class="value-label">Days to Green</span><span class="value-number" style="color:#6b7280;">30+</span></div>`;
                 }
-                html += '</div>';
             }
             container.innerHTML = html;
 
@@ -837,16 +743,6 @@
             });
         }
 
-        function updateCountdowns() {
-            const torpids = new Date('2026-03-04T00:00:00');
-            const eights = new Date('2026-05-27T00:00:00');
-            const now = new Date(); now.setHours(0, 0, 0, 0);
-            document.getElementById('countdown-1-days').textContent = Math.max(0, Math.ceil((torpids - now) / 86400000));
-            document.getElementById('countdown-1-label').textContent = 'Days to Torpids';
-            document.getElementById('countdown-2-days').textContent = Math.max(0, Math.ceil((eights - now) / 86400000));
-            document.getElementById('countdown-2-label').textContent = 'Days to Eights';
-        }
-
         // ---- Data loading ----
 
         function getFlagEmoji(statusText) {
@@ -879,9 +775,8 @@
                 else { flagEmoji = '\uD83D\uDFE7'; flagText = 'Amber'; flagDesc = 'X/S-Status coxes only'; flagColor = '#fd7e14'; }
 
                 document.getElementById('flag-status').textContent = flagEmoji;
-                document.getElementById('flag-text').textContent = flagText;
-                document.getElementById('flag-text').style.color = flagColor;
-                document.getElementById('flag-description').textContent = flagDesc;
+                document.getElementById('flag-description').textContent = `${flagText} — ${flagDesc}`;
+                document.getElementById('flag-description').style.color = flagColor;
             }
 
             // Flow trend
@@ -913,9 +808,6 @@
                     document.getElementById('predicted-rainfall-3d').textContent = f3d.reduce((s, d) => s + (d.precipitation || 0), 0).toFixed(1) + ' mm';
                 }
             }
-
-            // Countdowns
-            updateCountdowns();
 
             // Timestamps
             const lastUpdated = new Date(data.last_updated);

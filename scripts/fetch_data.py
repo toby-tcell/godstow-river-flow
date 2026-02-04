@@ -16,7 +16,12 @@ RAINFALL_LOCAL = '256230TP-rainfall-tipping_bucket_raingauge-t-15_min-mm'  # Oxf
 RAINFALL_UPSTREAM = [
     '254336TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Farmoor/Eynsham
     '253861TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Witney
-    '254829TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Upper Thames
+    '254829TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Chipping Norton
+    '251530TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Lechlade
+    '248332TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Cricklade
+    '248965TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Cirencester
+    '251556TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Northleach
+    '249744TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Swindon
 ]
 
 def fetch_all_readings_for_period(measure_id, since_timestamp):
