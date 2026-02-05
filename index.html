@@ -100,7 +100,7 @@
 
         .section-label {
             font-size: 0.75em;
-            color: #9ca3af;
+            color: #6b7280;
             text-transform: uppercase;
             letter-spacing: 1.5px;
             font-weight: 600;
@@ -195,8 +195,10 @@
         }
 
         .chart-title {
-            font-size: 0.85em;
+            font-size: 0.75em;
             color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
             font-weight: 600;
             margin-bottom: 8px;
         }
@@ -413,19 +415,20 @@
                         <span class="value-number"><span id="upstream-rainfall-7d">--</span> mm</span>
                     </div>
 
-                    <div class="section-label" style="margin-top: 12px;">Forecast Rainfall</div>
-                    <div class="value-row">
-                        <span class="value-label">Next 24h</span>
-                        <span class="value-number" id="predicted-rainfall-24h">--</span>
-                    </div>
-                    <div class="value-row">
-                        <span class="value-label">Next 3 days</span>
-                        <span class="value-number" id="predicted-rainfall-3d">--</span>
-                    </div>
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
                     <div class="chart-title">24h Weather Forecast</div>
                     <div id="weather-forecast" class="weather-grid"></div>
+                    <div style="display:flex; gap:24px; margin-top:14px;">
+                        <div class="value-row" style="flex:1;">
+                            <span class="value-label">Forecast rain (24h)</span>
+                            <span class="value-number" id="predicted-rainfall-24h">--</span>
+                        </div>
+                        <div class="value-row" style="flex:1;">
+                            <span class="value-label">Forecast rain (3 day)</span>
+                            <span class="value-number" id="predicted-rainfall-3d">--</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -436,6 +439,7 @@
                 Predictions assume no additional rainfall and are modelled on observed daily drop in levels at Godstow Lock.<br>
                 Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.<br>
                 Source code on <a href="https://github.com/toby-tcell/godstow-river-flow" target="_blank">GitHub</a>.<br>
+                Updates detailed on <a href="https://tobywhitehead.substack.com" target="_blank">Substack</a>.
                 <span id="data-timestamp"></span>
             </div>
         </div>
