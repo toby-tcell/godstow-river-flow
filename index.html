@@ -421,7 +421,7 @@
                         <span class="value-number" id="predicted-rainfall-24h">--</span>
                     </div>
                     <div class="value-row">
-                        <span class="value-label">Next 3 days</span>
+                        <span class="value-label">Next 3d</span>
                         <span class="value-number" id="predicted-rainfall-3d">--</span>
                     </div>
                 </div>
@@ -438,7 +438,7 @@
                 Predictions assume no additional rainfall and are modelled on observed daily drop in levels at Godstow Lock.<br>
                 Data from <a href="https://environment.data.gov.uk/flood-monitoring/doc/reference" target="_blank">EA Flood Monitoring API</a> and <a href="https://open-meteo.com/" target="_blank">Open-Meteo</a>.<br>
                 Source code on <a href="https://github.com/toby-tcell/godstow-river-flow" target="_blank">GitHub</a>.<br>
-                Updates detailed on <a href="https://tobywhitehead.substack.com" target="_blank">Substack</a>.
+                Updates detailed on <a href="https://tobywhitehead.substack.com" target="_blank">Substack</a>.<br>
                 <span id="data-timestamp"></span>
             </div>
         </div>
@@ -730,10 +730,10 @@
             }
 
             forecast.forEach((hour, i) => {
-                if (i % 3 !== 0) return;
+                if (i % 2 !== 0) return;
                 const time = new Date(hour.time);
                 let precipSum = 0;
-                for (let j = i; j < Math.min(i + 3, forecast.length); j++) {
+                for (let j = i; j < Math.min(i + 2, forecast.length); j++) {
                     if (forecast[j].precipitation != null) precipSum += forecast[j].precipitation;
                 }
                 const div = document.createElement('div');

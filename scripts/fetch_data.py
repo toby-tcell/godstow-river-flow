@@ -254,8 +254,8 @@ def fetch_weather_forecast():
         traceback.print_exc()
         return None
 
-def fetch_ensemble_rainfall_statistics():
-    '''Fetch ensemble rainfall statistics (mean and percentiles) for 24h and 72h forecasts'''
+def fetch_ensemble_rainfall_data():
+    '''Fetch ensemble rainfall data: statistics (mean/percentiles) and 3-day daily breakdown'''
     try:
         lat, lon = 51.7520, -1.2577
         url = "https://ensemble-api.open-meteo.com/v1/ensemble"
@@ -270,15 +270,16 @@ def fetch_ensemble_rainfall_statistics():
 
         response = requests.get(url, params=params, timeout=30)
         if response.status_code != 200:
-            print(f"Ensemble statistics API error: {response.status_code}")
-            return None
+            print(f"Ensemble rainfall API error: {response.status_code}")
+            return None, None
 
         data = response.json()
         hourly = data.get('hourly', {})
+        times = hourly.get('time', [])
 
-        if not hourly:
+        if not hourly or not times:
             print("No ensemble hourly data")
-            return None
+            return None, None
 
         # Find all ensemble member keys
         member_keys = [key for key in hourly.keys() if key.startswith('precipitation_member')]
@@ -286,20 +287,16 @@ def fetch_ensemble_rainfall_statistics():
 
         if not member_keys:
             print("No ensemble members found in response")
-            return None
+            return None, None
 
-        # Calculate totals for each member
+        # Calculate totals for each member (for statistics)
         totals_24h = []
         totals_72h = []
 
         for member_key in member_keys:
             member_data = hourly[member_key]
-
-            # Calculate 24h total for this member
             total_24h = sum(member_data[:24]) if len(member_data) >= 24 else sum(member_data)
             totals_24h.append(total_24h)
-
-            # Calculate 72h total for this member
             total_72h = sum(member_data[:72]) if len(member_data) >= 72 else sum(member_data)
             totals_72h.append(total_72h)
 
@@ -312,7 +309,7 @@ def fetch_ensemble_rainfall_statistics():
         p10_72h = calculate_percentile(totals_72h, 10)
         p90_72h = calculate_percentile(totals_72h, 90)
 
-        result = {
+        stats = {
             'rainfall_24h_mean': mean_24h,
             'rainfall_24h_p10': p10_24h,
             'rainfall_24h_p90': p90_24h,
@@ -323,82 +320,35 @@ def fetch_ensemble_rainfall_statistics():
 
         print(f"Ensemble 24h: {mean_24h:.1f}mm (range: {p10_24h:.1f}-{p90_24h:.1f}mm)")
         print(f"Ensemble 72h: {mean_72h:.1f}mm (range: {p10_72h:.1f}-{p90_72h:.1f}mm)")
-        return result
 
-    except Exception as e:
-        print(f"Error fetching ensemble rainfall statistics: {e}")
-        import traceback
-        traceback.print_exc()
-        return None
-
-def fetch_3day_rainfall_forecast():
-    '''Fetch 3-day ensemble precipitation forecast from Open-Meteo API for Oxford with statistics'''
-    try:
-        lat, lon = 51.7520, -1.2577
-        url = "https://ensemble-api.open-meteo.com/v1/ensemble"
-        params = {
-            'latitude': lat,
-            'longitude': lon,
-            'hourly': 'precipitation',
-            'models': 'icon_seamless',  # Best model for UK/European weather
-            'forecast_hours': 72,  # 3 days
-            'timezone': 'Europe/London'
-        }
-
-        response = requests.get(url, params=params, timeout=30)
-        if response.status_code != 200:
-            print(f"Ensemble 3-day API error: {response.status_code}")
-            return None
-
-        data = response.json()
-        hourly = data.get('hourly', {})
-        times = hourly.get('time', [])
-        precip_data = hourly.get('precipitation', [])
-
-        if not times or not precip_data:
-            print("No ensemble data returned")
-            return None
-
-        # Group hourly data by day and calculate daily sums
+        # Calculate daily breakdown from ensemble mean
         daily_totals = {}
-
         for i, time_str in enumerate(times):
-            if i >= len(precip_data):
+            if i >= 72:
                 break
-
-            # Extract date from timestamp
             date = time_str.split('T')[0]
-
-            # Initialize day if not seen
             if date not in daily_totals:
                 daily_totals[date] = []
+            # Average across all ensemble members for this hour
+            hour_values = [hourly[key][i] for key in member_keys if i < len(hourly[key]) and hourly[key][i] is not None]
+            daily_totals[date].append(statistics.mean(hour_values) if hour_values else 0)
 
-            # Add precipitation value for this hour
-            precip_val = precip_data[i] if precip_data[i] is not None else 0
-            daily_totals[date].append(precip_val)
-
-        # Calculate statistics for each day
         forecast = []
-        for date in sorted(daily_totals.keys())[:3]:  # First 3 days
-            hourly_precip = daily_totals[date]
-            daily_sum = sum(hourly_precip)
+        for date in sorted(daily_totals.keys())[:3]:
+            daily_sum = sum(daily_totals[date])
+            forecast.append({'date': date, 'precipitation': daily_sum})
 
-            forecast.append({
-                'date': date,
-                'precipitation': daily_sum
-            })
-
-        print(f"Ensemble 3-day forecast: {len(forecast)} days")
+        print(f"3-day forecast: {len(forecast)} days")
         for day in forecast:
             print(f"  {day['date']}: {day['precipitation']:.1f}mm")
 
-        return forecast
+        return stats, forecast
 
     except Exception as e:
-        print(f"Error fetching 3-day ensemble rainfall forecast: {e}")
+        print(f"Error fetching ensemble rainfall data: {e}")
         import traceback
         traceback.print_exc()
-        return None
+        return None, None
 
 def main():
     print("Fetching river data...")
@@ -445,8 +395,7 @@ def main():
     upstream_rainfall_24h = fetch_upstream_rainfall(24)
     upstream_rainfall_7d = fetch_upstream_rainfall(168)
     weather_forecast = fetch_weather_forecast()
-    rainfall_forecast_3d = fetch_3day_rainfall_forecast()
-    ensemble_stats = fetch_ensemble_rainfall_statistics()
+    ensemble_stats, rainfall_forecast_3d = fetch_ensemble_rainfall_data()
     ourcs_godstow = fetch_ourcs_flag('godstow')
     ourcs_isis = fetch_ourcs_flag('isis')
 
