@@ -608,7 +608,7 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    interaction: { intersect: false, mode: 'index' },
+                    interaction: { intersect: false, mode: 'nearest', axis: 'x' },
                     scales: {
                         x: { type: 'time', min: chartStart, max: chartEnd, time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
                         y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: true }
