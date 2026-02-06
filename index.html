@@ -243,7 +243,7 @@
 
         .weather-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(75px, 1fr));
+            grid-template-columns: repeat(6, 1fr);
             gap: 8px;
         }
 
@@ -312,7 +312,7 @@
             .chart-container { height: 220px; }
 
             .weather-grid {
-                grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+                grid-template-columns: repeat(4, 1fr);
             }
         }
     </style>
@@ -334,7 +334,7 @@
 
         <div id="content" style="display: none;">
             <div class="page-grid">
-                <!-- ROW 1: Flag status + Differential chart -->
+                <!-- ROW 1: Flag status + predictions | Combined chart -->
                 <div class="left-col" style="padding-bottom:24px;">
                     <div class="section-label" style="text-align:center;">OURCS Flags</div>
                     <div class="ourcs-flags" style="margin-top:4px;">
@@ -357,24 +357,9 @@
                     </div>
                     <div class="flag-description" id="flag-description" style="text-align:center;">--</div>
                     <div class="flow-trend" id="flow-trend"></div>
-                </div>
-                <div class="right-col" style="padding-bottom:24px;">
-                    <div class="chart-block">
-                        <div class="chart-title">Godstow Differential &mdash; Past 14 days</div>
-                        <div class="chart-legend">
-                            <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Green (&lt;0.45)</div>
-                            <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Amber (0.45-0.75)</div>
-                            <div class="legend-item"><div class="legend-dot" style="background:#dc3545;"></div> Red (&gt;0.75)</div>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="flow-chart"></canvas>
-                        </div>
-                    </div>
 
-                </div>
+                    <hr class="section-divider">
 
-                <!-- ROW 2: Prediction alongside Prediction chart -->
-                <div class="left-col" style="padding-bottom:24px;">
                     <div class="section-label">Prediction (No further rain)</div>
                     <div id="predictions-content">
                         <!-- Dynamic prediction content -->
@@ -385,11 +370,15 @@
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
                     <div class="chart-block">
-                        <div class="chart-title">Flow Prediction &mdash; 14 day forecast</div>
-                        <div class="chart-container">
-                            <canvas id="prediction-chart"></canvas>
+                        <div class="chart-title">Godstow Differential &mdash; 14 day history &amp; forecast</div>
+                        <div class="chart-legend">
+                            <div class="legend-item"><div class="legend-dot" style="background:#28a745;"></div> Green (&lt;0.45)</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#fd7e14;"></div> Amber (0.45-0.75)</div>
+                            <div class="legend-item"><div class="legend-dot" style="background:#dc3545;"></div> Red (&gt;0.75)</div>
                         </div>
-                        
+                        <div class="chart-container">
+                            <canvas id="combined-chart"></canvas>
+                        </div>
                     </div>
                 </div>
 
@@ -445,8 +434,7 @@
     </div>
 
     <script>
-        let flowChart = null;
-        let predictionChart = null;
+        let combinedChart = null;
         let currentData = null;
         let predictionModel = null;
 
@@ -536,33 +524,34 @@
             }
             container.innerHTML = html;
 
-            createPredictionChart(data, model, diffPoints);
+            createCombinedChart(data, diffPoints);
         }
 
-        function createPredictionChart(data, model, diffPoints) {
-            const ctx = document.getElementById('prediction-chart').getContext('2d');
+        function createCombinedChart(data, diffPoints) {
+            const ctx = document.getElementById('combined-chart').getContext('2d');
 
-            // Build actual flow differential from last 24h of history
+            // Build full 14-day history from godstow + osney, downsampled to ~hourly
             const osneyMap = {};
             if (data.osney_history) {
                 data.osney_history.forEach(r => { osneyMap[r.timestamp] = r.value; });
             }
 
-            const now = new Date();
-            const twentyFourHoursAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);
-
-            const actualData = [];
+            const allHistoryData = [];
             if (data.godstow_history) {
                 data.godstow_history.slice().reverse().forEach(r => {
                     const osneyValue = osneyMap[r.timestamp];
                     if (osneyValue !== undefined) {
-                        const ts = new Date(r.timestamp);
-                        if (ts >= twentyFourHoursAgo) {
-                            actualData.push({ x: ts, y: (r.value - osneyValue) - 1.63 });
-                        }
+                        allHistoryData.push({ x: new Date(r.timestamp), y: (r.value - osneyValue) - 1.63 });
                     }
                 });
             }
+
+            // Downsample history to ~hourly (keep every 4th point from 15-min data)
+            const historyData = allHistoryData.filter((_, i) => i % 4 === 0 || i === allHistoryData.length - 1);
+
+            const now = new Date();
+            const chartStart = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
+            const chartEnd = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
 
             // Build predicted line from diffPoints (day-by-day projection)
             const predictedData = diffPoints.map(p => ({
@@ -570,13 +559,12 @@
                 y: Math.max(p.diff, 0)
             }));
 
-            const chartEnd = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
-            const greenLine = [{ x: twentyFourHoursAgo, y: 0.45 }, { x: chartEnd, y: 0.45 }];
-            const amberLine = [{ x: twentyFourHoursAgo, y: 0.75 }, { x: chartEnd, y: 0.75 }];
+            const greenLine = [{ x: chartStart, y: 0.45 }, { x: chartEnd, y: 0.45 }];
+            const amberLine = [{ x: chartStart, y: 0.75 }, { x: chartEnd, y: 0.75 }];
             const yMax = Math.max(data.flow || 0, 1.0);
             const nowLine = [{ x: now, y: 0 }, { x: now, y: yMax * 1.1 }];
 
-            if (predictionChart) predictionChart.destroy();
+            if (combinedChart) combinedChart.destroy();
 
             const gradientFn = (opacity) => function(context) {
                 const chart = context.chart;
@@ -595,13 +583,13 @@
                 return gradient;
             };
 
-            predictionChart = new Chart(ctx, {
+            combinedChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     datasets: [
                         {
                             label: 'Actual',
-                            data: actualData,
+                            data: historyData,
                             borderColor: '#1a1a2e',
                             backgroundColor: gradientFn(0.25),
                             fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2, order: 2
@@ -622,7 +610,7 @@
                     responsive: true, maintainAspectRatio: false,
                     interaction: { intersect: false, mode: 'nearest' },
                     scales: {
-                        x: { type: 'time', min: twentyFourHoursAgo, max: chartEnd, time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
+                        x: { type: 'time', min: chartStart, max: chartEnd, time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
                         y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: true }
                     },
                     plugins: {
@@ -638,60 +626,6 @@
                                 }
                             }
                         }
-                    }
-                }
-            });
-        }
-
-        // ---- Chart creation functions ----
-
-        function createFlowChart(godstowHistory, osneyHistory) {
-            const ctx = document.getElementById('flow-chart').getContext('2d');
-            const osneyMap = {};
-            osneyHistory.forEach(r => { osneyMap[r.timestamp] = r.value; });
-            const flowData = [];
-            godstowHistory.slice().reverse().forEach(r => {
-                const ov = osneyMap[r.timestamp];
-                if (ov !== undefined) flowData.push({ x: new Date(r.timestamp), y: (r.value - ov) - 1.63 });
-            });
-            if (flowChart) flowChart.destroy();
-            flowChart = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    datasets: [{
-                        label: 'Flow', data: flowData, borderColor: '#1a1a2e',
-                        backgroundColor: function(context) {
-                            const chart = context.chart;
-                            const {ctx, chartArea} = chart;
-                            if (!chartArea) return null;
-                            const gradient = ctx.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
-                            const {min, max} = chart.scales.y;
-                            const toPos = v => Math.max(0, Math.min(1, (v - min) / (max - min)));
-                            const gp = toPos(0.45), rp = toPos(0.75);
-                            gradient.addColorStop(0, 'rgba(40,167,69,0.3)');
-                            gradient.addColorStop(gp, 'rgba(40,167,69,0.3)');
-                            gradient.addColorStop(gp, 'rgba(253,126,20,0.3)');
-                            gradient.addColorStop(rp, 'rgba(253,126,20,0.3)');
-                            gradient.addColorStop(rp, 'rgba(220,53,69,0.3)');
-                            gradient.addColorStop(1, 'rgba(220,53,69,0.3)');
-                            return gradient;
-                        },
-                        fill: true, tension: 0.3, pointRadius: 0, borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true, maintainAspectRatio: false,
-                    interaction: { intersect: false, mode: 'index' },
-                    scales: {
-                        x: { type: 'time', time: { unit: 'day', displayFormats: { day: 'dd MMM' } } },
-                        y: { title: { display: true, text: 'Flow (m)' }, beginAtZero: true }
-                    },
-                    plugins: {
-                        legend: { display: false },
-                        tooltip: { callbacks: {
-                            title: ctx => formatTimestamp(ctx[0].parsed.x),
-                            label: ctx => { const f = ctx.parsed.y; const s = f > 0.75 ? 'Red' : f >= 0.45 ? 'Amber' : 'Green'; return `Flow: ${f.toFixed(3)} (${s})`; }
-                        } }
                     }
                 }
             });
@@ -821,10 +755,7 @@
                 document.getElementById('data-timestamp').textContent = `Readings from ${formatTimestamp(data.godstow_lock.timestamp)}.`;
             }
 
-            // Create all charts
-            if (data.godstow_history && data.osney_history && data.godstow_history.length > 0 && data.osney_history.length > 0) {
-                createFlowChart(data.godstow_history, data.osney_history);
-            }
+            // Create combined chart
             if (predictionModel) {
                 displayPredictions(data, predictionModel);
             }
