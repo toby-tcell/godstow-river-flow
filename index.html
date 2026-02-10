@@ -387,27 +387,17 @@
 
                 <!-- ROW 3: Rainfall + Weather forecast -->
                 <div class="left-col" style="padding-bottom:24px;">
-                    <div class="section-label">Local Rainfall</div>
+                    <div class="section-label">Average Rainfall</div>
                     <div class="value-row">
                         <span class="value-label">Last 24h</span>
-                        <span class="value-number"><span id="rainfall-24h">--</span> mm</span>
+                        <span class="value-number"><span id="avg-rainfall-24h">--</span> mm</span>
                     </div>
                     <div class="value-row">
                         <span class="value-label">Last 7 days</span>
-                        <span class="value-number"><span id="rainfall-7d">--</span> mm</span>
+                        <span class="value-number"><span id="avg-rainfall-7d">--</span> mm</span>
                     </div>
 
-                    <div class="section-label" style="margin-top: 12px;">Average Upstream Rainfall</div>
-                    <div class="value-row">
-                        <span class="value-label">Last 24h</span>
-                        <span class="value-number"><span id="upstream-rainfall-24h">--</span> mm</span>
-                    </div>
-                    <div class="value-row">
-                        <span class="value-label">Last 7 days</span>
-                        <span class="value-number"><span id="upstream-rainfall-7d">--</span> mm</span>
-                    </div>
-
-                    <div class="section-label" style="margin-top: 12px;">Forecast Rainfall</div>
+                    <div class="section-label" style="margin-top: 12px;">Forecast Oxford Rainfall</div>
                     <div class="value-row">
                         <span class="value-label">Next 24h</span>
                         <span class="value-number" id="predicted-rainfall-24h">--</span>
@@ -418,6 +408,7 @@
                     </div>
                 </div>
                 <div class="right-col" style="padding-bottom:24px;">
+                    <hr class="section-divider" style="margin-top:0;">
                     <div class="chart-title">24h Weather Forecast</div>
                     <div id="weather-forecast" class="weather-grid"></div>
                 </div>
@@ -549,17 +540,21 @@
                 });
             }
 
-            // Downsample history to ~hourly (keep every 4th point from 15-min data)
-            const historyData = allHistoryData.filter((_, i) => i % 4 === 0 || i === allHistoryData.length - 1);
+            // Keep only on-the-hour points (minutes === 0), plus the most recent reading
+            const historyData = allHistoryData.filter((p, i) =>
+                i === allHistoryData.length - 1 || p.x.getMinutes() === 0
+            );
 
             const now = new Date();
             const chartStart = new Date(now.getTime() - 14 * 24 * 60 * 60 * 1000);
             const chartEnd = new Date(now.getTime() + 14 * 24 * 60 * 60 * 1000);
 
-            // Build predicted line from diffPoints (day-by-day projection)
+            // Build predicted line from diffPoints, shifted so it starts from the current differential
+            const currentFlow = data.flow;
+            const modelOffset = currentFlow - diffPoints[0].diff;
             const predictedData = diffPoints.map(p => ({
                 x: new Date(now.getTime() + p.day * 24 * 60 * 60 * 1000),
-                y: Math.max(p.diff, 0)
+                y: Math.max(p.diff + modelOffset, 0)
             }));
 
             const greenLine = [{ x: chartStart, y: 0.45 }, { x: chartEnd, y: 0.45 }];
@@ -732,10 +727,8 @@
             }
 
             // Rainfall
-            document.getElementById('rainfall-24h').textContent = (data.rainfall_24h || 0).toFixed(1);
-            document.getElementById('rainfall-7d').textContent = (data.rainfall_7d || 0).toFixed(1);
-            document.getElementById('upstream-rainfall-24h').textContent = (data.upstream_rainfall_24h || 0).toFixed(1);
-            document.getElementById('upstream-rainfall-7d').textContent = (data.upstream_rainfall_7d || 0).toFixed(1);
+            document.getElementById('avg-rainfall-24h').textContent = (data.avg_rainfall_24h || 0).toFixed(1);
+            document.getElementById('avg-rainfall-7d').textContent = (data.avg_rainfall_7d || 0).toFixed(1);
 
             // Weather
             const ensemble24h = (data.ensemble_rainfall_24h_mean != null) ? { mean: data.ensemble_rainfall_24h_mean, p10: data.ensemble_rainfall_24h_p10, p90: data.ensemble_rainfall_24h_p90 } : null;

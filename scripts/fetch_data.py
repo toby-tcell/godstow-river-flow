@@ -11,9 +11,9 @@ MEASURE_IDS = {
     'farmoor': '1100TH-flow--Mean-15_min-m3_s'
 }
 
-# Rainfall measure IDs
-RAINFALL_LOCAL = '256230TP-rainfall-tipping_bucket_raingauge-t-15_min-mm'  # Oxford (1km)
-RAINFALL_UPSTREAM = [
+# Rainfall measure IDs (all catchment stations including local Oxford gauge)
+RAINFALL_STATIONS = [
+    '256230TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Oxford (1km)
     '254336TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Farmoor/Eynsham
     '253861TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Witney
     '254829TP-rainfall-tipping_bucket_raingauge-t-15_min-mm',  # Chipping Norton
@@ -142,16 +142,10 @@ def _fetch_rainfall_total(measure_id, hours):
         return None
 
 
-def fetch_rainfall(hours=24):
-    '''Fetch rainfall from the Oxford station for specified hours'''
-    result = _fetch_rainfall_total(RAINFALL_LOCAL, hours)
-    return result if result is not None else 0
-
-
-def fetch_upstream_rainfall(hours=24):
-    '''Fetch averaged rainfall from upstream Thames catchment stations'''
+def fetch_avg_rainfall(hours=24):
+    '''Fetch average rainfall across all catchment stations'''
     totals = []
-    for measure_id in RAINFALL_UPSTREAM:
+    for measure_id in RAINFALL_STATIONS:
         total = _fetch_rainfall_total(measure_id, hours)
         if total is not None:
             totals.append(total)
@@ -390,10 +384,8 @@ def main():
             'timestamp': previous_data['osney_lock']['timestamp']
         }
 
-    rainfall_24h = fetch_rainfall(24)
-    rainfall_7d = fetch_rainfall(168)  # 7 days = 168 hours
-    upstream_rainfall_24h = fetch_upstream_rainfall(24)
-    upstream_rainfall_7d = fetch_upstream_rainfall(168)
+    avg_rainfall_24h = fetch_avg_rainfall(24)
+    avg_rainfall_7d = fetch_avg_rainfall(168)  # 7 days = 168 hours
     weather_forecast = fetch_weather_forecast()
     ensemble_stats, rainfall_forecast_3d = fetch_ensemble_rainfall_data()
     ourcs_godstow = fetch_ourcs_flag('godstow')
@@ -482,10 +474,8 @@ def main():
         'flow': current_flow,
         'flow_2h_ago': flow_2h_ago,
         'flow_trend': flow_trend,
-        'rainfall_24h': rainfall_24h if rainfall_24h is not None else 0,
-        'rainfall_7d': rainfall_7d if rainfall_7d is not None else 0,
-        'upstream_rainfall_24h': upstream_rainfall_24h if upstream_rainfall_24h is not None else 0,
-        'upstream_rainfall_7d': upstream_rainfall_7d if upstream_rainfall_7d is not None else 0,
+        'avg_rainfall_24h': avg_rainfall_24h if avg_rainfall_24h is not None else 0,
+        'avg_rainfall_7d': avg_rainfall_7d if avg_rainfall_7d is not None else 0,
         'weather_forecast': weather_forecast if weather_forecast else [],
         'rainfall_forecast_3d': rainfall_forecast_3d if rainfall_forecast_3d else [],
         'ensemble_rainfall_24h_mean': ensemble_stats.get('rainfall_24h_mean') if ensemble_stats else None,
@@ -512,10 +502,8 @@ def main():
     print(f"Differential: {differential if differential else 'N/A'}m")
     print(f"Flow: {current_flow if current_flow is not None else 'N/A'}m")
     print(f"Flow trend: {flow_trend if flow_trend else 'N/A'}")
-    print(f"Rainfall 24h: {rainfall_24h if rainfall_24h else 'N/A'}mm")
-    print(f"Rainfall 7d: {rainfall_7d if rainfall_7d else 'N/A'}mm")
-    print(f"Upstream rainfall 24h: {upstream_rainfall_24h if upstream_rainfall_24h else 'N/A'}mm")
-    print(f"Upstream rainfall 7d: {upstream_rainfall_7d if upstream_rainfall_7d else 'N/A'}mm")
+    print(f"Avg rainfall 24h: {avg_rainfall_24h if avg_rainfall_24h else 'N/A'}mm")
+    print(f"Avg rainfall 7d: {avg_rainfall_7d if avg_rainfall_7d else 'N/A'}mm")
     print(f"Weather forecast: {len(weather_forecast) if weather_forecast else 0} hours")
     print(f"History: Godstow={len(godstow_history)}, Osney={len(osney_history)}, Farmoor={len(farmoor_history)} readings")
 
