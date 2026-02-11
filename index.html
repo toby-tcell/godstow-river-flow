@@ -17,7 +17,7 @@
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: #f8f9fa;
             min-height: 100vh;
-            padding: 30px 20px;
+            padding: 16px 16px;
             color: #1f2937;
         }
 
@@ -28,7 +28,7 @@
 
         header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 14px;
         }
 
         h1 {
@@ -89,8 +89,8 @@
         /* Two-column grid — paired rows */
         .page-grid {
             display: grid;
-            grid-template-columns: 340px 1fr;
-            gap: 0 40px;
+            grid-template-columns: 300px 1fr;
+            gap: 0 24px;
             align-items: start;
         }
 
@@ -110,7 +110,7 @@
         .section-divider {
             border: none;
             border-top: 1px solid #e5e7eb;
-            margin: 24px 0;
+            margin: 14px 0;
         }
 
         /* Left column: values */
@@ -135,7 +135,7 @@
             display: flex;
             justify-content: center;
             gap: 30px;
-            margin-top: 16px;
+            margin-top: 8px;
             font-size: 1em;
             color: #4b5563;
         }
@@ -187,7 +187,7 @@
         .right-col {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 6px;
         }
 
         .chart-block {
@@ -205,7 +205,7 @@
 
         .chart-container {
             position: relative;
-            height: 250px;
+            height: 230px;
         }
 
         .chart-legend {
@@ -231,7 +231,7 @@
 
         /* Full-width sections below the grid */
         .full-width {
-            margin-top: 30px;
+            margin-top: 16px;
         }
 
         .weather-scroll {
@@ -293,8 +293,8 @@
             font-size: 0.8em;
             color: #9ca3af;
             line-height: 1.6;
-            margin-top: 30px;
-            padding-top: 20px;
+            margin-top: 16px;
+            padding-top: 12px;
             border-top: 1px solid #e5e7eb;
         }
 
@@ -335,7 +335,7 @@
         <div id="content" style="display: none;">
             <div class="page-grid">
                 <!-- ROW 1: Flag status + predictions | Combined chart -->
-                <div class="left-col" style="padding-bottom:24px;">
+                <div class="left-col" style="padding-bottom:12px;">
                     <div class="section-label" style="text-align:center;">OURCS Flags</div>
                     <div class="ourcs-flags" style="margin-top:4px;">
                         <div class="ourcs-flag-item">
@@ -368,7 +368,7 @@
                     <hr class="section-divider">
 
                 </div>
-                <div class="right-col" style="padding-bottom:10px;">
+                <div class="right-col" style="padding-bottom:6px;">
                     <div class="chart-block">
                         <div class="chart-title">Godstow Differential &mdash; 14 day history &amp; forecast (assuming no rain)</div>
                         <div class="chart-legend">
@@ -380,13 +380,13 @@
                             <canvas id="combined-chart"></canvas>
                         </div>
                     </div>
-                    <div style="text-align:center;margin-top:8px;font-size:0.85em;">
+                    <div style="text-align:center;margin-top:4px;font-size:0.85em;">
                         <a href="https://robertdoanesolomon.github.io/Flag_Predictor/" target="_blank" style="color:#6b7280;">Rob's AI-powered forecast (with rainfall) &rarr;</a>
                     </div>
                 </div>
 
                 <!-- ROW 3: Rainfall + Weather forecast -->
-                <div class="left-col" style="padding-bottom:24px;">
+                <div class="left-col" style="padding-bottom:12px;">
                     <div class="section-label">Average Catchment Rainfall</div>
                     <div class="value-row">
                         <span class="value-label">Last 24h</span>
@@ -397,7 +397,7 @@
                         <span class="value-number"><span id="avg-rainfall-7d">--</span> mm</span>
                     </div>
 
-                    <div class="section-label" style="margin-top: 12px;">Forecast Oxford Rainfall</div>
+                    <div class="section-label" style="margin-top: 8px;">Forecast Oxford Rainfall</div>
                     <div class="value-row">
                         <span class="value-label">Next 24h</span>
                         <span class="value-number" id="predicted-rainfall-24h">--</span>
@@ -407,7 +407,7 @@
                         <span class="value-number" id="predicted-rainfall-3d">--</span>
                     </div>
                 </div>
-                <div class="right-col" style="padding-bottom:10px;">
+                <div class="right-col" style="padding-bottom:6px;">
                     <hr class="section-divider" style="margin-top:0;">
                     <div class="chart-title">24h Weather Forecast</div>
                     <div id="weather-forecast" class="weather-grid"></div>
