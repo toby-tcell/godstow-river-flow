@@ -2,8 +2,8 @@ name: Update Prediction Model
 
 on:
   schedule:
-    # Every Monday at 6am UTC
-    - cron: '0 6 * * 1'
+    # 1st of every month at 6am UTC
+    - cron: '0 6 1 * *'
   workflow_dispatch:
 
 jobs:

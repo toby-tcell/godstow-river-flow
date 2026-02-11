@@ -1,16 +1,14 @@
 #!/usr/bin/env python3
 """
 Update the prediction model by:
-1. Fetching the latest historic data from EA archive
-2. Calculating correlation and regression parameters
-3. Analyzing decay rates
-4. Outputting a JSON model file for the website
+1. Fetching the latest historic data from EA archive (godstow + osney)
+2. Calculating differential decay rates binned by differential level
+3. Outputting a JSON model file for the website
 """
 
 import requests
 import json
 import csv
-import math
 from io import StringIO
 from datetime import datetime, timedelta, timezone
 import os
@@ -20,7 +18,6 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 MEASURE_URLS = {
     'godstow': 'http://environment.data.gov.uk/flood-monitoring/id/measures/1302TH-level-downstage-i-15_min-mASD',
     'osney': 'http://environment.data.gov.uk/flood-monitoring/id/measures/1303TH-level-stage-i-15_min-mASD',
-    'farmoor': 'http://environment.data.gov.uk/flood-monitoring/id/measures/1100TH-flow--Mean-15_min-m3_s'
 }
 
 ARCHIVE_URL = "https://environment.data.gov.uk/flood-monitoring/archive/readings-{date}.csv"
@@ -35,7 +32,7 @@ def fetch_archive_day(date_str):
     try:
         response = requests.get(url, timeout=120)
         if response.status_code == 200:
-            readings = {'godstow': [], 'osney': [], 'farmoor': []}
+            readings = {'godstow': [], 'osney': []}
 
             reader = csv.DictReader(StringIO(response.text))
             for row in reader:
@@ -43,7 +40,6 @@ def fetch_archive_day(date_str):
                 timestamp = row.get('dateTime', '')
 
                 # Only keep readings at 2-hour intervals (00:00, 02:00, 04:00, etc.)
-                # Check if hour is even and minutes are 00
                 if 'T' in timestamp:
                     time_part = timestamp.split('T')[1][:5]  # HH:MM
                     hour = int(time_part[:2])
@@ -80,11 +76,10 @@ def load_existing_data():
             return {
                 'godstow': {r['timestamp']: r['value'] for r in data.get('godstow_history', [])},
                 'osney': {r['timestamp']: r['value'] for r in data.get('osney_history', [])},
-                'farmoor': {r['timestamp']: r['value'] for r in data.get('farmoor_history', [])}
             }
         except:
             pass
-    return {'godstow': {}, 'osney': {}, 'farmoor': {}}
+    return {'godstow': {}, 'osney': {}}
 
 
 def fetch_historic_data(days_to_fetch=14, max_age_days=365):
@@ -116,7 +111,7 @@ def fetch_historic_data(days_to_fetch=14, max_age_days=365):
         for future in as_completed(futures):
             readings = future.result()
             if readings:
-                for key in ['godstow', 'osney', 'farmoor']:
+                for key in ['godstow', 'osney']:
                     for r in readings[key]:
                         all_readings[key][r['timestamp']] = r['value']
 
@@ -124,164 +119,71 @@ def fetch_historic_data(days_to_fetch=14, max_age_days=365):
     cutoff = (datetime.now(timezone.utc) - timedelta(days=max_age_days)).isoformat().replace('+00:00', 'Z')
 
     result = {}
-    for key in ['godstow', 'osney', 'farmoor']:
+    for key in ['godstow', 'osney']:
         result[key] = [
             {'timestamp': ts, 'value': val}
             for ts, val in sorted(all_readings[key].items())
             if ts >= cutoff
         ]
 
-    print(f"  After update: {len(result['godstow']):,} Godstow readings")
+    print(f"  After update: {len(result['godstow']):,} Godstow, {len(result['osney']):,} Osney readings")
     return result
 
 
-def calculate_model_parameters(data):
-    """Calculate regression parameters and thresholds."""
+def calculate_differential_decay_rate(data):
+    """Calculate a single constant daily differential drop rate using 2-hourly data.
 
-    # Build lookup dicts
+    For each 2-hourly timestamp where both godstow and osney exist, compute
+    the differential. Then find pairs exactly 24h apart and compute the daily
+    drop. Only includes days where the differential actually fell (drop > 0).
+    Only considers readings above the green threshold (0.45).
+    Returns a single median drop rate.
+    """
+    # Build differential at each timestamp
     godstow = {r['timestamp']: r['value'] for r in data['godstow_history']}
     osney = {r['timestamp']: r['value'] for r in data['osney_history']}
-    farmoor = {r['timestamp']: r['value'] for r in data['farmoor_history']}
 
-    # Calculate flow values
-    flows = {}
+    differentials = {}
     for ts in godstow:
         if ts in osney:
-            flows[ts] = (godstow[ts] - osney[ts]) - 1.63
+            differentials[ts] = (godstow[ts] - osney[ts]) - 1.63
 
-    # Pair with farmoor
-    paired_data = []
-    for ts in flows:
-        if ts in farmoor:
-            paired_data.append((farmoor[ts], flows[ts]))
+    print(f"   {len(differentials):,} paired differential readings")
 
-    if len(paired_data) < 100:
-        raise ValueError(f"Not enough paired data: {len(paired_data)}")
-
-    farm_vals = [p[0] for p in paired_data]
-    flow_vals = [p[1] for p in paired_data]
-
-    # Linear regression
-    n = len(paired_data)
-    mean_farm = sum(farm_vals) / n
-    mean_flow = sum(flow_vals) / n
-
-    numerator = sum((f - mean_farm) * (fl - mean_flow) for f, fl in paired_data)
-    denominator = sum((f - mean_farm)**2 for f, fl in paired_data)
-
-    slope = numerator / denominator
-    intercept = mean_flow - slope * mean_farm
-
-    # R²
-    predicted = [slope * f + intercept for f in farm_vals]
-    ss_res = sum((actual - pred)**2 for actual, pred in zip(flow_vals, predicted))
-    ss_tot = sum((actual - mean_flow)**2 for actual in flow_vals)
-    r_squared = 1 - (ss_res / ss_tot)
-
-    # Correlation
-    var_farm = sum((f - mean_farm)**2 for f in farm_vals) / n
-    var_flow = sum((f - mean_flow)**2 for f in flow_vals) / n
-    cov = sum((f - mean_farm) * (fl - mean_flow) for f, fl in paired_data) / n
-    correlation = cov / ((var_farm * var_flow) ** 0.5)
-
-    # Thresholds
-    farmoor_green_amber = (0.45 - intercept) / slope
-    farmoor_amber_red = (0.75 - intercept) / slope
-
-    return {
-        'slope': slope,
-        'intercept': intercept,
-        'r_squared': r_squared,
-        'correlation': correlation,
-        'n_samples': n,
-        'thresholds': {
-            'green_amber': farmoor_green_amber,
-            'amber_red': farmoor_amber_red
-        }
-    }
-
-
-def calculate_godstow_drop_rates(data):
-    """Calculate average daily godstow level drop rates, binned by level.
-
-    Looks at all days where godstow was falling (dry periods) and computes
-    the average drop in mm/day for each level bin. This is the primary driver
-    of the flow differential since osney is relatively stable.
-    """
-    # Build daily noon readings for godstow
-    godstow_daily = {}
-    for r in data['godstow_history']:
-        if r.get('value') is None:
-            continue
-        ts = r['timestamp']
+    # Build a lookup by datetime for finding 24h-apart pairs
+    dt_lookup = {}
+    for ts, diff in differentials.items():
         try:
             dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
+            dt_lookup[dt] = diff
         except (ValueError, AttributeError):
             continue
-        if dt.hour == 12 and dt.minute == 0:
-            godstow_daily[dt.date()] = r['value']
 
-    # Build daily noon readings for osney (for average osney level)
-    osney_vals = []
-    for r in data['osney_history']:
-        if r.get('value') is None:
-            continue
-        ts = r['timestamp']
-        try:
-            dt = datetime.fromisoformat(ts.replace('Z', '+00:00'))
-        except (ValueError, AttributeError):
-            continue
-        if dt.hour == 12 and dt.minute == 0:
-            osney_vals.append(r['value'])
+    # For each reading above green threshold, find the reading exactly 24h later
+    GREEN_THRESHOLD = 0.45
+    drops = []
+    for dt, diff_start in dt_lookup.items():
+        if diff_start < GREEN_THRESHOLD:
+            continue  # below green — no-one cares about decay here
+        dt_next = dt + timedelta(hours=24)
+        if dt_next in dt_lookup:
+            diff_end = dt_lookup[dt_next]
+            drop = diff_start - diff_end  # positive = falling
 
-    avg_osney = sum(osney_vals) / len(osney_vals) if osney_vals else -0.04
+            # Only count days where differential actually fell
+            if drop > 0:
+                drops.append(drop * 1000)  # convert to mm
 
-    # Collect daily drops during falling periods
-    # A "falling day" is one where godstow dropped from the previous day
-    bins = [
-        {'min_level': 2.4, 'max_level': 3.0, 'drops': []},
-        {'min_level': 2.0, 'max_level': 2.4, 'drops': []},
-        {'min_level': 1.6, 'max_level': 2.0, 'drops': []},
-    ]
+    print(f"   {len(drops):,} valid 24h pairs (drop > 0)")
 
-    days = sorted(godstow_daily.keys())
-    for i in range(1, len(days)):
-        if (days[i] - days[i - 1]).days != 1:
-            continue  # skip gaps
-        prev_val = godstow_daily[days[i - 1]]
-        curr_val = godstow_daily[days[i]]
-        drop_mm = (prev_val - curr_val) * 1000  # positive = falling
-
-        if drop_mm <= 0:
-            continue  # only count falling days
-
-        # Bin by the starting level
-        for b in bins:
-            if b['min_level'] <= prev_val < b['max_level']:
-                b['drops'].append(drop_mm)
-                break
-
-    result_bins = []
-    for b in bins:
-        drops = b['drops']
-        if drops:
-            drops.sort()
-            avg = sum(drops) / len(drops)
-            median = drops[len(drops) // 2]
-        else:
-            avg = 0
-            median = 0
-        result_bins.append({
-            'min_level': b['min_level'],
-            'max_level': b['max_level'],
-            'avg_drop_mm_per_day': round(avg, 1),
-            'median_drop_mm_per_day': round(median, 1),
-            'n_days': len(drops),
-        })
+    drops.sort()
+    avg = sum(drops) / len(drops) if drops else 0
+    median = drops[len(drops) // 2] if drops else 0
 
     return {
-        'bins': result_bins,
-        'avg_osney': round(avg_osney, 3),
+        'avg_drop_mm_per_day': round(avg, 1),
+        'median_drop_mm_per_day': round(median, 1),
+        'n_pairs': len(drops),
     }
 
 
@@ -300,8 +202,7 @@ def main():
 
     all_timestamps = (
         [r['timestamp'] for r in raw_data['godstow']] +
-        [r['timestamp'] for r in raw_data['osney']] +
-        [r['timestamp'] for r in raw_data['farmoor']]
+        [r['timestamp'] for r in raw_data['osney']]
     )
 
     historic = {
@@ -312,12 +213,10 @@ def main():
             'reading_counts': {
                 'godstow': len(raw_data['godstow']),
                 'osney': len(raw_data['osney']),
-                'farmoor': len(raw_data['farmoor'])
             }
         },
         'godstow_history': raw_data['godstow'],
         'osney_history': raw_data['osney'],
-        'farmoor_history': raw_data['farmoor']
     }
 
     with open(HISTORIC_FILE, 'w') as f:
@@ -326,27 +225,13 @@ def main():
     print(f"   Saved {HISTORIC_FILE}")
     print(f"   Godstow: {len(raw_data['godstow']):,} readings")
     print(f"   Osney: {len(raw_data['osney']):,} readings")
-    print(f"   Farmoor: {len(raw_data['farmoor']):,} readings")
 
-    # Calculate model parameters
-    print("\n2. Calculating model parameters...")
-    params = calculate_model_parameters(historic)
-    print(f"   Slope: {params['slope']:.5f}")
-    print(f"   Intercept: {params['intercept']:.4f}")
-    print(f"   R²: {params['r_squared']:.4f}")
-    print(f"   Correlation: {params['correlation']:.4f}")
-    print(f"   Green/Amber threshold: {params['thresholds']['green_amber']:.1f} m³/s")
-    print(f"   Amber/Red threshold: {params['thresholds']['amber_red']:.1f} m³/s")
-
-    # Calculate godstow drop rates
-    print("\n3. Calculating godstow daily drop rates...")
-    drop_rates = calculate_godstow_drop_rates(historic)
-    for b in drop_rates['bins']:
-        print(f"   Level {b['min_level']:.1f}-{b['max_level']:.1f}m: "
-              f"avg {b['avg_drop_mm_per_day']:.0f} mm/day, "
-              f"median {b['median_drop_mm_per_day']:.0f} mm/day "
-              f"({b['n_days']} days)")
-    print(f"   Average osney level: {drop_rates['avg_osney']:.3f}m")
+    # Calculate differential decay rate
+    print("\n2. Calculating differential decay rate...")
+    decay_rate = calculate_differential_decay_rate(historic)
+    print(f"   Avg: {decay_rate['avg_drop_mm_per_day']:.0f} mm/day, "
+          f"Median: {decay_rate['median_drop_mm_per_day']:.0f} mm/day "
+          f"({decay_rate['n_pairs']} pairs)")
 
     # Build model JSON
     model = {
@@ -354,25 +239,19 @@ def main():
         'data_range': {
             'start': historic['metadata']['earliest_reading'],
             'end': historic['metadata']['latest_reading'],
-            'samples': params['n_samples']
-        },
-        'regression': {
-            'slope': round(params['slope'], 6),
-            'intercept': round(params['intercept'], 4),
-            'r_squared': round(params['r_squared'], 4),
-            'correlation': round(params['correlation'], 4)
+            'samples': decay_rate['n_pairs']
         },
         'thresholds': {
             'green_amber_flow': 0.45,
             'amber_red_flow': 0.75
         },
-        'godstow_decay_rates': drop_rates,
+        'differential_decay_rate': decay_rate,
     }
 
     with open(MODEL_FILE, 'w') as f:
         json.dump(model, f, indent=2)
 
-    print(f"\n5. Saved model to {MODEL_FILE}")
+    print(f"\n3. Saved model to {MODEL_FILE}")
 
     print("\n" + "="*60)
     print("Model Update Complete")
