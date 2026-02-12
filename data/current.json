@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-02-12T13:41:26.631772Z",
+  "last_updated": "2026-02-12T14:38:28.171314Z",
   "osney_lock": {
-    "level": -0.002,
-    "timestamp": "2026-02-12T13:15:00Z"
+    "level": 0.026,
+    "timestamp": "2026-02-12T14:15:00Z"
   },
   "godstow_lock": {
     "level": 2.84,
-    "timestamp": "2026-02-12T13:15:00Z"
+    "timestamp": "2026-02-12T14:15:00Z"
   },
   "farmoor": {
-    "flow": 63.754,
-    "timestamp": "2026-02-12T13:15:00Z"
+    "flow": 64.758,
+    "timestamp": "2026-02-12T14:15:00Z"
   },
-  "differential": 2.8419999999999996,
-  "flow": 1.2119999999999997,
-  "flow_2h_ago": 1.1940000000000004,
+  "differential": 2.814,
+  "flow": 1.1840000000000002,
+  "flow_2h_ago": 1.201,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 2.598888888888889,
-  "avg_rainfall_7d": 46.172222222222246,
+  "avg_rainfall_24h": 3.234444444444444,
+  "avg_rainfall_7d": 46.73666666666669,
   "weather_forecast": [
-    {
-      "time": "2026-02-12T13:00",
-      "temperature": 9.0,
-      "precipitation": 0.1,
-      "precipitation_probability": null,
-      "weather_code": 51
-    },
     {
       "time": "2026-02-12T14:00",
       "temperature": 9.3,
@@ -186,12 +179,19 @@
       "precipitation": 0.3,
       "precipitation_probability": null,
       "weather_code": 51
+    },
+    {
+      "time": "2026-02-13T13:00",
+      "temperature": 6.8,
+      "precipitation": 0.1,
+      "precipitation_probability": null,
+      "weather_code": 51
     }
   ],
   "rainfall_forecast_3d": [
     {
       "date": "2026-02-12",
-      "precipitation": 2.3051282051282045
+      "precipitation": 1.8307692307692307
     },
     {
       "date": "2026-02-13",
@@ -202,12 +202,12 @@
       "precipitation": 0.08461538461538462
     }
   ],
-  "ensemble_rainfall_24h_mean": 3.9743589743589745,
-  "ensemble_rainfall_24h_p10": 1.3,
-  "ensemble_rainfall_24h_p90": 6.440000000000001,
-  "ensemble_rainfall_72h_mean": 9.607692307692307,
-  "ensemble_rainfall_72h_p10": 4.879999999999998,
-  "ensemble_rainfall_72h_p90": 16.56,
+  "ensemble_rainfall_24h_mean": 3.712820512820513,
+  "ensemble_rainfall_24h_p10": 0.8,
+  "ensemble_rainfall_24h_p90": 6.100000000000002,
+  "ensemble_rainfall_72h_mean": 9.528205128205128,
+  "ensemble_rainfall_72h_p10": 4.78,
+  "ensemble_rainfall_72h_p90": 16.240000000000002,
   "ourcs_godstow_flag": {
     "reach": "godstow",
     "status": "R",
@@ -232,6 +232,22 @@
     "set_by": "Sophie Kubik"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-02-12T14:15:00Z",
+      "value": 2.84
+    },
+    {
+      "timestamp": "2026-02-12T14:00:00Z",
+      "value": 2.842
+    },
+    {
+      "timestamp": "2026-02-12T13:45:00Z",
+      "value": 2.84
+    },
+    {
+      "timestamp": "2026-02-12T13:30:00Z",
+      "value": 2.842
+    },
     {
       "timestamp": "2026-02-12T13:15:00Z",
       "value": 2.84
@@ -5587,25 +5603,25 @@
     {
       "timestamp": "2026-01-29T14:45:00Z",
       "value": 2.791
-    },
-    {
-      "timestamp": "2026-01-29T14:30:00Z",
-      "value": 2.794
-    },
-    {
-      "timestamp": "2026-01-29T14:15:00Z",
-      "value": 2.793
-    },
-    {
-      "timestamp": "2026-01-29T14:00:00Z",
-      "value": 2.796
-    },
-    {
-      "timestamp": "2026-01-29T13:45:00Z",
-      "value": 2.793
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-02-12T14:15:00Z",
+      "value": 0.026
+    },
+    {
+      "timestamp": "2026-02-12T14:00:00Z",
+      "value": 0.016
+    },
+    {
+      "timestamp": "2026-02-12T13:45:00Z",
+      "value": 0.018
+    },
+    {
+      "timestamp": "2026-02-12T13:30:00Z",
+      "value": -0.002
+    },
     {
       "timestamp": "2026-02-12T13:15:00Z",
       "value": -0.002
@@ -10961,25 +10977,25 @@
     {
       "timestamp": "2026-01-29T14:45:00Z",
       "value": -0.034
-    },
-    {
-      "timestamp": "2026-01-29T14:30:00Z",
-      "value": -0.034
-    },
-    {
-      "timestamp": "2026-01-29T14:15:00Z",
-      "value": -0.027
-    },
-    {
-      "timestamp": "2026-01-29T14:00:00Z",
-      "value": -0.032
-    },
-    {
-      "timestamp": "2026-01-29T13:45:00Z",
-      "value": -0.037
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-02-12T14:15:00Z",
+      "value": 64.758
+    },
+    {
+      "timestamp": "2026-02-12T14:00:00Z",
+      "value": 64.415
+    },
+    {
+      "timestamp": "2026-02-12T13:45:00Z",
+      "value": 64.055
+    },
+    {
+      "timestamp": "2026-02-12T13:30:00Z",
+      "value": 64.101
+    },
     {
       "timestamp": "2026-02-12T13:15:00Z",
       "value": 63.754
@@ -16334,22 +16350,6 @@
     },
     {
       "timestamp": "2026-01-29T14:45:00Z",
-      "value": 62.956
-    },
-    {
-      "timestamp": "2026-01-29T14:30:00Z",
-      "value": 62.751
-    },
-    {
-      "timestamp": "2026-01-29T14:15:00Z",
-      "value": 62.919
-    },
-    {
-      "timestamp": "2026-01-29T14:00:00Z",
-      "value": 62.897
-    },
-    {
-      "timestamp": "2026-01-29T13:45:00Z",
       "value": 62.956
     }
   ]
