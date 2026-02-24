@@ -1,22 +1,22 @@
 {
-  "last_updated": "2026-02-24T11:09:47.581958Z",
+  "last_updated": "2026-02-24T11:57:34.305469Z",
   "osney_lock": {
-    "level": -0.013,
-    "timestamp": "2026-02-24T10:45:00Z"
+    "level": -0.01,
+    "timestamp": "2026-02-24T11:30:00Z"
   },
   "godstow_lock": {
-    "level": 2.761,
-    "timestamp": "2026-02-24T10:45:00Z"
+    "level": 2.76,
+    "timestamp": "2026-02-24T11:30:00Z"
   },
   "farmoor": {
-    "flow": 63.911,
-    "timestamp": "2026-02-24T10:30:00Z"
+    "flow": 64.111,
+    "timestamp": "2026-02-24T11:30:00Z"
   },
-  "differential": 2.774,
-  "flow": 1.1440000000000001,
+  "differential": 2.7699999999999996,
+  "flow": 1.1399999999999997,
   "flow_2h_ago": 1.1440000000000001,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 0.5222222222222221,
+  "avg_rainfall_24h": 0.5211111111111111,
   "avg_rainfall_7d": 19.136666666666674,
   "weather_forecast": [
     {
@@ -220,18 +220,27 @@
   },
   "ourcs_isis_flag": {
     "reach": "isis",
-    "status": "D",
-    "status_text": "Black",
+    "status": "R",
+    "status_text": "Red",
     "notices": [
-      "No crews are allowed out.",
-      "Bank may be flooded in places - Exercise caution on foot or bike and avoid unnecessary trips to the river.",
-      "Boathouses may be inaccessible - Contact your boatman if concerned about equipment.",
-      "Do not expect to be rowing any time soon."
+      "No crews are allowed out."
     ],
-    "set_date": "2026-02-12T11:16:33.882Z",
+    "set_date": "2026-02-24T11:19:14.477Z",
     "set_by": "Sophie Kubik"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-02-24T11:30:00Z",
+      "value": 2.76
+    },
+    {
+      "timestamp": "2026-02-24T11:15:00Z",
+      "value": 2.76
+    },
+    {
+      "timestamp": "2026-02-24T11:00:00Z",
+      "value": 2.762
+    },
     {
       "timestamp": "2026-02-24T10:45:00Z",
       "value": 2.761
@@ -5591,21 +5600,21 @@
     {
       "timestamp": "2026-02-10T12:00:00Z",
       "value": 2.842
-    },
-    {
-      "timestamp": "2026-02-10T11:45:00Z",
-      "value": 2.838
-    },
-    {
-      "timestamp": "2026-02-10T11:30:00Z",
-      "value": 2.838
-    },
-    {
-      "timestamp": "2026-02-10T11:15:00Z",
-      "value": 2.836
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-02-24T11:30:00Z",
+      "value": -0.01
+    },
+    {
+      "timestamp": "2026-02-24T11:15:00Z",
+      "value": -0.011
+    },
+    {
+      "timestamp": "2026-02-24T11:00:00Z",
+      "value": -0.009
+    },
     {
       "timestamp": "2026-02-24T10:45:00Z",
       "value": -0.013
@@ -10965,21 +10974,25 @@
     {
       "timestamp": "2026-02-10T12:00:00Z",
       "value": 0.051
-    },
-    {
-      "timestamp": "2026-02-10T11:45:00Z",
-      "value": 0.065
-    },
-    {
-      "timestamp": "2026-02-10T11:30:00Z",
-      "value": 0.056
-    },
-    {
-      "timestamp": "2026-02-10T11:15:00Z",
-      "value": 0.079
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-02-24T11:30:00Z",
+      "value": 64.111
+    },
+    {
+      "timestamp": "2026-02-24T11:15:00Z",
+      "value": 63.793
+    },
+    {
+      "timestamp": "2026-02-24T11:00:00Z",
+      "value": 63.912
+    },
+    {
+      "timestamp": "2026-02-24T10:45:00Z",
+      "value": 64.003
+    },
     {
       "timestamp": "2026-02-24T10:30:00Z",
       "value": 63.911
@@ -16335,18 +16348,6 @@
     {
       "timestamp": "2026-02-10T12:00:00Z",
       "value": 65.563
-    },
-    {
-      "timestamp": "2026-02-10T11:45:00Z",
-      "value": 64.663
-    },
-    {
-      "timestamp": "2026-02-10T11:30:00Z",
-      "value": 64.62
-    },
-    {
-      "timestamp": "2026-02-10T11:15:00Z",
-      "value": 64.71
     }
   ]
 }
