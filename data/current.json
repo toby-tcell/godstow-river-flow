@@ -1,23 +1,23 @@
 {
-  "last_updated": "2026-03-01T14:34:44.440294Z",
+  "last_updated": "2026-03-01T14:59:17.184268Z",
   "osney_lock": {
-    "level": 0.039,
-    "timestamp": "2026-03-01T14:00:00Z"
+    "level": 0.028,
+    "timestamp": "2026-03-01T14:30:00Z"
   },
   "godstow_lock": {
-    "level": 2.633,
-    "timestamp": "2026-03-01T14:00:00Z"
+    "level": 2.628,
+    "timestamp": "2026-03-01T14:30:00Z"
   },
   "farmoor": {
-    "flow": 55.515,
-    "timestamp": "2026-03-01T14:15:00Z"
+    "flow": 55.347,
+    "timestamp": "2026-03-01T14:30:00Z"
   },
-  "differential": 2.594,
-  "flow": 0.964,
-  "flow_2h_ago": 0.9910000000000001,
+  "differential": 2.6,
+  "flow": 0.9700000000000002,
+  "flow_2h_ago": 0.968,
   "flow_trend": "Stable",
   "avg_rainfall_24h": 0.6677777777777779,
-  "avg_rainfall_7d": 14.795000000000005,
+  "avg_rainfall_7d": 14.785555555555561,
   "weather_forecast": [
     {
       "time": "2026-03-01T14:00",
@@ -229,6 +229,10 @@
     "set_by": "Sophie Kubik"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-03-01T14:30:00Z",
+      "value": 2.628
+    },
     {
       "timestamp": "2026-03-01T14:15:00Z",
       "value": 2.637
@@ -5596,13 +5600,13 @@
     {
       "timestamp": "2026-02-15T15:00:00Z",
       "value": 2.887
-    },
-    {
-      "timestamp": "2026-02-15T14:45:00Z",
-      "value": 2.891
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-03-01T14:30:00Z",
+      "value": 0.028
+    },
     {
       "timestamp": "2026-03-01T14:15:00Z",
       "value": 0.042
@@ -10970,13 +10974,13 @@
     {
       "timestamp": "2026-02-15T15:00:00Z",
       "value": 0.031
-    },
-    {
-      "timestamp": "2026-02-15T14:45:00Z",
-      "value": 0.032
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-03-01T14:30:00Z",
+      "value": 55.347
+    },
     {
       "timestamp": "2026-03-01T14:15:00Z",
       "value": 55.515
@@ -16344,10 +16348,6 @@
     {
       "timestamp": "2026-02-15T15:00:00Z",
       "value": 63.651
-    },
-    {
-      "timestamp": "2026-02-15T14:45:00Z",
-      "value": 63.78
     }
   ]
 }
