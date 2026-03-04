@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-03-04T21:21:30.367183Z",
+  "last_updated": "2026-03-04T22:18:32.366374Z",
   "osney_lock": {
-    "level": 0.002,
-    "timestamp": "2026-03-04T20:45:00Z"
+    "level": -0.008,
+    "timestamp": "2026-03-04T21:30:00Z"
   },
   "godstow_lock": {
     "level": 2.51,
-    "timestamp": "2026-03-04T20:45:00Z"
+    "timestamp": "2026-03-04T21:30:00Z"
   },
   "farmoor": {
-    "flow": 51.357,
-    "timestamp": "2026-03-04T21:00:00Z"
+    "flow": 51.308,
+    "timestamp": "2026-03-04T21:30:00Z"
   },
-  "differential": 2.508,
-  "flow": 0.8780000000000001,
-  "flow_2h_ago": 0.8660000000000001,
+  "differential": 2.518,
+  "flow": 0.8879999999999999,
+  "flow_2h_ago": 0.863,
   "flow_trend": "Stable",
   "avg_rainfall_24h": 0.015555555555555557,
-  "avg_rainfall_7d": 14.257777777777783,
+  "avg_rainfall_7d": 14.256666666666673,
   "weather_forecast": [
-    {
-      "time": "2026-03-04T21:00",
-      "temperature": 9.1,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 0
-    },
     {
       "time": "2026-03-04T22:00",
       "temperature": 8.6,
@@ -186,6 +179,13 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 3
+    },
+    {
+      "time": "2026-03-05T21:00",
+      "temperature": 10.5,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 3
     }
   ],
   "rainfall_forecast_3d": [
@@ -202,10 +202,10 @@
       "precipitation": 1.6461538461538459
     }
   ],
-  "ensemble_rainfall_24h_mean": 0.002564102564102564,
+  "ensemble_rainfall_24h_mean": 0.007692307692307693,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 0.0,
-  "ensemble_rainfall_72h_mean": 1.976923076923077,
+  "ensemble_rainfall_72h_mean": 1.9820512820512821,
   "ensemble_rainfall_72h_p10": 0.26000000000000006,
   "ensemble_rainfall_72h_p90": 4.840000000000001,
   "ourcs_godstow_flag": {
@@ -229,6 +229,14 @@
     "set_by": "Sophie Kubik"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-03-04T21:30:00Z",
+      "value": 2.51
+    },
+    {
+      "timestamp": "2026-03-04T21:15:00Z",
+      "value": 2.508
+    },
     {
       "timestamp": "2026-03-04T21:00:00Z",
       "value": 2.51
@@ -5584,25 +5592,17 @@
     {
       "timestamp": "2026-02-18T22:30:00Z",
       "value": 2.884
-    },
-    {
-      "timestamp": "2026-02-18T22:15:00Z",
-      "value": 2.882
-    },
-    {
-      "timestamp": "2026-02-18T22:00:00Z",
-      "value": 2.885
-    },
-    {
-      "timestamp": "2026-02-18T21:45:00Z",
-      "value": 2.889
-    },
-    {
-      "timestamp": "2026-02-18T21:30:00Z",
-      "value": 2.888
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-03-04T21:30:00Z",
+      "value": -0.008
+    },
+    {
+      "timestamp": "2026-03-04T21:15:00Z",
+      "value": 0.005
+    },
     {
       "timestamp": "2026-03-04T21:00:00Z",
       "value": 0.03
@@ -10958,25 +10958,17 @@
     {
       "timestamp": "2026-02-18T22:30:00Z",
       "value": 0.034
-    },
-    {
-      "timestamp": "2026-02-18T22:15:00Z",
-      "value": 0.02
-    },
-    {
-      "timestamp": "2026-02-18T22:00:00Z",
-      "value": 0.017
-    },
-    {
-      "timestamp": "2026-02-18T21:45:00Z",
-      "value": 0.013
-    },
-    {
-      "timestamp": "2026-02-18T21:30:00Z",
-      "value": 0.033
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-03-04T21:30:00Z",
+      "value": 51.308
+    },
+    {
+      "timestamp": "2026-03-04T21:15:00Z",
+      "value": 51.158
+    },
     {
       "timestamp": "2026-03-04T21:00:00Z",
       "value": 51.357
@@ -16332,22 +16324,6 @@
     {
       "timestamp": "2026-02-18T22:30:00Z",
       "value": 65.328
-    },
-    {
-      "timestamp": "2026-02-18T22:15:00Z",
-      "value": 65.554
-    },
-    {
-      "timestamp": "2026-02-18T22:00:00Z",
-      "value": 65.494
-    },
-    {
-      "timestamp": "2026-02-18T21:45:00Z",
-      "value": 65.256
-    },
-    {
-      "timestamp": "2026-02-18T21:30:00Z",
-      "value": 65.317
     }
   ]
 }
