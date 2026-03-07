@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-03-07T13:51:01.311967Z",
+  "last_updated": "2026-03-07T14:33:54.514251Z",
   "osney_lock": {
-    "level": -0.033,
-    "timestamp": "2026-03-07T13:30:00Z"
+    "level": -0.024,
+    "timestamp": "2026-03-07T14:00:00Z"
   },
   "godstow_lock": {
-    "level": 2.236,
-    "timestamp": "2026-03-07T13:30:00Z"
+    "level": 2.242,
+    "timestamp": "2026-03-07T14:00:00Z"
   },
   "farmoor": {
-    "flow": 41.638,
-    "timestamp": "2026-03-07T13:30:00Z"
+    "flow": 41.404,
+    "timestamp": "2026-03-07T14:00:00Z"
   },
-  "differential": 2.269,
-  "flow": 0.6390000000000002,
-  "flow_2h_ago": 0.6640000000000001,
+  "differential": 2.266,
+  "flow": 0.6360000000000001,
+  "flow_2h_ago": 0.6499999999999999,
   "flow_trend": "Stable",
   "avg_rainfall_24h": 1.0544444444444445,
-  "avg_rainfall_7d": 1.9111111111111105,
+  "avg_rainfall_7d": 1.9099999999999997,
   "weather_forecast": [
-    {
-      "time": "2026-03-07T13:00",
-      "temperature": 6.8,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 3
-    },
     {
       "time": "2026-03-07T14:00",
       "temperature": 7.3,
@@ -186,12 +179,19 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 3
+    },
+    {
+      "time": "2026-03-08T13:00",
+      "temperature": 9.1,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 3
     }
   ],
   "rainfall_forecast_3d": [
     {
       "date": "2026-03-07",
-      "precipitation": 0.05384615384615384
+      "precipitation": 0.046153846153846156
     },
     {
       "date": "2026-03-08",
@@ -202,10 +202,10 @@
       "precipitation": 0.16666666666666669
     }
   ],
-  "ensemble_rainfall_24h_mean": 0.12307692307692308,
+  "ensemble_rainfall_24h_mean": 0.11538461538461539,
   "ensemble_rainfall_24h_p10": 0.0,
-  "ensemble_rainfall_24h_p90": 0.5,
-  "ensemble_rainfall_72h_mean": 0.34102564102564104,
+  "ensemble_rainfall_24h_p90": 0.4200000000000003,
+  "ensemble_rainfall_72h_mean": 0.35897435897435903,
   "ensemble_rainfall_72h_p10": 0.0,
   "ensemble_rainfall_72h_p90": 1.2200000000000002,
   "ourcs_godstow_flag": {
@@ -229,6 +229,14 @@
     "set_by": "Sophie Kubik"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-03-07T14:00:00Z",
+      "value": 2.242
+    },
+    {
+      "timestamp": "2026-03-07T13:45:00Z",
+      "value": 2.24
+    },
     {
       "timestamp": "2026-03-07T13:30:00Z",
       "value": 2.236
@@ -5588,21 +5596,17 @@
     {
       "timestamp": "2026-02-21T14:45:00Z",
       "value": 2.843
-    },
-    {
-      "timestamp": "2026-02-21T14:30:00Z",
-      "value": 2.842
-    },
-    {
-      "timestamp": "2026-02-21T14:15:00Z",
-      "value": 2.841
-    },
-    {
-      "timestamp": "2026-02-21T14:00:00Z",
-      "value": 2.843
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-03-07T14:00:00Z",
+      "value": -0.024
+    },
+    {
+      "timestamp": "2026-03-07T13:45:00Z",
+      "value": -0.025
+    },
     {
       "timestamp": "2026-03-07T13:30:00Z",
       "value": -0.033
@@ -10962,21 +10966,17 @@
     {
       "timestamp": "2026-02-21T14:45:00Z",
       "value": 0.014
-    },
-    {
-      "timestamp": "2026-02-21T14:30:00Z",
-      "value": 0.026
-    },
-    {
-      "timestamp": "2026-02-21T14:15:00Z",
-      "value": 0.032
-    },
-    {
-      "timestamp": "2026-02-21T14:00:00Z",
-      "value": 0.021
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-03-07T14:00:00Z",
+      "value": 41.404
+    },
+    {
+      "timestamp": "2026-03-07T13:45:00Z",
+      "value": 41.324
+    },
     {
       "timestamp": "2026-03-07T13:30:00Z",
       "value": 41.638
@@ -16336,18 +16336,6 @@
     {
       "timestamp": "2026-02-21T14:45:00Z",
       "value": 65.514
-    },
-    {
-      "timestamp": "2026-02-21T14:30:00Z",
-      "value": 65.367
-    },
-    {
-      "timestamp": "2026-02-21T14:15:00Z",
-      "value": 65.588
-    },
-    {
-      "timestamp": "2026-02-21T14:00:00Z",
-      "value": 65.562
     }
   ]
 }
