@@ -1,23 +1,23 @@
 {
-  "last_updated": "2026-03-08T11:32:44.421993Z",
+  "last_updated": "2026-03-08T11:57:57.397847Z",
   "osney_lock": {
-    "level": 0.005,
-    "timestamp": "2026-03-08T11:00:00Z"
+    "level": 0.007,
+    "timestamp": "2026-03-08T11:30:00Z"
   },
   "godstow_lock": {
-    "level": 2.253,
-    "timestamp": "2026-03-08T11:00:00Z"
+    "level": 2.252,
+    "timestamp": "2026-03-08T11:30:00Z"
   },
   "farmoor": {
-    "flow": 39.774,
-    "timestamp": "2026-03-08T11:00:00Z"
+    "flow": 39.602,
+    "timestamp": "2026-03-08T11:30:00Z"
   },
-  "differential": 2.248,
-  "flow": 0.6180000000000003,
-  "flow_2h_ago": 0.6140000000000003,
+  "differential": 2.2449999999999997,
+  "flow": 0.6149999999999998,
+  "flow_2h_ago": 0.6170000000000004,
   "flow_trend": "Stable",
   "avg_rainfall_24h": 1.0966666666666667,
-  "avg_rainfall_7d": 2.3888888888888884,
+  "avg_rainfall_7d": 2.3799999999999994,
   "weather_forecast": [
     {
       "time": "2026-03-08T11:00",
@@ -210,13 +210,17 @@
   "ensemble_rainfall_72h_p90": 8.400000000000002,
   "ourcs_godstow_flag": {
     "reach": "godstow",
-    "status": "R",
-    "status_text": "Red",
+    "status": "A",
+    "status_text": "Amber",
     "notices": [
-      "No crews are allowed out."
+      "Only experienced coxes with senior crews - at least 4 rowers with three full terms water rowing experience, no rowers with less than one term.",
+      "All crews must be accompanied by a launch with safety equipment.",
+      "Crews may not go below the Medley Footbridge.",
+      "Crews must not turn below Medley Sailing Club, except to land at Keble rafts.",
+      "Navigation of locks is prohibited."
     ],
-    "set_date": "2026-01-16T00:37:39.694Z",
-    "set_by": "Dominic Seymour"
+    "set_date": "2026-03-08T11:36:15.279Z",
+    "set_by": "Samuel Schipper"
   },
   "ourcs_isis_flag": {
     "reach": "isis",
@@ -229,6 +233,14 @@
     "set_by": "Sophie Kubik"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-03-08T11:30:00Z",
+      "value": 2.252
+    },
+    {
+      "timestamp": "2026-03-08T11:15:00Z",
+      "value": 2.249
+    },
     {
       "timestamp": "2026-03-08T11:00:00Z",
       "value": 2.253
@@ -5592,10 +5604,6 @@
     {
       "timestamp": "2026-02-22T12:00:00Z",
       "value": 2.812
-    },
-    {
-      "timestamp": "2026-02-22T11:45:00Z",
-      "value": 2.815
     }
   ],
   "osney_history": [
@@ -10962,13 +10970,17 @@
     {
       "timestamp": "2026-02-22T12:00:00Z",
       "value": 0.002
-    },
-    {
-      "timestamp": "2026-02-22T11:45:00Z",
-      "value": 0.018
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-03-08T11:30:00Z",
+      "value": 39.602
+    },
+    {
+      "timestamp": "2026-03-08T11:15:00Z",
+      "value": 39.844
+    },
     {
       "timestamp": "2026-03-08T11:00:00Z",
       "value": 39.774
@@ -16332,10 +16344,6 @@
     {
       "timestamp": "2026-02-22T12:00:00Z",
       "value": 65.515
-    },
-    {
-      "timestamp": "2026-02-22T11:45:00Z",
-      "value": 65.657
     }
   ]
 }
