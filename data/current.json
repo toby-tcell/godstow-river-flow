@@ -1,51 +1,44 @@
 {
-  "last_updated": "2026-04-05T21:19:04.663918Z",
+  "last_updated": "2026-04-05T22:18:27.003295Z",
   "osney_lock": {
     "level": -0.022,
-    "timestamp": "2026-04-05T20:15:00Z"
+    "timestamp": "2026-04-05T21:30:00Z"
   },
   "godstow_lock": {
-    "level": 1.766,
-    "timestamp": "2026-04-05T20:15:00Z"
+    "level": 1.755,
+    "timestamp": "2026-04-05T21:30:00Z"
   },
   "farmoor": {
-    "flow": 14.31,
-    "timestamp": "2026-04-05T21:00:00Z"
+    "flow": 14.34,
+    "timestamp": "2026-04-05T21:30:00Z"
   },
-  "differential": 1.788,
-  "flow": 0.15800000000000014,
-  "flow_2h_ago": 0.15900000000000003,
+  "differential": 1.777,
+  "flow": 0.14700000000000002,
+  "flow_2h_ago": 0.15800000000000014,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 1.645,
+  "avg_rainfall_24h": 0.8688888888888889,
   "avg_rainfall_7d": 1.4188888888888889,
   "weather_forecast": [
-    {
-      "time": "2026-04-05T22:00",
-      "temperature": 5.7,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 0
-    },
     {
       "time": "2026-04-05T23:00",
       "temperature": 5.3,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 0
+      "weather_code": 1
     },
     {
       "time": "2026-04-06T00:00",
       "temperature": 4.7,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 0
+      "weather_code": 1
     },
     {
       "time": "2026-04-06T01:00",
       "temperature": 4.0,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 0
+      "weather_code": 2
     },
     {
       "time": "2026-04-06T02:00",
@@ -59,14 +52,14 @@
       "temperature": 3.0,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 3
+      "weather_code": 0
     },
     {
       "time": "2026-04-06T04:00",
       "temperature": 2.6,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 2
+      "weather_code": 3
     },
     {
       "time": "2026-04-06T05:00",
@@ -101,35 +94,35 @@
       "temperature": 5.4,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 3
+      "weather_code": 2
     },
     {
       "time": "2026-04-06T10:00",
       "temperature": 7.7,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 3
+      "weather_code": 2
     },
     {
       "time": "2026-04-06T11:00",
       "temperature": 9.5,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 3
+      "weather_code": 2
     },
     {
       "time": "2026-04-06T12:00",
       "temperature": 10.7,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 1
+      "weather_code": 2
     },
     {
       "time": "2026-04-06T13:00",
       "temperature": 11.8,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 2
+      "weather_code": 3
     },
     {
       "time": "2026-04-06T14:00",
@@ -157,21 +150,21 @@
       "temperature": 13.4,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 3
+      "weather_code": 2
     },
     {
       "time": "2026-04-06T18:00",
       "temperature": 13.0,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 2
+      "weather_code": 1
     },
     {
       "time": "2026-04-06T19:00",
       "temperature": 12.1,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 2
+      "weather_code": 3
     },
     {
       "time": "2026-04-06T20:00",
@@ -185,7 +178,14 @@
       "temperature": 9.6,
       "precipitation": 0.0,
       "precipitation_probability": null,
-      "weather_code": 3
+      "weather_code": 2
+    },
+    {
+      "time": "2026-04-06T22:00",
+      "temperature": 8.6,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 0
     }
   ],
   "rainfall_forecast_3d": [
@@ -205,7 +205,7 @@
   "ensemble_rainfall_24h_mean": 0.0,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 0.0,
-  "ensemble_rainfall_72h_mean": 0.005128205128205128,
+  "ensemble_rainfall_72h_mean": 0.007692307692307694,
   "ensemble_rainfall_72h_p10": 0.0,
   "ensemble_rainfall_72h_p90": 0.0,
   "ourcs_godstow_flag": {
@@ -229,6 +229,14 @@
     "set_by": "Samuel Schipper"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-04-05T21:30:00Z",
+      "value": 1.755
+    },
+    {
+      "timestamp": "2026-04-05T21:15:00Z",
+      "value": 1.758
+    },
     {
       "timestamp": "2026-04-05T21:00:00Z",
       "value": 1.759
@@ -5572,25 +5580,17 @@
     {
       "timestamp": "2026-03-22T22:30:00Z",
       "value": 1.873
-    },
-    {
-      "timestamp": "2026-03-22T22:15:00Z",
-      "value": 1.875
-    },
-    {
-      "timestamp": "2026-03-22T22:00:00Z",
-      "value": 1.873
-    },
-    {
-      "timestamp": "2026-03-22T21:45:00Z",
-      "value": 1.874
-    },
-    {
-      "timestamp": "2026-03-22T21:30:00Z",
-      "value": 1.875
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-04-05T21:30:00Z",
+      "value": -0.022
+    },
+    {
+      "timestamp": "2026-04-05T21:15:00Z",
+      "value": -0.022
+    },
     {
       "timestamp": "2026-04-05T21:00:00Z",
       "value": -0.023
@@ -10934,25 +10934,17 @@
     {
       "timestamp": "2026-03-22T22:30:00Z",
       "value": 0.008
-    },
-    {
-      "timestamp": "2026-03-22T22:15:00Z",
-      "value": 0.007
-    },
-    {
-      "timestamp": "2026-03-22T22:00:00Z",
-      "value": 0.006
-    },
-    {
-      "timestamp": "2026-03-22T21:45:00Z",
-      "value": 0.008
-    },
-    {
-      "timestamp": "2026-03-22T21:30:00Z",
-      "value": 0.008
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-04-05T21:30:00Z",
+      "value": 14.34
+    },
+    {
+      "timestamp": "2026-04-05T21:15:00Z",
+      "value": 14.262
+    },
     {
       "timestamp": "2026-04-05T21:00:00Z",
       "value": 14.31
@@ -16296,22 +16288,6 @@
     {
       "timestamp": "2026-03-22T22:30:00Z",
       "value": 22.383
-    },
-    {
-      "timestamp": "2026-03-22T22:15:00Z",
-      "value": 22.383
-    },
-    {
-      "timestamp": "2026-03-22T22:00:00Z",
-      "value": 22.441
-    },
-    {
-      "timestamp": "2026-03-22T21:45:00Z",
-      "value": 22.395
-    },
-    {
-      "timestamp": "2026-03-22T21:30:00Z",
-      "value": 22.393
     }
   ]
 }
