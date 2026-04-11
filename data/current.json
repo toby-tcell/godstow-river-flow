@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-04-11T21:21:24.398369Z",
+  "last_updated": "2026-04-11T22:18:04.777708Z",
   "osney_lock": {
     "level": -0.017,
-    "timestamp": "2026-04-11T21:00:00Z"
+    "timestamp": "2026-04-11T21:30:00Z"
   },
   "godstow_lock": {
-    "level": 1.711,
-    "timestamp": "2026-04-11T21:00:00Z"
+    "level": 1.715,
+    "timestamp": "2026-04-11T21:30:00Z"
   },
   "farmoor": {
-    "flow": 11.285,
-    "timestamp": "2026-04-11T21:00:00Z"
+    "flow": 11.24,
+    "timestamp": "2026-04-11T21:30:00Z"
   },
-  "differential": 1.728,
-  "flow": 0.09800000000000009,
-  "flow_2h_ago": 0.1060000000000001,
+  "differential": 1.732,
+  "flow": 0.10200000000000009,
+  "flow_2h_ago": 0.10200000000000009,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 0.49444444444444446,
-  "avg_rainfall_7d": 1.6666666666666665,
+  "avg_rainfall_24h": 0.5011111111111111,
+  "avg_rainfall_7d": 1.29,
   "weather_forecast": [
-    {
-      "time": "2026-04-11T22:00",
-      "temperature": 7.0,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 2
-    },
     {
       "time": "2026-04-11T23:00",
       "temperature": 7.1,
@@ -186,6 +179,13 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 1
+    },
+    {
+      "time": "2026-04-12T22:00",
+      "temperature": 5.5,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 0
     }
   ],
   "rainfall_forecast_3d": [
@@ -205,9 +205,9 @@
   "ensemble_rainfall_24h_mean": 1.1897435897435897,
   "ensemble_rainfall_24h_p10": 0.38000000000000006,
   "ensemble_rainfall_24h_p90": 2.4,
-  "ensemble_rainfall_72h_mean": 2.925641025641026,
+  "ensemble_rainfall_72h_mean": 2.9923076923076923,
   "ensemble_rainfall_72h_p10": 0.5800000000000001,
-  "ensemble_rainfall_72h_p90": 5.320000000000001,
+  "ensemble_rainfall_72h_p90": 5.420000000000002,
   "ourcs_godstow_flag": {
     "reach": "godstow",
     "status": "X",
@@ -229,6 +229,14 @@
     "set_by": "Samuel Schipper"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-04-11T21:30:00Z",
+      "value": 1.715
+    },
+    {
+      "timestamp": "2026-04-11T21:15:00Z",
+      "value": 1.713
+    },
     {
       "timestamp": "2026-04-11T21:00:00Z",
       "value": 1.711
@@ -5564,25 +5572,17 @@
     {
       "timestamp": "2026-03-28T22:30:00Z",
       "value": 1.859
-    },
-    {
-      "timestamp": "2026-03-28T22:15:00Z",
-      "value": 1.861
-    },
-    {
-      "timestamp": "2026-03-28T22:00:00Z",
-      "value": 1.86
-    },
-    {
-      "timestamp": "2026-03-28T21:45:00Z",
-      "value": 1.862
-    },
-    {
-      "timestamp": "2026-03-28T21:30:00Z",
-      "value": 1.862
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-04-11T21:30:00Z",
+      "value": -0.017
+    },
+    {
+      "timestamp": "2026-04-11T21:15:00Z",
+      "value": -0.019
+    },
     {
       "timestamp": "2026-04-11T21:00:00Z",
       "value": -0.017
@@ -10918,25 +10918,17 @@
     {
       "timestamp": "2026-03-28T22:30:00Z",
       "value": 0.033
-    },
-    {
-      "timestamp": "2026-03-28T22:15:00Z",
-      "value": 0.037
-    },
-    {
-      "timestamp": "2026-03-28T22:00:00Z",
-      "value": 0.036
-    },
-    {
-      "timestamp": "2026-03-28T21:45:00Z",
-      "value": 0.037
-    },
-    {
-      "timestamp": "2026-03-28T21:30:00Z",
-      "value": 0.036
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-04-11T21:30:00Z",
+      "value": 11.24
+    },
+    {
+      "timestamp": "2026-04-11T21:15:00Z",
+      "value": 11.23
+    },
     {
       "timestamp": "2026-04-11T21:00:00Z",
       "value": 11.285
@@ -16272,22 +16264,6 @@
     {
       "timestamp": "2026-03-28T22:30:00Z",
       "value": 17.864
-    },
-    {
-      "timestamp": "2026-03-28T22:15:00Z",
-      "value": 17.859
-    },
-    {
-      "timestamp": "2026-03-28T22:00:00Z",
-      "value": 17.873
-    },
-    {
-      "timestamp": "2026-03-28T21:45:00Z",
-      "value": 17.898
-    },
-    {
-      "timestamp": "2026-03-28T21:30:00Z",
-      "value": 17.944
     }
   ]
 }
