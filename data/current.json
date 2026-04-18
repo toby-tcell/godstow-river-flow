@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-04-18T07:21:23.466325Z",
+  "last_updated": "2026-04-18T08:09:04.945154Z",
   "osney_lock": {
     "level": -0.04,
-    "timestamp": "2026-04-18T07:00:00Z"
+    "timestamp": "2026-04-18T07:45:00Z"
   },
   "godstow_lock": {
-    "level": 1.667,
-    "timestamp": "2026-04-18T07:00:00Z"
+    "level": 1.678,
+    "timestamp": "2026-04-18T07:45:00Z"
   },
   "farmoor": {
-    "flow": 9.518,
-    "timestamp": "2026-04-18T07:00:00Z"
+    "flow": 9.564,
+    "timestamp": "2026-04-18T07:45:00Z"
   },
-  "differential": 1.707,
-  "flow": 0.07700000000000018,
-  "flow_2h_ago": 0.08900000000000019,
+  "differential": 1.718,
+  "flow": 0.08800000000000008,
+  "flow_2h_ago": 0.08699999999999997,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 0.8474999999999997,
-  "avg_rainfall_7d": 6.921111111111106,
+  "avg_rainfall_24h": 0.8512499999999998,
+  "avg_rainfall_7d": 6.907777777777771,
   "weather_forecast": [
-    {
-      "time": "2026-04-18T08:00",
-      "temperature": 7.8,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 2
-    },
     {
       "time": "2026-04-18T09:00",
       "temperature": 9.6,
@@ -186,6 +179,13 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 0
+    },
+    {
+      "time": "2026-04-19T08:00",
+      "temperature": 6.2,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 0
     }
   ],
   "rainfall_forecast_3d": [
@@ -205,9 +205,9 @@
   "ensemble_rainfall_24h_mean": 0.007692307692307693,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 0.0,
-  "ensemble_rainfall_72h_mean": 0.1,
+  "ensemble_rainfall_72h_mean": 0.1076923076923077,
   "ensemble_rainfall_72h_p10": 0.0,
-  "ensemble_rainfall_72h_p90": 0.30000000000000004,
+  "ensemble_rainfall_72h_p90": 0.32000000000000034,
   "ourcs_godstow_flag": {
     "reach": "godstow",
     "status": "X",
@@ -229,6 +229,18 @@
     "set_by": "Samuel Schipper"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-04-18T07:45:00Z",
+      "value": 1.678
+    },
+    {
+      "timestamp": "2026-04-18T07:30:00Z",
+      "value": 1.682
+    },
+    {
+      "timestamp": "2026-04-18T07:15:00Z",
+      "value": 1.684
+    },
     {
       "timestamp": "2026-04-18T07:00:00Z",
       "value": 1.667
@@ -5564,21 +5576,21 @@
     {
       "timestamp": "2026-04-04T08:15:00Z",
       "value": 1.813
-    },
-    {
-      "timestamp": "2026-04-04T08:00:00Z",
-      "value": 1.796
-    },
-    {
-      "timestamp": "2026-04-04T07:45:00Z",
-      "value": 1.796
-    },
-    {
-      "timestamp": "2026-04-04T07:30:00Z",
-      "value": 1.794
     }
   ],
   "osney_history": [
+    {
+      "timestamp": "2026-04-18T07:45:00Z",
+      "value": -0.04
+    },
+    {
+      "timestamp": "2026-04-18T07:30:00Z",
+      "value": -0.04
+    },
+    {
+      "timestamp": "2026-04-18T07:15:00Z",
+      "value": -0.041
+    },
     {
       "timestamp": "2026-04-18T07:00:00Z",
       "value": -0.04
@@ -10910,21 +10922,21 @@
     {
       "timestamp": "2026-04-04T08:15:00Z",
       "value": 0.004
-    },
-    {
-      "timestamp": "2026-04-04T08:00:00Z",
-      "value": 0.003
-    },
-    {
-      "timestamp": "2026-04-04T07:45:00Z",
-      "value": 0.002
-    },
-    {
-      "timestamp": "2026-04-04T07:30:00Z",
-      "value": 0.002
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-04-18T07:45:00Z",
+      "value": 9.564
+    },
+    {
+      "timestamp": "2026-04-18T07:30:00Z",
+      "value": 9.558
+    },
+    {
+      "timestamp": "2026-04-18T07:15:00Z",
+      "value": 9.516
+    },
     {
       "timestamp": "2026-04-18T07:00:00Z",
       "value": 9.518
@@ -16256,18 +16268,6 @@
     {
       "timestamp": "2026-04-04T08:15:00Z",
       "value": 15.399
-    },
-    {
-      "timestamp": "2026-04-04T08:00:00Z",
-      "value": 15.444
-    },
-    {
-      "timestamp": "2026-04-04T07:45:00Z",
-      "value": 15.487
-    },
-    {
-      "timestamp": "2026-04-04T07:30:00Z",
-      "value": 15.489
     }
   ]
 }
