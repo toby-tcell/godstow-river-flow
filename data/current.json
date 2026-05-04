@@ -1,12 +1,12 @@
 {
-  "last_updated": "2026-05-04T21:49:06.392241Z",
+  "last_updated": "2026-05-04T22:43:54.897623Z",
   "osney_lock": {
     "level": 0.002,
     "timestamp": "2026-05-04T21:30:28Z"
   },
   "godstow_lock": {
     "level": 1.704,
-    "timestamp": "2026-05-04T21:15:00Z"
+    "timestamp": "2026-05-04T21:30:00Z"
   },
   "farmoor": {
     "flow": 7.447,
@@ -16,16 +16,9 @@
   "flow": 0.07200000000000006,
   "flow_2h_ago": 0.04500000000000015,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 1.2033333333333331,
-  "avg_rainfall_7d": 9.005555555555553,
+  "avg_rainfall_24h": 0.5066666666666665,
+  "avg_rainfall_7d": 9.003333333333332,
   "weather_forecast": [
-    {
-      "time": "2026-05-04T22:00",
-      "temperature": 11.4,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 2
-    },
     {
       "time": "2026-05-04T23:00",
       "temperature": 10.7,
@@ -186,6 +179,13 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 1
+    },
+    {
+      "time": "2026-05-05T22:00",
+      "temperature": 10.9,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 2
     }
   ],
   "rainfall_forecast_3d": [
@@ -202,10 +202,10 @@
       "precipitation": 0.24871794871794867
     }
   ],
-  "ensemble_rainfall_24h_mean": 0.028205128205128206,
+  "ensemble_rainfall_24h_mean": 0.04615384615384615,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 0.1,
-  "ensemble_rainfall_72h_mean": 0.8538461538461538,
+  "ensemble_rainfall_72h_mean": 0.8564102564102564,
   "ensemble_rainfall_72h_p10": 0.0,
   "ensemble_rainfall_72h_p90": 2.6999999999999993,
   "ourcs_godstow_flag": {
@@ -5554,18 +5554,6 @@
     {
       "timestamp": "2026-04-20T22:45:00Z",
       "value": 1.693
-    },
-    {
-      "timestamp": "2026-04-20T22:30:00Z",
-      "value": 1.696
-    },
-    {
-      "timestamp": "2026-04-20T22:15:00Z",
-      "value": 1.695
-    },
-    {
-      "timestamp": "2026-04-20T22:00:00Z",
-      "value": 1.695
     }
   ],
   "osney_history": [
@@ -8879,18 +8867,6 @@
     },
     {
       "timestamp": "2026-04-20T22:45:00Z",
-      "value": -0.014
-    },
-    {
-      "timestamp": "2026-04-20T22:30:00Z",
-      "value": -0.014
-    },
-    {
-      "timestamp": "2026-04-20T22:15:00Z",
-      "value": -0.015
-    },
-    {
-      "timestamp": "2026-04-20T22:00:00Z",
       "value": -0.014
     }
   ],
@@ -14238,18 +14214,6 @@
     {
       "timestamp": "2026-04-20T22:45:00Z",
       "value": 9.056
-    },
-    {
-      "timestamp": "2026-04-20T22:30:00Z",
-      "value": 9.091
-    },
-    {
-      "timestamp": "2026-04-20T22:15:00Z",
-      "value": 9.139
-    },
-    {
-      "timestamp": "2026-04-20T22:00:00Z",
-      "value": 9.24
     }
   ]
 }
