@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-05-08T22:41:29.319440Z",
+  "last_updated": "2026-05-08T23:42:24.524721Z",
   "osney_lock": {
     "level": 0.0,
     "timestamp": "2026-05-08T18:30:00Z"
   },
   "godstow_lock": {
-    "level": 1.701,
-    "timestamp": "2026-05-08T21:30:00Z"
+    "level": 1.699,
+    "timestamp": "2026-05-08T23:15:00Z"
   },
   "farmoor": {
-    "flow": 6.35,
-    "timestamp": "2026-05-08T21:30:00Z"
+    "flow": 6.068,
+    "timestamp": "2026-05-08T23:15:00Z"
   },
-  "differential": 1.701,
-  "flow": 0.07100000000000017,
+  "differential": 1.699,
+  "flow": 0.06900000000000017,
   "flow_2h_ago": 0.07300000000000018,
   "flow_trend": "Stable",
   "avg_rainfall_24h": 0.9644444444444444,
   "avg_rainfall_7d": 9.941111111111107,
   "weather_forecast": [
-    {
-      "time": "2026-05-08T23:00",
-      "temperature": 12.8,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 2
-    },
     {
       "time": "2026-05-09T00:00",
       "temperature": 12.0,
@@ -186,13 +179,16 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 3
+    },
+    {
+      "time": "2026-05-09T23:00",
+      "temperature": 13.0,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 2
     }
   ],
   "rainfall_forecast_3d": [
-    {
-      "date": "2026-05-08",
-      "precipitation": 0.0
-    },
     {
       "date": "2026-05-09",
       "precipitation": 0.0
@@ -200,6 +196,10 @@
     {
       "date": "2026-05-10",
       "precipitation": 0.0
+    },
+    {
+      "date": "2026-05-11",
+      "precipitation": 0.11538461538461539
     }
   ],
   "ensemble_rainfall_24h_mean": 0.0,
@@ -231,6 +231,34 @@
     "set_by": "Dominic Seymour"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-05-08T23:15:00Z",
+      "value": 1.699
+    },
+    {
+      "timestamp": "2026-05-08T23:00:00Z",
+      "value": 1.699
+    },
+    {
+      "timestamp": "2026-05-08T22:45:00Z",
+      "value": 1.7
+    },
+    {
+      "timestamp": "2026-05-08T22:30:00Z",
+      "value": 1.7
+    },
+    {
+      "timestamp": "2026-05-08T22:15:00Z",
+      "value": 1.7
+    },
+    {
+      "timestamp": "2026-05-08T22:00:00Z",
+      "value": 1.702
+    },
+    {
+      "timestamp": "2026-05-08T21:45:00Z",
+      "value": 1.702
+    },
     {
       "timestamp": "2026-05-08T21:30:00Z",
       "value": 1.701
@@ -5570,22 +5598,6 @@
     {
       "timestamp": "2026-04-24T23:45:00Z",
       "value": 1.69
-    },
-    {
-      "timestamp": "2026-04-24T23:30:00Z",
-      "value": 1.691
-    },
-    {
-      "timestamp": "2026-04-24T23:15:00Z",
-      "value": 1.691
-    },
-    {
-      "timestamp": "2026-04-24T23:00:00Z",
-      "value": 1.693
-    },
-    {
-      "timestamp": "2026-04-24T22:45:00Z",
-      "value": 1.693
     }
   ],
   "osney_history": [
@@ -8716,25 +8728,37 @@
     {
       "timestamp": "2026-04-24T23:45:00Z",
       "value": -0.005
-    },
-    {
-      "timestamp": "2026-04-24T23:30:00Z",
-      "value": -0.008
-    },
-    {
-      "timestamp": "2026-04-24T23:15:00Z",
-      "value": -0.011
-    },
-    {
-      "timestamp": "2026-04-24T23:00:00Z",
-      "value": -0.018
-    },
-    {
-      "timestamp": "2026-04-24T22:45:00Z",
-      "value": -0.02
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-05-08T23:15:00Z",
+      "value": 6.068
+    },
+    {
+      "timestamp": "2026-05-08T23:00:00Z",
+      "value": 6.122
+    },
+    {
+      "timestamp": "2026-05-08T22:45:00Z",
+      "value": 6.114
+    },
+    {
+      "timestamp": "2026-05-08T22:30:00Z",
+      "value": 6.146
+    },
+    {
+      "timestamp": "2026-05-08T22:15:00Z",
+      "value": 6.224
+    },
+    {
+      "timestamp": "2026-05-08T22:00:00Z",
+      "value": 6.246
+    },
+    {
+      "timestamp": "2026-05-08T21:45:00Z",
+      "value": 6.261
+    },
     {
       "timestamp": "2026-05-08T21:30:00Z",
       "value": 6.35
@@ -14074,22 +14098,6 @@
     {
       "timestamp": "2026-04-24T23:45:00Z",
       "value": 8.052
-    },
-    {
-      "timestamp": "2026-04-24T23:30:00Z",
-      "value": 8.089
-    },
-    {
-      "timestamp": "2026-04-24T23:15:00Z",
-      "value": 8.06
-    },
-    {
-      "timestamp": "2026-04-24T23:00:00Z",
-      "value": 8.112
-    },
-    {
-      "timestamp": "2026-04-24T22:45:00Z",
-      "value": 8.134
     }
   ]
 }
