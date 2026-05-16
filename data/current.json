@@ -1,31 +1,24 @@
 {
-  "last_updated": "2026-05-16T19:51:21.019923Z",
+  "last_updated": "2026-05-16T20:59:34.827019Z",
   "osney_lock": {
     "level": 0.0,
     "timestamp": "2026-05-16T11:00:00Z"
   },
   "godstow_lock": {
     "level": 1.671,
-    "timestamp": "2026-05-16T19:30:00Z"
+    "timestamp": "2026-05-16T20:30:00Z"
   },
   "farmoor": {
-    "flow": 4.892,
-    "timestamp": "2026-05-16T19:30:00Z"
+    "flow": 4.859,
+    "timestamp": "2026-05-16T20:30:00Z"
   },
   "differential": 1.671,
   "flow": 0.04100000000000015,
   "flow_2h_ago": 0.04100000000000015,
   "flow_trend": "Stable",
-  "avg_rainfall_24h": 0.5766666666666667,
-  "avg_rainfall_7d": 6.40333333333333,
+  "avg_rainfall_24h": 0.6300000000000001,
+  "avg_rainfall_7d": 6.4566666666666634,
   "weather_forecast": [
-    {
-      "time": "2026-05-16T20:00",
-      "temperature": 11.1,
-      "precipitation": 0.1,
-      "precipitation_probability": null,
-      "weather_code": 51
-    },
     {
       "time": "2026-05-16T21:00",
       "temperature": 10.3,
@@ -186,12 +179,19 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 0
+    },
+    {
+      "time": "2026-05-17T20:00",
+      "temperature": 11.6,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 0
     }
   ],
   "rainfall_forecast_3d": [
     {
       "date": "2026-05-16",
-      "precipitation": 0.5512820512820513
+      "precipitation": 0.44871794871794873
     },
     {
       "date": "2026-05-17",
@@ -202,12 +202,12 @@
       "precipitation": 1.3461538461538463
     }
   ],
-  "ensemble_rainfall_24h_mean": 0.9820512820512821,
-  "ensemble_rainfall_24h_p10": 0.2,
-  "ensemble_rainfall_24h_p90": 1.7000000000000002,
-  "ensemble_rainfall_72h_mean": 8.799999999999999,
-  "ensemble_rainfall_72h_p10": 5.34,
-  "ensemble_rainfall_72h_p90": 12.739999999999997,
+  "ensemble_rainfall_24h_mean": 0.8948717948717949,
+  "ensemble_rainfall_24h_p10": 0.18000000000000005,
+  "ensemble_rainfall_24h_p90": 1.540000000000001,
+  "ensemble_rainfall_72h_mean": 8.769230769230768,
+  "ensemble_rainfall_72h_p10": 5.259999999999999,
+  "ensemble_rainfall_72h_p90": 12.739999999999995,
   "ourcs_godstow_flag": {
     "reach": "godstow",
     "status": "G",
@@ -231,6 +231,22 @@
     "set_by": "Dominic Seymour"
   },
   "godstow_history": [
+    {
+      "timestamp": "2026-05-16T20:30:00Z",
+      "value": 1.671
+    },
+    {
+      "timestamp": "2026-05-16T20:15:00Z",
+      "value": 1.671
+    },
+    {
+      "timestamp": "2026-05-16T20:00:00Z",
+      "value": 1.671
+    },
+    {
+      "timestamp": "2026-05-16T19:45:00Z",
+      "value": 1.671
+    },
     {
       "timestamp": "2026-05-16T19:30:00Z",
       "value": 1.671
@@ -5586,22 +5602,6 @@
     {
       "timestamp": "2026-05-02T21:00:00Z",
       "value": 1.675
-    },
-    {
-      "timestamp": "2026-05-02T20:45:00Z",
-      "value": 1.676
-    },
-    {
-      "timestamp": "2026-05-02T20:30:00Z",
-      "value": 1.68
-    },
-    {
-      "timestamp": "2026-05-02T20:15:00Z",
-      "value": 1.68
-    },
-    {
-      "timestamp": "2026-05-02T20:00:00Z",
-      "value": 1.679
     }
   ],
   "osney_history": [
@@ -10099,6 +10099,22 @@
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-05-16T20:30:00Z",
+      "value": 4.859
+    },
+    {
+      "timestamp": "2026-05-16T20:15:00Z",
+      "value": 4.864
+    },
+    {
+      "timestamp": "2026-05-16T20:00:00Z",
+      "value": 4.867
+    },
+    {
+      "timestamp": "2026-05-16T19:45:00Z",
+      "value": 4.919
+    },
     {
       "timestamp": "2026-05-16T19:30:00Z",
       "value": 4.892
@@ -15454,22 +15470,6 @@
     {
       "timestamp": "2026-05-02T21:00:00Z",
       "value": 5.797
-    },
-    {
-      "timestamp": "2026-05-02T20:45:00Z",
-      "value": 5.769
-    },
-    {
-      "timestamp": "2026-05-02T20:30:00Z",
-      "value": 5.794
-    },
-    {
-      "timestamp": "2026-05-02T20:15:00Z",
-      "value": 5.806
-    },
-    {
-      "timestamp": "2026-05-02T20:00:00Z",
-      "value": 5.963
     }
   ]
 }
