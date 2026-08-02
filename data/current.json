@@ -1,38 +1,24 @@
 {
-  "last_updated": "2026-08-02T18:46:34.568460Z",
+  "last_updated": "2026-08-02T20:05:11.605134Z",
   "osney_lock": {
-    "level": -0.033,
-    "timestamp": "2026-08-02T18:15:00Z"
+    "level": -0.039,
+    "timestamp": "2026-08-02T19:30:00Z"
   },
   "godstow_lock": {
-    "level": 1.591,
-    "timestamp": "2026-08-02T18:15:00Z"
+    "level": 1.592,
+    "timestamp": "2026-08-02T19:30:00Z"
   },
   "farmoor": {
-    "flow": 0.955,
-    "timestamp": "2026-08-02T18:15:00Z"
+    "flow": 0.897,
+    "timestamp": "2026-08-02T19:45:00Z"
   },
-  "differential": 1.6239999999999999,
-  "flow": -0.006000000000000005,
-  "flow_2h_ago": -0.014000000000000012,
+  "differential": 1.631,
+  "flow": 0.001000000000000112,
+  "flow_2h_ago": -0.006999999999999895,
   "flow_trend": "Stable",
   "avg_rainfall_24h": 0.0,
   "avg_rainfall_7d": 0.26625000000000004,
   "weather_forecast": [
-    {
-      "time": "2026-08-02T19:00",
-      "temperature": 26.3,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 3
-    },
-    {
-      "time": "2026-08-02T20:00",
-      "temperature": 24.9,
-      "precipitation": 0.0,
-      "precipitation_probability": null,
-      "weather_code": 3
-    },
     {
       "time": "2026-08-02T21:00",
       "temperature": 22.7,
@@ -186,6 +172,20 @@
       "precipitation": 0.0,
       "precipitation_probability": null,
       "weather_code": 0
+    },
+    {
+      "time": "2026-08-03T19:00",
+      "temperature": 29.4,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 0
+    },
+    {
+      "time": "2026-08-03T20:00",
+      "temperature": 27.4,
+      "precipitation": 0.0,
+      "precipitation_probability": null,
+      "weather_code": 0
     }
   ],
   "rainfall_forecast_3d": [
@@ -202,7 +202,7 @@
       "precipitation": 0.16666666666666663
     }
   ],
-  "ensemble_rainfall_24h_mean": 0.0,
+  "ensemble_rainfall_24h_mean": 0.002564102564102564,
   "ensemble_rainfall_24h_p10": 0.0,
   "ensemble_rainfall_24h_p90": 0.0,
   "ensemble_rainfall_72h_mean": 0.17692307692307693,
@@ -5572,26 +5572,6 @@
     {
       "timestamp": "2026-07-19T20:15:00Z",
       "value": 1.409
-    },
-    {
-      "timestamp": "2026-07-19T20:00:00Z",
-      "value": 1.409
-    },
-    {
-      "timestamp": "2026-07-19T19:45:00Z",
-      "value": 1.408
-    },
-    {
-      "timestamp": "2026-07-19T19:30:00Z",
-      "value": 1.409
-    },
-    {
-      "timestamp": "2026-07-19T19:15:00Z",
-      "value": 1.41
-    },
-    {
-      "timestamp": "2026-07-19T19:00:00Z",
-      "value": 1.41
     }
   ],
   "osney_history": [
@@ -10938,29 +10918,33 @@
     {
       "timestamp": "2026-07-19T20:15:00Z",
       "value": -0.208
-    },
-    {
-      "timestamp": "2026-07-19T20:00:00Z",
-      "value": -0.209
-    },
-    {
-      "timestamp": "2026-07-19T19:45:00Z",
-      "value": -0.209
-    },
-    {
-      "timestamp": "2026-07-19T19:30:00Z",
-      "value": -0.207
-    },
-    {
-      "timestamp": "2026-07-19T19:15:00Z",
-      "value": -0.208
-    },
-    {
-      "timestamp": "2026-07-19T19:00:00Z",
-      "value": -0.208
     }
   ],
   "farmoor_history": [
+    {
+      "timestamp": "2026-08-02T19:45:00Z",
+      "value": 0.897
+    },
+    {
+      "timestamp": "2026-08-02T19:30:00Z",
+      "value": 0.855
+    },
+    {
+      "timestamp": "2026-08-02T19:15:00Z",
+      "value": 1.024
+    },
+    {
+      "timestamp": "2026-08-02T19:00:00Z",
+      "value": 1.025
+    },
+    {
+      "timestamp": "2026-08-02T18:45:00Z",
+      "value": 0.88
+    },
+    {
+      "timestamp": "2026-08-02T18:30:00Z",
+      "value": 0.826
+    },
     {
       "timestamp": "2026-08-02T18:15:00Z",
       "value": 0.955
@@ -16304,26 +16288,6 @@
     {
       "timestamp": "2026-07-19T20:15:00Z",
       "value": 0.784
-    },
-    {
-      "timestamp": "2026-07-19T20:00:00Z",
-      "value": 0.859
-    },
-    {
-      "timestamp": "2026-07-19T19:45:00Z",
-      "value": 1.019
-    },
-    {
-      "timestamp": "2026-07-19T19:30:00Z",
-      "value": 0.769
-    },
-    {
-      "timestamp": "2026-07-19T19:15:00Z",
-      "value": 0.825
-    },
-    {
-      "timestamp": "2026-07-19T19:00:00Z",
-      "value": 0.73
     }
   ]
 }
